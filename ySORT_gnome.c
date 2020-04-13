@@ -29,7 +29,7 @@
 void   *g_head       = NULL;
 void   *g_tail       = NULL;
 int     g_count      = 0;
-char    g_reverse    = '-';
+uchar   g_order      = '-';
 
 
 
@@ -170,7 +170,7 @@ GNOME_driver             (uchar a_type, uchar a_lvl, void **a_head, void **a_tai
          rc = GNOME__swap_n_teleport  (a_type, a_head, a_tail, &x_swap, &x_comp, &x_next, &x_curr, &x_tele);
       } else {
          ++s_comps;
-         rc = g_checker (a_type, a_lvl, x_comp, x_curr);
+         rc = g_checker (a_type, a_lvl, x_comp, x_curr, g_order);
          if (rc <= 0) {
             rc = GNOME__swap_n_teleport  (a_type, a_head, a_tail, &x_swap, &x_comp, &x_next, &x_curr, &x_tele);
          } else {
@@ -186,7 +186,7 @@ GNOME_driver             (uchar a_type, uchar a_lvl, void **a_head, void **a_tai
 }
 
 char
-ySORT_gnome              (uchar a_type, void **a_head, void **a_tail)
+ySORT_gnome              (uchar a_type, uchar a_order, void **a_head, void **a_tail)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -194,7 +194,7 @@ ySORT_gnome              (uchar a_type, void **a_head, void **a_tail)
    /*---(header)-------------------------*/
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ysort_defense  (YSORT_GNOME, *a_head, *a_tail);
+   rc = ySORT_defense  (YSORT_GNOME, a_order, *a_head, *a_tail);
    DEBUG_SORT   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
@@ -242,14 +242,6 @@ static void      o___MOCK_TEST_______________o (void) {;}
  *>    {  0, "gretel"   , NULL, NULL},                                                <* 
  *>    {  0, ""         , NULL, NULL},                                                <* 
  *> };                                                                                <*/
-
-char
-GNOME__reverse          (void)
-{
-   if (g_reverse == 'y')  g_reverse = '-';
-   else                   g_reverse = 'y';
-   return g_reverse;
-}
 
 
 

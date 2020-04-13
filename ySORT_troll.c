@@ -35,11 +35,12 @@ TROLL__scatter     (uchar a_type, uchar a_lvl, void **a_head, void **a_tail, int
    while (x_curr != NULL) {
       /*---(save next)-------------------*/
       rc    = g_cursor (a_type, *a_head, *a_tail, x_curr, &x_next, '>');
-      /*---(retrieve slot)---------------*/
-      x_off = g_slotter  (a_lvl, x_curr);
-      DEBUG_SORT   yLOG_value   ("x_off"     , x_off);
+      /*---(remove from source)----------*/
       rc = g_unlinker (a_type, a_head, a_tail, x_curr);
       --(*a_count);
+      /*---(add to slot)-----------------*/
+      x_off = g_slotter  (a_lvl, x_curr, g_order);
+      DEBUG_SORT   yLOG_value   ("x_off"     , x_off);
       rc = g_linker   (a_type, &(a_slots [x_off].head), &(a_slots [x_off].tail), NULL, x_curr);
       ++a_slots [x_off].count;
       /*---(prepare for next)------------*/
@@ -110,7 +111,7 @@ TROLL__driver      (uchar a_type, uchar a_lvl, void **a_head, void **a_tail, int
 }
 
 char
-ySORT_troll             (uchar a_type, void **a_head, void **a_tail)
+ySORT_troll             (uchar a_type, uchar a_order, void **a_head, void **a_tail)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -126,7 +127,7 @@ ySORT_troll             (uchar a_type, void **a_head, void **a_tail)
    s_swaps    = 0;
    s_teles    = 0;
    /*---(defense)------------------------*/
-   rc = ysort_defense   (YSORT_TROLL, *a_head, *a_tail);
+   rc = ySORT_defense   (YSORT_TROLL, a_order, *a_head, *a_tail);
    DEBUG_SORT   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);

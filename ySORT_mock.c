@@ -133,7 +133,7 @@ MOCK__cursor            (uchar a_type, void *a_head, void *a_tail, void *a_beg, 
 }
 
 char
-MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two)
+MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uchar a_order)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -141,6 +141,8 @@ MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two)
    tSORT_DATA *x_one       = NULL;
    tSORT_DATA *x_two       = NULL;
    int         x_len1, x_len2;
+   char        s           [LEN_LABEL] = "";
+   char        t           [LEN_LABEL] = "";
    /*---(header)-------------------------*/
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
@@ -153,28 +155,42 @@ MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two)
    DEBUG_SORT   yLOG_snote   ("cast");
    x_one    = (tSORT_DATA *) a_one;
    x_two    = (tSORT_DATA *) a_two;
-   /*---(stats)--------------------------*/
-   x_len1 = strlen (x_one->label);
-   x_len2 = strlen (x_two->label);
-   DEBUG_SORT   yLOG_value   ("a_lvl"     , a_lvl);
-   if (x_len1 <= a_lvl && x_len2 <= a_lvl) {
-      DEBUG_SORT   yLOG_note    ("both are too short");
-      rc = 0;
+   DEBUG_SORT   yLOG_char    ("a_order"   , a_order);
+   /*---(handle normal)------------------*/
+   if (a_order == YSORT_ASCEND || a_order == YSORT_DESCEND) {
+      /*---(prepare)------------------------*/
+      x_len1 = strlen (x_one->label);
+      x_len2 = strlen (x_two->label);
+      DEBUG_SORT   yLOG_value   ("a_lvl"     , a_lvl);
+      if (x_len1 <= a_lvl && x_len2 <= a_lvl) {
+         DEBUG_SORT   yLOG_note    ("both are too short");
+         rc = 0;
+      }
+      else if (x_len1 <= a_lvl) {
+         DEBUG_SORT   yLOG_note    ("first is too short");
+         rc = 1;
+      }
+      else if (x_len2 <= a_lvl) {
+         DEBUG_SORT   yLOG_note    ("second is too short");
+         rc = -1;
+      }
+      else {
+         rc = strcmp (x_one->label + a_lvl, x_two->label + a_lvl);
+      }
    }
-   else if (x_len1 <= a_lvl) {
-      DEBUG_SORT   yLOG_note    ("first is too short");
-      rc = 1;
+   /*---(handle original)----------------*/
+   else if (a_order == YSORT_ORIGINAL || a_order == YSORT_REVERSE) {
+      if (a_lvl >= 5)  return 0;
+      sprintf (s, "%05d", x_one->seq);
+      sprintf (t, "%05d", x_two->seq);
+      rc = strcmp (s + a_lvl, t + a_lvl);
    }
-   else if (x_len2 <= a_lvl) {
-      DEBUG_SORT   yLOG_note    ("second is too short");
-      rc = -1;
-   }
-   /*---(compare)------------------------*/
-   else {
-      rc = strcmp (x_one->label + a_lvl, x_two->label + a_lvl);
-   }
+   /*---(check reversal)-----------------*/
    DEBUG_SORT   yLOG_value   ("rc"        , rc);
-   if (g_reverse == 'y')  rc *= -1;
+   if (a_order == YSORT_DESCEND || a_order == YSORT_REVERSE) {
+      rc *= -1;
+      DEBUG_SORT   yLOG_value   ("updated"   , rc);
+   }
    /*---(complete)-----------------------*/
    DEBUG_SORT   yLOG_exit    (__FUNCTION__);
    return rc;
@@ -323,12 +339,13 @@ MOCK__linker            (uchar a_type, void **a_head, void **a_tail, void *a_one
 static void      o___TROLL___________________o (void) {;}
 
 char
-MOCK__slotter           (uchar a_lvl, void *a_two)
+MOCK__slotter           (uchar a_lvl, void *a_two, uchar a_order)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
    tSORT_DATA *x_two       = NULL;
    int         x_len       =    0;
+   char        t           [LEN_LABEL] = "";
    uchar       x_slot      =    0;
    /*---(begin)--------------------------*/
    DEBUG_SORT   yLOG_senter  (__FUNCTION__);
@@ -345,13 +362,30 @@ MOCK__slotter           (uchar a_lvl, void *a_two)
    }
    /*---(cast)---------------------------*/
    x_two = (tSORT_DATA *) a_two;
-   /*---(stats)--------------------------*/
-   DEBUG_SORT   yLOG_info    ("label"     , x_two->label);
-   x_len = strlen (x_two->label);
-   DEBUG_SORT   yLOG_value   ("x_len"     , x_len);
-   /*---(slot)---------------------------*/
-   if (a_lvl < x_len)    x_slot = x_two->label [a_lvl];
+   /*---(normal)-------------------------*/
+   if (a_order == YSORT_ASCEND || a_order == YSORT_DESCEND) {
+      DEBUG_SORT   yLOG_snote   (x_two->label);
+      x_len = strlen (x_two->label);
+      DEBUG_SORT   yLOG_sint    (x_len);
+      if (a_lvl < x_len)    x_slot = x_two->label [a_lvl];
+      else                  x_slot = 0;
+   }
+   /*---(original)-----------------------*/
+   else if (a_order == YSORT_ORIGINAL || a_order == YSORT_REVERSE) {
+      if (a_lvl >= 5)  return 0;
+      sprintf (t, "%05d", x_two->seq);
+      DEBUG_SORT   yLOG_snote   (t);
+      x_len = strlen (t);
+      DEBUG_SORT   yLOG_sint    (x_len);
+      if (a_lvl < x_len)    x_slot = t [a_lvl];
+   }
+   /*---(check reversal)-----------------*/
    DEBUG_SORT   yLOG_sint    (x_slot);
+   if (a_order == YSORT_DESCEND || a_order == YSORT_REVERSE) {
+      x_slot = SEVENBIT - x_slot - 1;
+      DEBUG_SORT   yLOG_sint    (x_slot);
+   }
+   /*---(slot)---------------------------*/
    DEBUG_SORT   yLOG_schar   (chrvisible (x_slot));
    /*---(complete)-----------------------*/
    DEBUG_SORT   yLOG_sexit   (__FUNCTION__);

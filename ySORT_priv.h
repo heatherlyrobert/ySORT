@@ -25,8 +25,83 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x main sorts tested and working"
-#define     P_VERNUM    "0.5a"
-#define     P_VERTXT    "base gnome and troll sorts passed basic unit testing"
+#define     P_VERNUM    "0.5b"
+#define     P_VERTXT    "up and working in gyges !!! seems reasonably fast"
+
+
+/*
+ *  i use sorts to maintain data in real-time.  batch sorting is a different
+ *  animal altogether.
+ *
+ *  i have four major use cases in mind...
+ *
+ *  1) gyges (moderate sized lists -- thousands)
+ *     -- cells are added to and removed from master list continuously
+ *     -- list must always be sorted and btree accessible
+ *     -- could use special, self-balancing tree, but do not need to
+ *     -- by handling in real-time, list is always nearly sorted
+ *     -- just need a sort that can sort NEARLY SORTED LISTS very fast ;)
+ *     -- complicated sorts have low max-times, but high min-times (not useful)
+ *
+ *  2) yCALC (modest sized lists -- hundreds)
+ *     -- keeps dependency graphs of all calculatable cells
+ *     -- individual cells list of requires, provides, and likes are valuable
+ *     -- tokenized string lists used for unit testing and real-time highlighting
+ *     -- they need to be sorted to be predictable and testable
+ *
+ *  3) helios (modest sized lists -- hundreds)
+ *     -- reads entire file-systems and creates a lookup database
+ *     -- sets of entries are sorted within each parent directory
+ *     -- access is command-line and needs to be reasonalble, not lightning
+ *     -- need a fast, good sort for MODEST SIZED LISTS (directories)
+ *     -- since it runs in batch, it does not need to be lightning
+ *
+ *  4) gregg (moderate sized lists -- thousands)
+ *     -- large gregg shorthand library of outlines and translations
+ *     -- read from database and then sorted into a useable data structure
+ *     -- need to reliably sort LARGISH LISTS (not business class)
+ *     -- this is done during program start-up so needs to be snappy
+ *
+ *  GNOME sort is one of the the simplest sorts possible.
+ *
+ *  linked-list gnome...
+ *     -- just needs to swap pointers rather than move all the data
+ *     -- this greatly reduces the swap effort
+ *
+ *  linked-list, teleporting gnome...
+ *     -- uses a teleport (quick jump) back to unsorted data after a swap
+ *     -- this greatly reduces the number of camparisons
+ *
+ *  linked-list, delayed-swap, teleporting gnome...
+ *     -- waits to find the ideal location before swapping (insertion sort-like)
+ *     -- this greatly reduces the number of swaps
+ *
+ *  when i say GNOME sort, i mean a linked-list, delayed-swap, teleporting gnome
+ *     -- this baby is fast on nearly sorted data and not bad any moderate list
+ *     -- the sort order is also stable (useful)
+ *     -- its as fast as insertion, selection, ...
+ *
+ *  BUT, for really big stuff, i built TROLL...
+ *     -- recursive, bucketing, merge sort
+ *     -- uses GNOME whenever a bucket gets to 10 or less items
+ *     -- its a monster and quite blood fast for me
+ *  
+ *  AND, i will never build a large-data sort as that has been very well
+ *  covered by theoticians and packaged libraries
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
+
 
 
 
@@ -55,7 +130,7 @@ extern int     g_count;
 
 
 extern char    g_ready;
-extern char    g_reverse;
+extern uchar   g_order;
 extern char    g_pure_troll;
 
 
@@ -71,11 +146,11 @@ struct cSLOT {
 
 
 extern char    (*g_cursor)   (uchar a_type, void *a_head, void *a_tail, void *a_one, void **a_two, char a_action);
-extern char    (*g_checker)  (uchar a_type, uchar a_lvl, void *a_one, void *a_two);
+extern char    (*g_checker)  (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uchar a_order);
 extern char    (*g_unlinker) (uchar a_type, void **a_head, void **a_tail, void *a_two);
 extern char    (*g_linker)   (uchar a_type, void **a_head, void **a_tail, void *a_one, void *a_two);
 
-extern char    (*g_slotter)  (uchar a_lvl, void *a_two);
+extern char    (*g_slotter)  (uchar a_lvl, void *a_two, uchar a_order);
 extern char    (*g_joiner)   (void **a_bighead, void **a_bigtail, int *a_bigcount, void **a_subhead, void **a_subtail, int *a_subcount);
 
 
@@ -83,6 +158,7 @@ extern char    (*g_joiner)   (void **a_bighead, void **a_bigtail, int *a_bigcoun
 extern char   unit_answer [LEN_RECD];
 
 
+char        ySORT_defense           (uchar a_mode, uchar a_order, void *a_head, void *a_tail);
 char        ySORT__reinit           (void);
 char        ySORT__unit_quiet       (void);
 char        ySORT__unit_loud        (void);
@@ -105,13 +181,12 @@ char*       TROLL__unit             (char *a_question, int a_num);
 char        MOCK__init              (void);
 char        MOCK__wrap              (void);
 char        MOCK__cursor            (uchar a_type, void *a_head, void *a_tail, void *a_beg, void **a_new, char a_action);
-char        MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two);
+char        MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uchar a_order);
 char        MOCK__unlinker          (uchar a_type, void **a_head, void **a_tail, void *a_two);
 char        MOCK__linker            (uchar a_type, void **a_head, void **a_tail, void *a_one, void *a_two);
-char        MOCK__slotter           (uchar a_lvl, void *a_two);
+char        MOCK__slotter           (uchar a_lvl, void *a_two, uchar a_order);
 char        MOCK__joiner            (void **a_bighead, void **a_bigtail, int *a_bigcount, void **a_subhead, void **a_subtail, int *a_subcount);
 char        MOCK__creator           (char *a_name);
 char        MOCK__printer           (tSORT_DATA *a_head);
-char        ysort_defense           (char a_mode, void *a_head, void *a_tail);
 
 #endif

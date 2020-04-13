@@ -5,10 +5,10 @@
 
 
 char    (*g_cursor)   (uchar a_type, void *a_head, void *a_tail, void *a_one, void **a_two, char a_action);
-char    (*g_checker)  (uchar a_type, uchar a_lvl, void *a_one, void *a_two);
+char    (*g_checker)  (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uchar a_order);
 char    (*g_unlinker) (uchar a_type, void **a_head, void **a_tail, void *a_two);
 char    (*g_linker)   (uchar a_type, void **a_head, void **a_tail, void *a_one, void *a_two);
-char    (*g_slotter)  (uchar a_lvl, void *a_two);
+char    (*g_slotter)  (uchar a_lvl, void *a_two, uchar a_order);
 char    (*g_joiner)   (void **a_bighead, void **a_bigtail, int *a_bigcount, void **a_subhead, void **a_subtail, int *a_subcount);
 
 
@@ -49,8 +49,23 @@ ySORT_version           (void)
 /*====================------------------------------------====================*/
 static void      o___SHARED__________________o (void) {;}
 
+char
+ySORT__reinit           (void)
+{
+   g_ready       = '-';
+   g_cursor      = NULL;
+   g_checker     = NULL;
+   g_unlinker    = NULL;
+   g_linker      = NULL;
+   g_slotter     = NULL;
+   g_joiner      = NULL;
+   g_order       = YSORT_ASCEND;
+   g_pure_troll  = '-';
+   return 0;
+}
+
 char         /*-> check sort arguments ---------------[ leaf   [gn.530.341.50]*/ /*-[02.0000.000.!]-*/ /*-[--.---.---.--]-*/
-ysort_defense           (char a_mode, void *a_head, void *a_tail)
+ySORT_defense           (uchar a_mode, uchar a_order, void *a_head, void *a_tail)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -89,8 +104,33 @@ ysort_defense           (char a_mode, void *a_head, void *a_tail)
       return rce;
       break;
    }
+   /*---(check order)--------------------*/
+   DEBUG_SORT   yLOG_char    ("a_order"   , a_order);
+   --rce;  if (a_order == 0 || strchr (YSORT_ORDERS, a_order) == NULL) {
+      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   g_order = a_order;
    /*---(complete)-----------------------*/
    DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
+char
+ySORT_config            (uchar a_mode, void *p_cursor, void *p_checker, void *p_unlinker, void *p_linker, void *p_slotter, void *p_joiner)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   /*---(header)-------------------------*/
+   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   /*---(initialize)---------------------*/
+   ySORT__reinit ();
+   /*---(check mode)---------------------*/
+   DEBUG_SORT   yLOG_char    ("a_mode"    , a_mode);
+   --rce;  if (strchr (YSORT_ENGINES, a_mode) == NULL) {
+      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
    }
    /*---(check gnome functions)----------*/
    DEBUG_SORT   yLOG_point   ("p_cursor"  , p_cursor);
@@ -118,7 +158,7 @@ ysort_defense           (char a_mode, void *a_head, void *a_tail)
    }
    g_linker    = p_linker;
    /*---(check troll functions)----------*/
-   if (strchr ("tp", a_mode) != NULL) {
+   if (strchr (YSORT_TROLLS, a_mode) != NULL) {
       DEBUG_SORT   yLOG_point   ("p_slotter" , p_slotter);
       --rce;  if (p_slotter == NULL) {
          DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
@@ -133,9 +173,7 @@ ysort_defense           (char a_mode, void *a_head, void *a_tail)
       g_joiner    = p_joiner;
    }
    /*---(check troll uses gnome)---------*/
-   if (a_mode == 'p') {
-      g_pure_troll = '-';
-   }
+   if (a_mode == YSORT_PURE)    g_pure_troll = 'y';
    /*---(set ready)----------------------*/
    g_ready = a_mode;
    /*---(complete)-----------------------*/
@@ -149,21 +187,6 @@ ysort_defense           (char a_mode, void *a_head, void *a_tail)
 /*===----                    unit testing accessor                     ----===*/
 /*====================------------------------------------====================*/
 static void      o___UNITTEST________________o (void) {;}
-
-char
-ySORT__reinit           (void)
-{
-   g_ready       = '-';
-   g_cursor      = NULL;
-   g_checker     = NULL;
-   g_unlinker    = NULL;
-   g_linker      = NULL;
-   g_slotter     = NULL;
-   g_joiner      = NULL;
-   g_reverse     = '-';
-   g_pure_troll  = '-';
-   return 0;
-}
 
 char       /*----: set up program urgents/debugging --------------------------*/
 ySORT__unit_quiet       (void)
