@@ -8,8 +8,11 @@ char    (*g_cursor)   (uchar a_type, void *a_head, void *a_tail, void *a_one, vo
 char    (*g_checker)  (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uchar a_order);
 char    (*g_unlinker) (uchar a_type, void **a_head, void **a_tail, void *a_two);
 char    (*g_linker)   (uchar a_type, void **a_head, void **a_tail, void *a_one, void *a_two);
+
 char    (*g_slotter)  (uchar a_lvl, void *a_two, uchar a_order);
 char    (*g_joiner)   (void **a_bighead, void **a_bigtail, int *a_bigcount, void **a_subhead, void **a_subtail, int *a_subcount);
+
+char    (*g_forker)   (uchar a_type, void *a_node, void **a_left, void **a_right);
 
 
 
@@ -59,6 +62,7 @@ ySORT__reinit           (void)
    g_linker      = NULL;
    g_slotter     = NULL;
    g_joiner      = NULL;
+   g_forker       = NULL;
    g_order       = YSORT_ASCEND;
    g_pure_troll  = '-';
    return 0;
@@ -99,6 +103,17 @@ ySORT_defense           (uchar a_mode, uchar a_order, void *a_head, void *a_tail
          return rce;
       }
       break;
+   case YSORT_SEARCH :
+      if (strchr ("gtp", g_ready) == NULL) {
+         DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+         return rce;
+      }
+      DEBUG_SORT   yLOG_point   ("g_forker"   , g_forker);
+      if (g_forker == NULL) {
+         DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+         return rce;
+      }
+      break;
    default  :
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
@@ -117,7 +132,7 @@ ySORT_defense           (uchar a_mode, uchar a_order, void *a_head, void *a_tail
 }
 
 char
-ySORT_config            (uchar a_mode, void *p_cursor, void *p_checker, void *p_unlinker, void *p_linker, void *p_slotter, void *p_joiner)
+ySORT_config            (uchar a_mode, void *p_cursor, void *p_checker, void *p_unlinker, void *p_linker, void *p_slotter, void *p_joiner, void *p_forker)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -172,6 +187,9 @@ ySORT_config            (uchar a_mode, void *p_cursor, void *p_checker, void *p_
       }
       g_joiner    = p_joiner;
    }
+   /*---(check troll functions)----------*/
+   DEBUG_SORT   yLOG_point   ("p_forker"  , p_forker);
+   if (p_forker != NULL)    g_forker     = p_forker;
    /*---(check troll uses gnome)---------*/
    if (a_mode == YSORT_PURE)    g_pure_troll = 'y';
    /*---(set ready)----------------------*/

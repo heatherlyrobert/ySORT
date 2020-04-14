@@ -143,6 +143,7 @@ MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uc
    int         x_len1, x_len2;
    char        s           [LEN_LABEL] = "";
    char        t           [LEN_LABEL] = "";
+   char       *x_label     = NULL;
    /*---(header)-------------------------*/
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
@@ -184,6 +185,11 @@ MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uc
       sprintf (s, "%05d", x_one->seq);
       sprintf (t, "%05d", x_two->seq);
       rc = strcmp (s + a_lvl, t + a_lvl);
+   }
+   /*---(handle search key)--------------*/
+   else {
+      x_label  = (char *) a_two;
+      rc = strcmp (x_one->label, x_label);
    }
    /*---(check reversal)-----------------*/
    DEBUG_SORT   yLOG_value   ("rc"        , rc);
@@ -437,6 +443,52 @@ MOCK__joiner            (void **a_bighead, void **a_bigtail, int *a_bigcount, vo
 
 
 /*====================------------------------------------====================*/
+/*===----                       searching support                      ----===*/
+/*====================------------------------------------====================*/
+static void      o___BTREE___________________o (void) {;}
+
+char
+MOCK__forker            (uchar a_type, void *a_node, void **a_left, void **a_right)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   tSORT_DATA *x_curr      = NULL;
+   tSORT_DATA *x_left      = NULL;
+   tSORT_DATA *x_right     = NULL;
+   /*---(header)-------------------------*/
+   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_SORT   yLOG_complex ("args"      , "%c, %p, %p, %p", a_type, a_node, a_left, a_right);
+   /*---(prepare)------------------------*/
+   x_curr   = (tSORT_DATA *) a_node;
+   DEBUG_SORT   yLOG_point   ("x_curr"    , x_curr);
+   DEBUG_SORT   yLOG_info    ("label"     , x_curr->label);
+   /*---(set is lower)-------------------*/
+   if (a_type == tolower (a_type)) {
+      DEBUG_SORT   yLOG_note    ("saving run");
+      x_left  = * ((tSORT_DATA **) a_left);
+      x_right = * ((tSORT_DATA **) a_right);
+      if (a_left  != NULL)  x_curr->left  = x_left;
+      if (a_right != NULL)  x_curr->right = x_right;
+   }
+   /*---(get is upper)-------------------*/
+   else {
+      DEBUG_SORT   yLOG_note    ("retrieving run");
+      if (a_left  != NULL)  *a_left  = x_left  = x_curr->left;
+      if (a_right != NULL)  *a_right = x_right = x_curr->right;
+   }
+   /*---(output)-------------------------*/
+   if (x_left  != NULL) { DEBUG_SORT   yLOG_complex ("x_left"    , "%p, %s", x_left , x_left->label);  }
+   else                 { DEBUG_SORT   yLOG_complex ("x_left"    , "%p, %s", NULL   , "-"          );  }
+   if (x_right != NULL) { DEBUG_SORT   yLOG_complex ("x_right"   , "%p, %s", x_right, x_right->label); }
+   else                 { DEBUG_SORT   yLOG_complex ("x_right"   , "%p, %s", NULL   , "-"          );  }
+   /*---(complete)-----------------------*/
+   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
+
+/*====================------------------------------------====================*/
 /*===----                      testing use                             ----===*/
 /*====================------------------------------------====================*/
 static void      o___TESTING_________________o (void) {;}
@@ -472,7 +524,9 @@ MOCK__creator           (char *a_label)
    }
    /*---(populate)-----------------------*/
    strlcpy (x_new->label, a_label, LEN_LABEL);
-   x_new->seq = g_count;
+   x_new->seq   = g_count;
+   x_new->left  = NULL;
+   x_new->right = NULL;
    ++g_count;
    DEBUG_SORT   yLOG_value   ("g_count"   , g_count);
    /*---(link it in)---------------------*/

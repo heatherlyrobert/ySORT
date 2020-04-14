@@ -25,8 +25,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x main sorts tested and working"
-#define     P_VERNUM    "0.5b"
-#define     P_VERTXT    "up and working in gyges !!! seems reasonably fast"
+#define     P_VERNUM    "0.5c"
+#define     P_VERTXT    "btree is now working and unit tested"
 
 
 /*
@@ -122,6 +122,8 @@ struct cSORT_DATA {
    char        label       [LEN_LABEL];
    tSORT_DATA *prev;
    tSORT_DATA *next;
+   tSORT_DATA *left;
+   tSORT_DATA *right;
 };
 extern void   *g_head;
 extern void   *g_tail;
@@ -153,6 +155,7 @@ extern char    (*g_linker)   (uchar a_type, void **a_head, void **a_tail, void *
 extern char    (*g_slotter)  (uchar a_lvl, void *a_two, uchar a_order);
 extern char    (*g_joiner)   (void **a_bighead, void **a_bigtail, int *a_bigcount, void **a_subhead, void **a_subtail, int *a_subcount);
 
+extern char    (*g_forker)   (uchar a_type, void *a_node, void **a_left, void **a_right);
 
 
 extern char   unit_answer [LEN_RECD];
@@ -186,7 +189,14 @@ char        MOCK__unlinker          (uchar a_type, void **a_head, void **a_tail,
 char        MOCK__linker            (uchar a_type, void **a_head, void **a_tail, void *a_one, void *a_two);
 char        MOCK__slotter           (uchar a_lvl, void *a_two, uchar a_order);
 char        MOCK__joiner            (void **a_bighead, void **a_bigtail, int *a_bigcount, void **a_subhead, void **a_subtail, int *a_subcount);
+char        MOCK__forker            (uchar a_type, void *a_node, void **a_left, void **a_right);
 char        MOCK__creator           (char *a_name);
 char        MOCK__printer           (tSORT_DATA *a_head);
+
+
+
+char        BTREE_build             (uchar a_type, void *a_head, void *a_tail, int a_count);
+char*       BTREE__unit             (char *a_question, int n);
+
 
 #endif

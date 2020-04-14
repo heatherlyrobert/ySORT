@@ -16,21 +16,29 @@ typedef  unsigned char uchar;
 
 
 
+#define    YSORT_NONE       'n'
 #define    YSORT_ASCEND     'a'
 #define    YSORT_DESCEND    'd'
 #define    YSORT_ORIGINAL   'o'
 #define    YSORT_REVERSE    'r'
-#define    YSORT_ORDERS     "ador"
+#define    YSORT_SEARCH     's'
+#define    YSORT_ORDERS     "nadors"
 
 
 
 char*       ySORT_version           (void);
 
-char        ySORT_config            (uchar a_mode, void *p_cursor, void *p_checker, void *p_unlinker, void *p_linker, void *p_slotter, void *p_joiner);
+char        ySORT_config            (uchar a_mode, void *p_cursor, void *p_checker, void *p_unlinker, void *p_linker, void *p_slotter, void *p_joiner, void *p_forker);
 
 char        ySORT_gnome             (uchar a_type, uchar a_order, void **a_head, void **a_tail);
 
 char        ySORT_troll             (uchar a_type, uchar a_order, void **a_head, void **a_tail);
+
+char        ySORT_btree             (uchar a_type, void *a_head, void *a_tail, int a_count, void **a_root);
+
+char        ySORT_update            (uchar a_type);
+
+char        ySORT_search            (uchar a_type, void *a_root, void *a_key, void **a_found);
 
 
 
