@@ -13,7 +13,7 @@ static int     s_teles      = 0;
 
 
 char         /*==> divide list into buckets ==============[ leaf   [ ------ ]=*/
-TROLL__scatter     (uchar a_type, uchar a_lvl, void **a_head, void **a_tail, int *a_count, tSLOT a_slots [SEVENBIT])
+ysort_troll__scatter    (uchar a_type, uchar a_lvl, void **a_head, void **a_tail, int *a_count, tSLOT a_slots [SEVENBIT])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -54,7 +54,7 @@ TROLL__scatter     (uchar a_type, uchar a_lvl, void **a_head, void **a_tail, int
 }
 
 char         /*==> bring slots back into a single list ===[ leaf   [ ------ ]=*/
-TROLL__gather      (void **a_head, void **a_tail, int *a_count, tSLOT a_slots [SEVENBIT])
+ysort_troll__gather     (void **a_head, void **a_tail, int *a_count, tSLOT a_slots [SEVENBIT])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -75,7 +75,7 @@ TROLL__gather      (void **a_head, void **a_tail, int *a_count, tSLOT a_slots [S
 
 
 char         /*==> bucket sort ===========================[ ------ [ ------ ]=*/
-TROLL__driver      (uchar a_type, uchar a_lvl, void **a_head, void **a_tail, int *a_count)
+ysort_troll__driver     (uchar a_type, uchar a_lvl, void **a_head, void **a_tail, int *a_count)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -86,23 +86,23 @@ TROLL__driver      (uchar a_type, uchar a_lvl, void **a_head, void **a_tail, int
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    DEBUG_SORT   yLOG_complex ("args"      , "%2d, %p, %p", a_lvl, *a_head, *a_tail);
    /*---(scatter into slots)-------------*/
-   rc = TROLL__scatter     (a_type, a_lvl, a_head, a_tail, a_count, x_slots);
+   rc = ysort_troll__scatter     (a_type, a_lvl, a_head, a_tail, a_count, x_slots);
    /*---(review results)-----------------*/
    for (i = 1; i < SEVENBIT; ++i) {
       if (x_slots[i].count <=  1) continue;
       if (x_slots[i].count <= 10) {
-         rc = GNOME_driver  ('-', a_lvl, &(x_slots[i].head), &(x_slots[i].tail));
-         GNOME_stats (&x_comps, &x_swaps, &x_teles);
+         rc = ysort_gnome_driver  ('-', a_lvl, &(x_slots[i].head), &(x_slots[i].tail));
+         ysort_gnome__stats (&x_comps, &x_swaps, &x_teles);
          s_comps += x_comps;
          s_swaps += x_swaps;
          s_teles += x_teles;
          ++s_sorts;
       } else {
-         rc = TROLL__driver (a_type, a_lvl + 1, &(x_slots[i].head), &(x_slots[i].tail), &(x_slots[i].count));
+         rc = ysort_troll__driver (a_type, a_lvl + 1, &(x_slots[i].head), &(x_slots[i].tail), &(x_slots[i].count));
       }
    }
    /*---(gather back from slots)---------*/
-   rc = TROLL__gather      (a_head, a_tail, a_count, x_slots);
+   rc = ysort_troll__gather      (a_head, a_tail, a_count, x_slots);
    if (a_lvl > s_max)  s_max = a_lvl;
    ++s_buckets;
    /*---(complete)-----------------------*/
@@ -127,14 +127,14 @@ ySORT_troll             (uchar a_type, uchar a_order, void **a_head, void **a_ta
    s_swaps    = 0;
    s_teles    = 0;
    /*---(defense)------------------------*/
-   rc = ySORT_defense   (YSORT_TROLL, a_order, *a_head, *a_tail);
+   rc = ysort_defense   (YSORT_TROLL, a_order, *a_head, *a_tail);
    DEBUG_SORT   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(run driver)---------------------*/
-   rc = TROLL__driver (a_type, 0, a_head, a_tail, &x_count);
+   rc = ysort_troll__driver (a_type, 0, a_head, a_tail, &x_count);
    DEBUG_SORT   yLOG_value   ("driver"    , rc);
    --rce;  if (rc < 0) {
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
@@ -142,7 +142,7 @@ ySORT_troll             (uchar a_type, uchar a_order, void **a_head, void **a_ta
    }
    /*---(output)-------------------------*/
    DEBUG_SORT   yLOG_complex ("stats"      , "%5dm, %5db, %5ds, %5dc, %5ds, %5dt", s_max, s_buckets, s_sorts, s_comps, s_swaps, s_teles);
-   DEBUG_SORT   MOCK__printer (*a_head);
+   DEBUG_SORT   ysort_mock_printer (*a_head);
    /*---(complete)-----------------------*/
    DEBUG_SORT   yLOG_exit    (__FUNCTION__);
    return 0;
@@ -158,7 +158,7 @@ static void      o___UNIT_TEST_______________o (void) {;}
 char          unit_answer [LEN_RECD];
 
 char*            /* [------] unit test accessor ------------------------------*/
-SCATTER__unit      (char *a_question, tSLOT a_slots [SEVENBIT], char a_num)
+ysort_scatter__unit     (char *a_question, tSLOT a_slots [SEVENBIT], char a_num)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        s           [LEN_LABEL];
@@ -198,24 +198,6 @@ SCATTER__unit      (char *a_question, tSLOT a_slots [SEVENBIT], char a_num)
       if (strcmp (t, "") == 0)  strlcpy (t, " -", LEN_RECD);
       snprintf (unit_answer, LEN_RECD, "SCATTER slot (%c) : %2d %s", a_num, c, t);
    }
-   /*---(complete)-----------------------*/
-   return unit_answer;
-}
-
-char*            /* [------] unit test accessor ------------------------------*/
-TROLL__unit        (char *a_question, int a_num)
-{
-   /*---(locals)-----------+-----+-----+-*/
-   char        s           [LEN_LABEL];
-   char        t           [LEN_RECD ];
-   int         i           =    0;
-   int         n           =    0;
-   int         x_fore      =    0;
-   int         x_back      =    0;
-   tSORT_DATA *x_curr      = NULL;
-   /*---(initialize)---------------------*/
-   strlcpy (unit_answer, "BUCKET unit      : unknown request", 100);
-   /*---(basics)-------------------------*/
    /*---(complete)-----------------------*/
    return unit_answer;
 }

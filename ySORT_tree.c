@@ -18,13 +18,17 @@ static llong    s_last   =   -1;
 
 
 
+static char    (*s_callback)   (uchar a_type, int a_lvl, void *a_node, char *a_path, char *a_pre);
+
+
+
 /*====================------------------------------------====================*/
 /*===----                        little helpers                        ----===*/
 /*====================------------------------------------====================*/
 static void  o___HELPERS_________o () { return; }
 
 int 
-BTREE__depth            (int a_size)
+ysort_tree__depth            (int a_size)
 {
    int         c           =    0;
    if (a_size <= 0)  return 0;
@@ -37,7 +41,7 @@ BTREE__depth            (int a_size)
 }
 
 int 
-BTREE__span             (int a_levels)
+ysort_tree__span             (int a_levels)
 {
    if (a_levels <= 0)  return 0;
    return pow (2, a_levels) - 1;
@@ -51,7 +55,7 @@ BTREE__span             (int a_levels)
 static void  o___BUILD___________o () { return; }
 
 void*
-BTREE__nextlevel   (uchar a_type, void *a_head, void *a_tail, int a_count, int a_lvl, int a_pos, int a_dist, char a_dir, void *a_node)
+ysort_tree__nextlevel   (uchar a_type, void *a_head, void *a_tail, int a_count, int a_lvl, int a_pos, int a_dist, char a_dir, void *a_node)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -74,7 +78,7 @@ BTREE__nextlevel   (uchar a_type, void *a_head, void *a_tail, int a_count, int a
       x_pos = a_pos - a_dist;
       if (x_pos <= 0) {
          DEBUG_SORT   yLOG_note    ("too far left, skip level");
-         x_curr = BTREE__nextlevel (a_type, a_head, a_tail, a_count, a_lvl, a_pos, a_dist / 2, 'L', x_curr);
+         x_curr = ysort_tree__nextlevel (a_type, a_head, a_tail, a_count, a_lvl, a_pos, a_dist / 2, 'L', x_curr);
          DEBUG_SORT   yLOG_exit    (__FUNCTION__);
          return x_curr;
       }
@@ -83,7 +87,7 @@ BTREE__nextlevel   (uchar a_type, void *a_head, void *a_tail, int a_count, int a
       x_pos = a_pos + a_dist;
       if (x_pos > a_count) {
          DEBUG_SORT   yLOG_note    ("too far right, skip level");
-         x_curr = BTREE__nextlevel (a_type, a_head, a_tail, a_count, a_lvl, a_pos, a_dist / 2, 'R', x_curr);
+         x_curr = ysort_tree__nextlevel (a_type, a_head, a_tail, a_count, a_lvl, a_pos, a_dist / 2, 'R', x_curr);
          DEBUG_SORT   yLOG_exit    (__FUNCTION__);
          return x_curr;
       }
@@ -103,8 +107,8 @@ BTREE__nextlevel   (uchar a_type, void *a_head, void *a_tail, int a_count, int a
    }
    /*---(recurse)------------------------*/
    DEBUG_SORT   yLOG_complex ("a_btree"   , "%2d %c %4d %4d", a_lvl, a_dir, a_dist, x_pos);
-   x_left  = BTREE__nextlevel (a_type, a_head, a_tail, a_count, a_lvl + 1, x_pos, a_dist / 2, 'L', x_curr);
-   x_right = BTREE__nextlevel (a_type, a_head, a_tail, a_count, a_lvl + 1, x_pos, a_dist / 2, 'R', x_curr);
+   x_left  = ysort_tree__nextlevel (a_type, a_head, a_tail, a_count, a_lvl + 1, x_pos, a_dist / 2, 'L', x_curr);
+   x_right = ysort_tree__nextlevel (a_type, a_head, a_tail, a_count, a_lvl + 1, x_pos, a_dist / 2, 'R', x_curr);
    DEBUG_SORT   yLOG_complex ("found"     , "left %p, right %p", x_left, x_right);
    rc = g_forker (a_type, x_curr, &x_left, &x_right);
    /*---(complete)-----------------------*/
@@ -113,7 +117,7 @@ BTREE__nextlevel   (uchar a_type, void *a_head, void *a_tail, int a_count, int a
 }
 
 char
-ySORT_btree             (uchar a_type, void *a_head, void *a_tail, int a_count, void **a_root)
+ySORT_treeify           (uchar a_type, void *a_head, void *a_tail, int a_count, void **a_root)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -128,7 +132,7 @@ ySORT_btree             (uchar a_type, void *a_head, void *a_tail, int a_count, 
    /*---(header)-------------------------*/
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ySORT_defense  (YSORT_SEARCH, YSORT_NONE, a_head, a_tail);
+   rc = ysort_defense  (YSORT_SEARCH, YSORT_NONE, a_head, a_tail);
    DEBUG_SORT   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
@@ -140,9 +144,9 @@ ySORT_btree             (uchar a_type, void *a_head, void *a_tail, int a_count, 
    s_tail  = a_tail;
    s_count = a_count;
    /*---(statistics)---------------------*/
-   x_lvl   = BTREE__depth (a_count);
+   x_lvl   = ysort_tree__depth (a_count);
    DEBUG_SORT   yLOG_value   ("est depth" , x_lvl);
-   x_span  = BTREE__span (x_lvl);
+   x_span  = ysort_tree__span (x_lvl);
    DEBUG_SORT   yLOG_value   ("max span"  , x_span);
    DEBUG_SORT   yLOG_double  ("est usage" , a_count / (float) x_span);
    x_ctr   = (a_count / 2) + 1;
@@ -156,8 +160,8 @@ ySORT_btree             (uchar a_type, void *a_head, void *a_tail, int a_count, 
    }
    DEBUG_SORT   yLOG_point   ("ROOT"      , x_curr);
    /*---(launch tree making)-------------*/
-   x_left  = BTREE__nextlevel (a_type, a_head, a_tail, a_count, 1, x_ctr, x_span / 4 + 1, 'L', x_curr);
-   x_right = BTREE__nextlevel (a_type, a_head, a_tail, a_count, 1, x_ctr, x_span / 4 + 1, 'R', x_curr);
+   x_left  = ysort_tree__nextlevel (a_type, a_head, a_tail, a_count, 1, x_ctr, x_span / 4 + 1, 'L', x_curr);
+   x_right = ysort_tree__nextlevel (a_type, a_head, a_tail, a_count, 1, x_ctr, x_span / 4 + 1, 'R', x_curr);
    DEBUG_SORT   yLOG_complex ("found"     , "left %p, right %p", x_left, x_right);
    rc = g_forker (a_type, x_curr, &x_left, &x_right);
    DEBUG_SORT   yLOG_value   ("real depth", s_levels);
@@ -176,7 +180,7 @@ ySORT_btree             (uchar a_type, void *a_head, void *a_tail, int a_count, 
 static void  o___SEARCH__________o () { return; }
 
 char
-BTREE__searchdown       (uchar a_type, void *a_node, char *a_dir, void *a_key, void **a_found)
+ysort_tree__searchdown       (uchar a_type, void *a_node, char *a_dir, void *a_key, void **a_found)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         rc          =    0;
@@ -202,13 +206,13 @@ BTREE__searchdown       (uchar a_type, void *a_node, char *a_dir, void *a_key, v
    g_forker (a_type, a_node, &x_left, &x_right);
    DEBUG_SORT   yLOG_complex ("retrieved" , "left %p, right %p", x_left, x_right);
    if (rc >  0) {
-      rc = BTREE__searchdown (a_type, x_left , "L", a_key, a_found);
+      rc = ysort_tree__searchdown (a_type, x_left , "L", a_key, a_found);
       DEBUG_SORT   yLOG_value   ("left rc"   , rc);
       DEBUG_SORT   yLOG_exit    (__FUNCTION__);
       return rc;
    }
    if (rc <  0) {
-      rc = BTREE__searchdown (a_type, x_right, "R", a_key, a_found);
+      rc = ysort_tree__searchdown (a_type, x_right, "R", a_key, a_found);
       DEBUG_SORT   yLOG_value   ("right rc"  , rc);
       DEBUG_SORT   yLOG_exit    (__FUNCTION__);
       return rc;
@@ -234,6 +238,7 @@ ySORT_search            (uchar a_type, void *a_root, void *a_key, void **a_found
    strlcpy (s_path, "", LEN_DESC);
    if (a_found != NULL)  *a_found = NULL;
    /*---(defense)------------------------*/
+   DEBUG_SORT   yLOG_point   ("a_root"    , a_root);
    --rce;  if (a_root == NULL)  {
       s_last   = NULL;
       s_result = -1;
@@ -241,6 +246,7 @@ ySORT_search            (uchar a_type, void *a_root, void *a_key, void **a_found
       DEBUG_SORT   yLOG_exit    (__FUNCTION__);
       return rce;
    }
+   DEBUG_SORT   yLOG_point   ("a_key"     , a_key);
    --rce;  if (a_key  == NULL)  {
       s_last   = NULL;
       s_result = -1;
@@ -250,7 +256,7 @@ ySORT_search            (uchar a_type, void *a_root, void *a_key, void **a_found
    }
    /*---(search)-------------------------*/
    DEBUG_SORT   yLOG_note    ("dive into btree");
-   rc = BTREE__searchdown (toupper (a_type), a_root, "@", a_key, &x_node);
+   rc = ysort_tree__searchdown (toupper (a_type), a_root, "@", a_key, &x_node);
    DEBUG_SORT   yLOG_value   ("max depth" , s_levels);
    DEBUG_SORT   yLOG_value   ("s_depth"   , s_depth);
    DEBUG_SORT   yLOG_info    ("s_path"    , s_path);
@@ -276,40 +282,75 @@ ySORT_search            (uchar a_type, void *a_root, void *a_key, void **a_found
 
 
 /*====================------------------------------------====================*/
-/*===----                   data structure reporting                   ----===*/
+/*===----                         dumper                               ----===*/
 /*====================------------------------------------====================*/
-static void  o___REPORTS_________o () { return; }
+static void  o___DUMP____________o () { return; }
 
-/*> char                                                                                                             <* 
- *> BTREE__display        (uchar a_type, int a_lvl, void *a_node)                                                    <* 
- *> {                                                                                                                <* 
- *>    char        x_pre       [LEN_RECD] = "";                                                                      <* 
- *>    int         i           =    0;                                                                               <* 
- *>    if (a_node == NULL)  return 0;                                                                                <* 
- *>    if (a_lvl > 20)      return 0;                                                                                <* 
- *>    BTREE__display      (a_lvl + 1, a_node->b_left, a_file);                                                      <* 
- *>    strlcpy (x_pre, "", LEN_RECD);                                                                                <* 
- *>    for (i =  0; i < a_lvl; ++i)  strcat (x_pre, "··+ ");                                                         <* 
- *>    fprintf (a_file, "%s %-10.10s", x_pre, a_node->label);                                                        <* 
- *>    DEBUG_SORT   yLOG_senter  (__FUNCTION__);                                                                     <* 
- *>    DEBUG_SORT   yLOG_snote   (__FUNCTION__);                                                                     <* 
- *>    fprintf (a_file, "%s %2dt, %3dc, %4dr, %20lld", x_pre, a_node->tab, a_node->col, a_node->row, a_node->key);   <* 
- *>    if      (a_node->key < 0)         fprintf (a_file, "   buffer/register");                                     <* 
- *>    else if (s_prev == a_node->key)   fprintf (a_file, "   DUP");                                                 <* 
- *>    else                              fprintf (a_file, "   -");                                                   <* 
- *>    DEBUG_SORT   yLOG_sexit   (__FUNCTION__);                                                                     <* 
- *>    s_prev = a_node->key;                                                                                         <* 
- *>    fprintf (a_file, "\n");                                                                                       <* 
- *>    BTREE__display      (a_lvl + 1, a_node->b_right, a_file);                                                     <* 
- *>    return 0;                                                                                                     <* 
- *> }                                                                                                                <*/
+char
+ysort_tree__walk      (uchar a_type, int a_lvl, void *a_node, char *a_path)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   void       *x_left      = NULL;
+   void       *x_right     = NULL;
+   char        x_path      [LEN_DESC]  = "";
+   char        x_pre       [LEN_RECD]  = "";
+   int         i           =    0;
+   int         x_len       =    0;
+   /*---(early defense)------------------*/
+   if (a_node == NULL)  return 0;
+   if (a_lvl > 20)      return 0;
+   /*---(header)-------------------------*/
+   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_SORT   yLOG_info    ("a_path"    , a_path);
+   /*---(get paths)----------------------*/
+   g_forker (toupper (a_type), a_node, &x_left, &x_right);
+   DEBUG_SORT   yLOG_complex ("retrieved" , "left %p, right %p", x_left, x_right);
+   /*---(go left)------------------------*/
+   sprintf (x_path, "%sL", a_path, LEN_DESC);
+   ysort_tree__walk  (a_type, a_lvl + 1, x_left, x_path);
+   /*---(self)---------------------------*/
+   strlcpy (x_pre, "", LEN_RECD);
+   for (i =  0; i < a_lvl - 1; ++i)  strlcat (x_pre, "   ", LEN_RECD);
+   strlcat (x_pre, "+--", LEN_RECD);
+   for (i = 1; i < 20; ++i) {
+      if      (strncmp (a_path + i, "LR", 2) == 0)  x_pre [3 * i] = '|';
+      else if (strncmp (a_path + i, "RL", 2) == 0)  x_pre [3 * i] = '|';
+   }
+   s_callback        (a_type, a_lvl, a_node, a_path, x_pre);
+   /*---(go right)-----------------------*/
+   sprintf (x_path, "%sR", a_path, LEN_DESC);
+   ysort_tree__walk  (a_type, a_lvl + 1, x_right, x_path);
+   /*---(complete)-----------------------*/
+   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
 
-/*> char                                                                              <* 
- *> BTREE_list              (uchar a_type, void *a_root)                              <* 
- *> {                                                                                 <* 
- *>    BTREE__display (a_type, 0, a_root);                                            <* 
- *>    return 0;                                                                      <* 
- *> }                                                                                 <*/
+char
+ySORT_walk            (uchar a_type, void *a_root, void *p_callback)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   /*---(header)-------------------------*/
+   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_SORT   yLOG_point   ("a_root"    , a_root);
+   --rce;  if (a_root   == NULL) {
+      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_SORT   yLOG_point   ("p_callback", p_callback);
+   --rce;  if (p_callback == NULL) {
+      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   s_callback = p_callback;
+   /*---(start)--------------------------*/
+   rc = ysort_tree__walk (a_type, 1, a_root, "@");
+   /*---(complete)-----------------------*/
+   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
 
 
 
@@ -319,19 +360,16 @@ static void  o___REPORTS_________o () { return; }
 static void  o___UNITTEST________o () { return; }
 
 char*        /*-> unit test accessor -----------------[ light  [us.B60.2A3.F2]*/ /*-[01.0000.00#.#]-*/ /*-[--.---.---.--]-*/
-BTREE__unit        (char *a_question, int n)
+ysort_tree__unit        (char *a_question, int n)
 {
    /*---(locals)-------------------------*/
    int         c           =    0;
    char        t           [LEN_LABEL] = "";
    /*---(parse location)-----------------*/
-   strcpy  (unit_answer, "BTREE            : label could not be parsed");
+   strcpy  (unit_answer, "TREE             : label could not be parsed");
    /*---(overall)------------------------*/
-   /*> if      (strcmp (a_question, "sorts"         ) == 0) {                                                                                  <* 
-    *>    snprintf (unit_answer, LEN_FULL, "BTREE sorts      : %4d#, %4dl, %4dc, %4ds, %4dt", s_sorts, s_levels, s_comps, s_swaps, s_teles);   <* 
-    *> }                                                                                                                                       <*/
    if      (strcmp (a_question, "result"        ) == 0) {
-      snprintf (unit_answer, LEN_FULL, "BTREE result     : %2d %-20.20s  %2d %s", s_result, s_last, s_depth, s_path);
+      snprintf (unit_answer, LEN_FULL, "TREE result      : %2d %-20.20s  %2d %s", s_result, s_last, s_depth, s_path);
    }
    /*---(complete)-----------------------*/
    return unit_answer;

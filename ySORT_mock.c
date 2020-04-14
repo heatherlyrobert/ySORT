@@ -10,7 +10,7 @@
 static void      o___PROGRAM_________________o (void) {;}
 
 char
-MOCK__init              (void)
+ysort_mock_init         (void)
 {
    /*---(header)-------------------------*/
    DEBUG_SORT   yLOG_senter  (__FUNCTION__);
@@ -25,7 +25,7 @@ MOCK__init              (void)
 }
 
 char
-MOCK__wrap              (void)
+ysort_mock_wrap         (void)
 {
    /*---(locals)-----------+-----------+-*/
    tSORT_DATA *x_curr      = NULL;
@@ -63,7 +63,7 @@ MOCK__wrap              (void)
 static void      o___SHARED__________________o (void) {;}
 
 char
-MOCK__common            (char a_type, void *a_one  , void *a_two)
+ysort_mock__common      (char a_type, void *a_one  , void *a_two)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -95,7 +95,7 @@ MOCK__common            (char a_type, void *a_one  , void *a_two)
 static void      o___GNOME___________________o (void) {;}
 
 char
-MOCK__cursor            (uchar a_type, void *a_head, void *a_tail, void *a_beg, void **a_new, char a_action)
+ysort_mock__cursor      (uchar a_type, void *a_head, void *a_tail, void *a_beg, void **a_new, char a_action)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -133,7 +133,7 @@ MOCK__cursor            (uchar a_type, void *a_head, void *a_tail, void *a_beg, 
 }
 
 char
-MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uchar a_order)
+ysort_mock__checker     (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uchar a_order)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -147,7 +147,7 @@ MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uc
    /*---(header)-------------------------*/
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = MOCK__common ('c', a_one, a_two);
+   rc = ysort_mock__common ('c', a_one, a_two);
    --rce;  if (rc < 0) {
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
       return 0;
@@ -203,7 +203,7 @@ MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uc
 }
 
 char
-MOCK__unlinker          (uchar a_type, void **a_head, void **a_tail, void *a_two)
+ysort_mock__unlinker    (uchar a_type, void **a_head, void **a_tail, void *a_two)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -216,7 +216,7 @@ MOCK__unlinker          (uchar a_type, void **a_head, void **a_tail, void *a_two
    /*---(header)-------------------------*/
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = MOCK__common ('i', NULL, a_two);
+   rc = ysort_mock__common ('i', NULL, a_two);
    --rce;  if (rc < 0) {
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
       return 0;
@@ -245,14 +245,14 @@ MOCK__unlinker          (uchar a_type, void **a_head, void **a_tail, void *a_two
    DEBUG_SORT   yLOG_note    ("save back");
    *a_head = x_head;
    *a_tail = x_tail;
-   DEBUG_SORT   MOCK__printer (x_head);
+   DEBUG_SORT   ysort_mock_printer (x_head);
    /*---(complete)-----------------------*/
    DEBUG_SORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
 char
-MOCK__linker            (uchar a_type, void **a_head, void **a_tail, void *a_one, void *a_two)
+ysort_mock__linker      (uchar a_type, void **a_head, void **a_tail, void *a_one, void *a_two)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -267,7 +267,7 @@ MOCK__linker            (uchar a_type, void **a_head, void **a_tail, void *a_one
    /*---(header)-------------------------*/
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = MOCK__common ('i', a_one, a_two);
+   rc = ysort_mock__common ('i', a_one, a_two);
    --rce;  if (rc < 0) {
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
       return 0;
@@ -306,36 +306,12 @@ MOCK__linker            (uchar a_type, void **a_head, void **a_tail, void *a_one
    DEBUG_SORT   yLOG_note    ("save back");
    *a_head = x_head;
    *a_tail = x_tail;
-   DEBUG_SORT   MOCK__printer (x_head);
+   DEBUG_SORT   ysort_mock_printer (x_head);
    /*---(output)-------------------------*/
    DEBUG_SORT   yLOG_exit    (__FUNCTION__);
    /*---(complete)-----------------------*/
    return 0;
 }
-
-/*> char                                                                                            <* 
- *> MOCK__mover             (char a_type, void **a_head, void **a_tail, void *a_one, void *a_two)   <* 
- *> {                                                                                               <* 
- *>    /+---(locals)-----------+-----------+-+/                                                     <* 
- *>    char        rce         =  -10;                                                              <* 
- *>    char        rc          =    0;                                                              <* 
- *>    /+---(header)-------------------------+/                                                     <* 
- *>    DEBUG_SORT   yLOG_enter   (__FUNCTION__);                                                    <* 
- *>    /+---(defense)------------------------+/                                                     <* 
- *>    rc = MOCK__common ('i', a_one, a_two);                                                       <* 
- *>    --rce;  if (rc < 0) {                                                                        <* 
- *>       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);                                            <* 
- *>       return 0;                                                                                 <* 
- *>    }                                                                                            <* 
- *>    /+---(process)------------------------+/                                                     <* 
- *>    rc = MOCK__unlinker       (a_type, a_head, a_tail, a_two);                                   <* 
- *>    rc = MOCK__linker         (a_type, a_head, a_tail, a_one, a_two);                            <* 
- *>    /+---(complete)-----------------------+/                                                     <* 
- *>    DEBUG_SORT   yLOG_exit    (__FUNCTION__);                                                    <* 
- *>    /+---(output)-------------------------+/                                                     <* 
- *>    MOCK__printer ();                                                                            <* 
- *>    return 0;                                                                                    <* 
- *> }                                                                                               <*/
 
 
 
@@ -345,7 +321,7 @@ MOCK__linker            (uchar a_type, void **a_head, void **a_tail, void *a_one
 static void      o___TROLL___________________o (void) {;}
 
 char
-MOCK__slotter           (uchar a_lvl, void *a_two, uchar a_order)
+ysort_mock__slotter     (uchar a_lvl, void *a_two, uchar a_order)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -399,7 +375,7 @@ MOCK__slotter           (uchar a_lvl, void *a_two, uchar a_order)
 }
 
 char
-MOCK__joiner            (void **a_bighead, void **a_bigtail, int *a_bigcount, void **a_subhead, void **a_subtail, int *a_subcount)
+ysort_mock__joiner      (void **a_bighead, void **a_bigtail, int *a_bigcount, void **a_subhead, void **a_subtail, int *a_subcount)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -434,7 +410,7 @@ MOCK__joiner            (void **a_bighead, void **a_bigtail, int *a_bigcount, vo
    *a_subhead   = NULL;
    *a_subtail   = NULL;
    *a_subcount  = 0;
-   DEBUG_SORT   MOCK__printer (*a_bighead);
+   DEBUG_SORT   ysort_mock_printer (*a_bighead);
    /*---(complete)-----------------------*/
    DEBUG_SORT   yLOG_exit    (__FUNCTION__);
    return 0;
@@ -448,7 +424,7 @@ MOCK__joiner            (void **a_bighead, void **a_bigtail, int *a_bigcount, vo
 static void      o___BTREE___________________o (void) {;}
 
 char
-MOCK__forker            (uchar a_type, void *a_node, void **a_left, void **a_right)
+ysort_mock__forker      (uchar a_type, void *a_node, void **a_left, void **a_right)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -494,7 +470,7 @@ MOCK__forker            (uchar a_type, void *a_node, void **a_left, void **a_rig
 static void      o___TESTING_________________o (void) {;}
 
 char
-MOCK__creator           (char *a_label)
+ysort_mock_creator      (char *a_label)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -530,14 +506,14 @@ MOCK__creator           (char *a_label)
    ++g_count;
    DEBUG_SORT   yLOG_value   ("g_count"   , g_count);
    /*---(link it in)---------------------*/
-   rc = MOCK__linker         ('-', &g_head, &g_tail, NULL, x_new);
+   rc = ysort_mock__linker   ('-', &g_head, &g_tail, NULL, x_new);
    /*---(complete)-----------------------*/
    DEBUG_SORT   yLOG_exit    (__FUNCTION__);
    return rc;
 }
 
 char
-MOCK__printer           (tSORT_DATA *x_head)
+ysort_mock_printer      (tSORT_DATA *x_head)
 {
    /*---(locals)-----------+-----------+-*/
    int         i           =    0;

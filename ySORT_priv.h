@@ -25,8 +25,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x main sorts tested and working"
-#define     P_VERNUM    "0.5c"
-#define     P_VERTXT    "btree is now working and unit tested"
+#define     P_VERNUM    "0.5d"
+#define     P_VERTXT    "fully ported gyges !!!  added ySORT_walker to allow better debugging"
 
 
 /*
@@ -161,42 +161,39 @@ extern char    (*g_forker)   (uchar a_type, void *a_node, void **a_left, void **
 extern char   unit_answer [LEN_RECD];
 
 
-char        ySORT_defense           (uchar a_mode, uchar a_order, void *a_head, void *a_tail);
-char        ySORT__reinit           (void);
-char        ySORT__unit_quiet       (void);
-char        ySORT__unit_loud        (void);
-char        ySORT__unit_end         (void);
+char        ysort_defense           (uchar a_mode, uchar a_order, void *a_head, void *a_tail);
+char        ysort__reinit           (void);
+char        ysort__unit_quiet       (void);
+char        ysort__unit_loud        (void);
+char        ysort__unit_end         (void);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-char        GNOME_driver            (uchar a_type, uchar a_lvl, void **a_head, void **a_tail);
-char        GNOME__reverse          (void);
-char        GNOME_stats             (int *a_comps, int *a_swaps, int *a_teles);
-char*       GNOME__unit             (char *a_question, int a_num);
+char        ysort_gnome_driver      (uchar a_type, uchar a_lvl, void **a_head, void **a_tail);
+char        ysort_gnome__stats      (int *a_comps, int *a_swaps, int *a_teles);
+char*       ysort_gnome__unit       (char *a_question, int a_num);
 
 
-char        TROLL__prepare          (void *p_slotter, void *p_joiner);
-char        TROLL__scatter          (uchar a_type, uchar a_lvl, void **a_head, void **a_tail, int *a_count, tSLOT a_slots [SEVENBIT]);
-char*       SCATTER__unit           (char *a_question, tSLOT a_slots [SEVENBIT], char a_num);
-char*       TROLL__unit             (char *a_question, int a_num);
+char        ysort_troll__scatter    (uchar a_type, uchar a_lvl, void **a_head, void **a_tail, int *a_count, tSLOT a_slots [SEVENBIT]);
+char        ysort_troll__gather     (void **a_head, void **a_tail, int *a_count, tSLOT a_slots [SEVENBIT]);
+char*       ysort_scatter__unit     (char *a_question, tSLOT a_slots [SEVENBIT], char a_num);
 
 
-char        MOCK__init              (void);
-char        MOCK__wrap              (void);
-char        MOCK__cursor            (uchar a_type, void *a_head, void *a_tail, void *a_beg, void **a_new, char a_action);
-char        MOCK__checker           (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uchar a_order);
-char        MOCK__unlinker          (uchar a_type, void **a_head, void **a_tail, void *a_two);
-char        MOCK__linker            (uchar a_type, void **a_head, void **a_tail, void *a_one, void *a_two);
-char        MOCK__slotter           (uchar a_lvl, void *a_two, uchar a_order);
-char        MOCK__joiner            (void **a_bighead, void **a_bigtail, int *a_bigcount, void **a_subhead, void **a_subtail, int *a_subcount);
-char        MOCK__forker            (uchar a_type, void *a_node, void **a_left, void **a_right);
-char        MOCK__creator           (char *a_name);
-char        MOCK__printer           (tSORT_DATA *a_head);
+char        ysort_mock_init         (void);
+char        ysort_mock_wrap         (void);
+char        ysort_mock__cursor      (uchar a_type, void *a_head, void *a_tail, void *a_beg, void **a_new, char a_action);
+char        ysort_mock__checker     (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uchar a_order);
+char        ysort_mock__unlinker    (uchar a_type, void **a_head, void **a_tail, void *a_two);
+char        ysort_mock__linker      (uchar a_type, void **a_head, void **a_tail, void *a_one, void *a_two);
+char        ysort_mock__slotter     (uchar a_lvl, void *a_two, uchar a_order);
+char        ysort_mock__joiner      (void **a_bighead, void **a_bigtail, int *a_bigcount, void **a_subhead, void **a_subtail, int *a_subcount);
+char        ysort_mock__forker      (uchar a_type, void *a_node, void **a_left, void **a_right);
+char        ysort_mock_creator      (char *a_name);
+char        ysort_mock_printer      (tSORT_DATA *a_head);
 
 
 
-char        BTREE_build             (uchar a_type, void *a_head, void *a_tail, int a_count);
-char*       BTREE__unit             (char *a_question, int n);
+char*       ysort_treeify__unit     (char *a_question, int n);
 
 
 #endif

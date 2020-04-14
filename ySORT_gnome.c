@@ -53,7 +53,7 @@ static int     s_teles      = 0;
 static void      o___BASIC___________________o (void) {;}
 
 char         /*-> check sort arguments ---------------[ leaf   [gn.530.341.50]*/ /*-[02.0000.000.!]-*/ /*-[--.---.---.--]-*/
-GNOME__prepare          (char a_type, void *a_head, void *a_tail, void **a_comp, void **a_curr, void **a_next, void **a_tele)
+ysort_gnome__prepare    (char a_type, void *a_head, void *a_tail, void **a_comp, void **a_curr, void **a_next, void **a_tele)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -95,7 +95,7 @@ GNOME__prepare          (char a_type, void *a_head, void *a_tail, void **a_comp,
 }
 
 char
-GNOME__swap_n_teleport  (char a_type, void **a_head, void **a_tail, char *a_swap, void **a_comp, void **a_next, void **a_curr, void **a_tele)
+ysort_gnome__swap_tele  (char a_type, void **a_head, void **a_tail, char *a_swap, void **a_comp, void **a_next, void **a_curr, void **a_tele)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -124,7 +124,7 @@ GNOME__swap_n_teleport  (char a_type, void **a_head, void **a_tail, char *a_swap
 }
 
 char
-GNOME__move_back        (char a_type, void **a_head, void **a_tail, char *a_swap, void **a_comp, void **a_next)
+ysort_gnome__back_up    (char a_type, void **a_head, void **a_tail, char *a_swap, void **a_comp, void **a_next)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -142,7 +142,7 @@ GNOME__move_back        (char a_type, void **a_head, void **a_tail, char *a_swap
 }
 
 char
-GNOME_driver             (uchar a_type, uchar a_lvl, void **a_head, void **a_tail)
+ysort_gnome_driver       (uchar a_type, uchar a_lvl, void **a_head, void **a_tail)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -155,7 +155,7 @@ GNOME_driver             (uchar a_type, uchar a_lvl, void **a_head, void **a_tai
    /*---(header)-------------------------*/
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
-   rc = GNOME__prepare (a_type, *a_head, *a_tail, &x_comp, &x_next, &x_curr, &x_tele);
+   rc = ysort_gnome__prepare (a_type, *a_head, *a_tail, &x_comp, &x_next, &x_curr, &x_tele);
    DEBUG_SORT   yLOG_value   ("prepare"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
@@ -167,14 +167,14 @@ GNOME_driver             (uchar a_type, uchar a_lvl, void **a_head, void **a_tai
       ++s_pass;
       /*---(hit beginning)---------------*/
       if (x_comp == NULL) {
-         rc = GNOME__swap_n_teleport  (a_type, a_head, a_tail, &x_swap, &x_comp, &x_next, &x_curr, &x_tele);
+         rc = ysort_gnome__swap_tele  (a_type, a_head, a_tail, &x_swap, &x_comp, &x_next, &x_curr, &x_tele);
       } else {
          ++s_comps;
          rc = g_checker (a_type, a_lvl, x_comp, x_curr, g_order);
          if (rc <= 0) {
-            rc = GNOME__swap_n_teleport  (a_type, a_head, a_tail, &x_swap, &x_comp, &x_next, &x_curr, &x_tele);
+            rc = ysort_gnome__swap_tele  (a_type, a_head, a_tail, &x_swap, &x_comp, &x_next, &x_curr, &x_tele);
          } else {
-            rc = GNOME__move_back        (a_type, a_head, a_tail, &x_swap, &x_comp, &x_next);
+            rc = ysort_gnome__back_up    (a_type, a_head, a_tail, &x_swap, &x_comp, &x_next);
          }
       }
       /*---(next)------------------------*/
@@ -194,14 +194,14 @@ ySORT_gnome              (uchar a_type, uchar a_order, void **a_head, void **a_t
    /*---(header)-------------------------*/
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ySORT_defense  (YSORT_GNOME, a_order, *a_head, *a_tail);
+   rc = ysort_defense  (YSORT_GNOME, a_order, *a_head, *a_tail);
    DEBUG_SORT   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(run)----------------------------*/
-   rc = GNOME_driver (a_type, 0, a_head, a_tail);
+   rc = ysort_gnome_driver (a_type, 0, a_head, a_tail);
    DEBUG_SORT   yLOG_value   ("driver"    , rc);
    /*---(complete)-----------------------*/
    DEBUG_SORT   yLOG_exit    (__FUNCTION__);
@@ -209,39 +209,13 @@ ySORT_gnome              (uchar a_type, uchar a_order, void **a_head, void **a_t
 }
 
 char
-GNOME_stats             (int *a_comps, int *a_swaps, int *a_teles)
+ysort_gnome__stats      (int *a_comps, int *a_swaps, int *a_teles)
 {
    if (a_comps != NULL)  *a_comps = s_comps;
    if (a_swaps != NULL)  *a_swaps = s_swaps;
    if (a_teles != NULL)  *a_teles = s_teles;
    return 0;
 }
-
-
-
-/*====================------------------------------------====================*/
-/*===----                   mock testing functions                     ----===*/
-/*====================------------------------------------====================*/
-static void      o___MOCK_TEST_______________o (void) {;}
-/*> tSORT_DATA s_data [] = {                                                          <* 
- *>    {  0, "henry"    , NULL, NULL},                                                <* 
- *>    {  0, "sally"    , NULL, NULL},                                                <* 
- *>    {  0, "jacob"    , NULL, NULL},                                                <* 
- *>    {  0, "alex"     , NULL, NULL},                                                <* 
- *>    {  0, "zelda"    , NULL, NULL},                                                <* 
- *>    {  0, "reginald" , NULL, NULL},                                                <* 
- *>    {  0, "fonzi"    , NULL, NULL},                                                <* 
- *>    {  0, "ming"     , NULL, NULL},                                                <* 
- *>    {  0, "bashir"   , NULL, NULL},                                                <* 
- *>    {  0, "jessie"   , NULL, NULL},                                                <* 
- *>    {  0, "mae"      , NULL, NULL},                                                <* 
- *>    {  0, "bonny"    , NULL, NULL},                                                <* 
- *>    {  0, "sister"   , NULL, NULL},                                                <* 
- *>    {  0, "sister"   , NULL, NULL},                                                <* 
- *>    {  0, "hanzel"   , NULL, NULL},                                                <* 
- *>    {  0, "gretel"   , NULL, NULL},                                                <* 
- *>    {  0, ""         , NULL, NULL},                                                <* 
- *> };                                                                                <*/
 
 
 
@@ -253,7 +227,7 @@ static void      o___UNIT_TEST_______________o (void) {;}
 char          unit_answer [LEN_RECD];
 
 char*            /* [------] unit test accessor ------------------------------*/
-GNOME__unit        (char *a_question, int a_num)
+ysort_gnome__unit       (char *a_question, int a_num)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        s           [LEN_LABEL];

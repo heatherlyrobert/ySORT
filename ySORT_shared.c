@@ -53,7 +53,7 @@ ySORT_version           (void)
 static void      o___SHARED__________________o (void) {;}
 
 char
-ySORT__reinit           (void)
+ysort__reinit           (void)
 {
    g_ready       = '-';
    g_cursor      = NULL;
@@ -69,7 +69,7 @@ ySORT__reinit           (void)
 }
 
 char         /*-> check sort arguments ---------------[ leaf   [gn.530.341.50]*/ /*-[02.0000.000.!]-*/ /*-[--.---.---.--]-*/
-ySORT_defense           (uchar a_mode, uchar a_order, void *a_head, void *a_tail)
+ysort_defense           (uchar a_mode, uchar a_order, void *a_head, void *a_tail)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -140,7 +140,7 @@ ySORT_config            (uchar a_mode, void *p_cursor, void *p_checker, void *p_
    /*---(header)-------------------------*/
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    /*---(initialize)---------------------*/
-   ySORT__reinit ();
+   ysort__reinit ();
    /*---(check mode)---------------------*/
    DEBUG_SORT   yLOG_char    ("a_mode"    , a_mode);
    --rce;  if (strchr (YSORT_ENGINES, a_mode) == NULL) {
@@ -207,30 +207,30 @@ ySORT_config            (uchar a_mode, void *p_cursor, void *p_checker, void *p_
 static void      o___UNITTEST________________o (void) {;}
 
 char       /*----: set up program urgents/debugging --------------------------*/
-ySORT__unit_quiet       (void)
+ysort__unit_quiet       (void)
 {
    yLOGS_begin ("ySORT", YLOG_SYS, YLOG_QUIET);
-   MOCK__init    ();
-   ySORT__reinit ();
+   ysort_mock_init    ();
+   ysort__reinit ();
    return 0;
 }
 
 char       /*----: set up program urgents/debugging --------------------------*/
-ySORT__unit_loud        (void)
+ysort__unit_loud        (void)
 {
    yLOGS_begin ("ySORT", YLOG_SYS, YLOG_NOISE);
    yURG_name  ("kitchen"      , YURG_ON);
    DEBUG_YSTR   yLOG_info     ("ySORT"   , ySORT_version   ());
-   MOCK__init    ();
-   ySORT__reinit ();
+   ysort_mock_init    ();
+   ysort__reinit ();
    return 0;
 }
 
 char       /*----: stop logging ----------------------------------------------*/
-ySORT__unit_end    (void)
+ysort__unit_end    (void)
 {
-   MOCK__wrap    ();
-   ySORT__reinit ();
+   ysort_mock_wrap    ();
+   ysort__reinit ();
    yLOGS_end     ();
    return 0;
 }

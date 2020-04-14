@@ -34,11 +34,11 @@ char        ySORT_gnome             (uchar a_type, uchar a_order, void **a_head,
 
 char        ySORT_troll             (uchar a_type, uchar a_order, void **a_head, void **a_tail);
 
-char        ySORT_btree             (uchar a_type, void *a_head, void *a_tail, int a_count, void **a_root);
-
-char        ySORT_update            (uchar a_type);
+char        ySORT_treeify           (uchar a_type, void *a_head, void *a_tail, int a_count, void **a_root);
 
 char        ySORT_search            (uchar a_type, void *a_root, void *a_key, void **a_found);
+
+char        ySORT_walk              (uchar a_type, void *a_root, void *p_callback);
 
 
 
