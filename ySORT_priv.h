@@ -25,8 +25,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x main sorts tested and working"
-#define     P_VERNUM    "0.5d"
-#define     P_VERTXT    "fully ported gyges !!!  added ySORT_walker to allow better debugging"
+#define     P_VERNUM    "0.5e"
+#define     P_VERTXT    "expanded troll buckets to full byte range to support helios"
 
 
 /*
@@ -143,7 +143,7 @@ struct cSLOT {
    void       *head;
    void       *tail;
 };
-#define     SEVENBIT      128
+#define     SEVENBIT      255
 
 
 
@@ -170,7 +170,6 @@ char        ysort__unit_end         (void);
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        ysort_gnome_driver      (uchar a_type, uchar a_lvl, void **a_head, void **a_tail);
-char        ysort_gnome__stats      (int *a_comps, int *a_swaps, int *a_teles);
 char*       ysort_gnome__unit       (char *a_question, int a_num);
 
 

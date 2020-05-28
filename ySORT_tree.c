@@ -5,16 +5,15 @@
 
 
 static uchar    s_type   =  '-';
-static void    *s_head   = NULL;
-static void    *s_root   = NULL;
-static void    *s_tail   = NULL;
-static int      s_count  =    0;
-
+static int      s_span   =    0;
 static char     s_levels =    0;
+static int      s_count  =    0;
+static float    s_filled =  0.0;
+
 static char     s_result =    0;
 static char     s_path   [LEN_DESC]  = "";
 static char     s_depth  =    0;
-static llong    s_last   =   -1;
+static void    *s_last   = NULL;
 
 
 
@@ -122,10 +121,9 @@ ySORT_treeify           (uchar a_type, void *a_head, void *a_tail, int a_count, 
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        rc          =    0;
-   int         x_lvl       =    0;
-   int         x_span      =    0;
    int         x_ctr       =    0;
    int         c           =    0;
+   int         x_lvl       =    0;
    void       *x_curr      = NULL;
    void       *x_left      = NULL;
    void       *x_right     = NULL;
@@ -139,16 +137,16 @@ ySORT_treeify           (uchar a_type, void *a_head, void *a_tail, int a_count, 
       return rce;
    }
    /*---(prepare)------------------------*/
-   s_type  = a_type;
-   s_head  = a_head;
-   s_tail  = a_tail;
-   s_count = a_count;
+   s_type   = a_type;
+   s_count  = a_count;
+   s_levels = 0;
    /*---(statistics)---------------------*/
-   x_lvl   = ysort_tree__depth (a_count);
+   x_lvl = ysort_tree__depth (a_count);
    DEBUG_SORT   yLOG_value   ("est depth" , x_lvl);
-   x_span  = ysort_tree__span (x_lvl);
-   DEBUG_SORT   yLOG_value   ("max span"  , x_span);
-   DEBUG_SORT   yLOG_double  ("est usage" , a_count / (float) x_span);
+   s_span  = ysort_tree__span (x_lvl);
+   DEBUG_SORT   yLOG_value   ("max span"  , s_span);
+   s_filled = a_count / (float) s_span;
+   DEBUG_SORT   yLOG_double  ("est usage" , s_filled);
    x_ctr   = (a_count / 2) + 1;
    DEBUG_SORT   yLOG_value   ("center"    , x_ctr);
    /*---(find root)----------------------*/
@@ -160,8 +158,8 @@ ySORT_treeify           (uchar a_type, void *a_head, void *a_tail, int a_count, 
    }
    DEBUG_SORT   yLOG_point   ("ROOT"      , x_curr);
    /*---(launch tree making)-------------*/
-   x_left  = ysort_tree__nextlevel (a_type, a_head, a_tail, a_count, 1, x_ctr, x_span / 4 + 1, 'L', x_curr);
-   x_right = ysort_tree__nextlevel (a_type, a_head, a_tail, a_count, 1, x_ctr, x_span / 4 + 1, 'R', x_curr);
+   x_left  = ysort_tree__nextlevel (a_type, a_head, a_tail, a_count, 1, x_ctr, s_span / 4 + 1, 'L', x_curr);
+   x_right = ysort_tree__nextlevel (a_type, a_head, a_tail, a_count, 1, x_ctr, s_span / 4 + 1, 'R', x_curr);
    DEBUG_SORT   yLOG_complex ("found"     , "left %p, right %p", x_left, x_right);
    rc = g_forker (a_type, x_curr, &x_left, &x_right);
    DEBUG_SORT   yLOG_value   ("real depth", s_levels);
@@ -225,6 +223,15 @@ ysort_tree__searchdown       (uchar a_type, void *a_node, char *a_dir, void *a_k
 }
 
 char
+ysort_tree__notfound    (void)
+{
+   s_last   = NULL;
+   s_result = -1;
+   s_depth  = 0;
+   strlcpy (s_path, "-", LEN_DESC);
+}
+
+char
 ySORT_search            (uchar a_type, void *a_root, void *a_key, void **a_found)
 {
    /*---(locals)-----------+-----+-----+-*/
@@ -240,17 +247,13 @@ ySORT_search            (uchar a_type, void *a_root, void *a_key, void **a_found
    /*---(defense)------------------------*/
    DEBUG_SORT   yLOG_point   ("a_root"    , a_root);
    --rce;  if (a_root == NULL)  {
-      s_last   = NULL;
-      s_result = -1;
-      strlcpy (s_path, "-", LEN_DESC);
+      ysort_tree__notfound ();
       DEBUG_SORT   yLOG_exit    (__FUNCTION__);
       return rce;
    }
    DEBUG_SORT   yLOG_point   ("a_key"     , a_key);
    --rce;  if (a_key  == NULL)  {
-      s_last   = NULL;
-      s_result = -1;
-      strlcpy (s_path, "-", LEN_DESC);
+      ysort_tree__notfound ();
       DEBUG_SORT   yLOG_exit    (__FUNCTION__);
       return rce;
    }
@@ -263,16 +266,14 @@ ySORT_search            (uchar a_type, void *a_root, void *a_key, void **a_found
    /*---(check)--------------------------*/
    --rce;  if (x_node == NULL) {
       DEBUG_SORT   yLOG_note    ("not found");
-      s_last   = a_key;
-      s_result = -1;
-      strlcpy (s_path, "-", LEN_DESC);
+      ysort_tree__notfound ();
       DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(return)-------------------------*/
    DEBUG_SORT   yLOG_note    ("found");
    if (a_found != NULL)  *a_found = x_node;
-   s_last   = a_key;
+   s_last   = x_node;
    s_result = 0;
    /*---(complete)-----------------------*/
    DEBUG_SORT   yLOG_exit    (__FUNCTION__);
@@ -349,6 +350,26 @@ ySORT_walk            (uchar a_type, void *a_root, void *p_callback)
    rc = ysort_tree__walk (a_type, 1, a_root, "@");
    /*---(complete)-----------------------*/
    DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
+char
+ySORT_treeify_stats     (int *a_count, int *a_span, int *a_levels, float *a_filled)
+{
+   if (a_count   != NULL)  *a_count   = s_count;
+   if (a_span    != NULL)  *a_span    = s_span;
+   if (a_levels  != NULL)  *a_levels  = s_levels;
+   if (a_filled  != NULL)  *a_filled  = s_filled;
+   return 0;
+}
+
+char
+ySORT_search_stats      (int *a_result, void **a_last, int *a_depth, char *a_path)
+{
+   if (a_result  != NULL)  *a_result  = s_result;
+   if (a_last    != NULL)  *a_last    = s_last;
+   if (a_depth   != NULL)  *a_depth   = s_depth;
+   if (a_path    != NULL)  strlcpy (a_path, s_path, LEN_DESC);
    return 0;
 }
 

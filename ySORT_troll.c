@@ -4,8 +4,10 @@
 
 
 
-static int     s_max        = 0;
 static int     s_buckets    = 0;
+static int     s_slots      = 0;
+static int     s_max        = 0;
+
 static int     s_sorts      = 0;
 static int     s_comps      = 0;
 static int     s_swaps      = 0;
@@ -90,9 +92,10 @@ ysort_troll__driver     (uchar a_type, uchar a_lvl, void **a_head, void **a_tail
    /*---(review results)-----------------*/
    for (i = 1; i < SEVENBIT; ++i) {
       if (x_slots[i].count <=  1) continue;
+      ++s_slots;
       if (x_slots[i].count <= 10) {
          rc = ysort_gnome_driver  ('-', a_lvl, &(x_slots[i].head), &(x_slots[i].tail));
-         ysort_gnome__stats (&x_comps, &x_swaps, &x_teles);
+         ySORT_gnome_stats (NULL, &x_comps, &x_swaps, &x_teles);
          s_comps += x_comps;
          s_swaps += x_swaps;
          s_teles += x_teles;
@@ -121,6 +124,7 @@ ySORT_troll             (uchar a_type, uchar a_order, void **a_head, void **a_ta
    DEBUG_SORT   yLOG_enter   (__FUNCTION__);
    /*---(initialize)---------------------*/
    s_buckets  = 0;
+   s_slots    = 0;
    s_max      = 0;
    s_sorts    = 0;
    s_comps    = 0;
@@ -145,6 +149,19 @@ ySORT_troll             (uchar a_type, uchar a_order, void **a_head, void **a_ta
    DEBUG_SORT   ysort_mock_printer (*a_head);
    /*---(complete)-----------------------*/
    DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
+char
+ySORT_troll_stats       (int *a_buckets, int *a_slots, int *a_max, int *a_sorts, int *a_comps, int *a_swaps, int *a_teles)
+{
+   if (a_buckets != NULL)  *a_buckets = s_buckets;
+   if (a_slots   != NULL)  *a_slots   = s_slots;
+   if (a_max     != NULL)  *a_max     = s_max;
+   if (a_sorts   != NULL)  *a_sorts   = s_sorts;
+   if (a_comps   != NULL)  *a_comps   = s_comps;
+   if (a_swaps   != NULL)  *a_swaps   = s_swaps;
+   if (a_teles   != NULL)  *a_teles   = s_teles;
    return 0;
 }
 

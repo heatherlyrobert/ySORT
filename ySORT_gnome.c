@@ -209,8 +209,9 @@ ySORT_gnome              (uchar a_type, uchar a_order, void **a_head, void **a_t
 }
 
 char
-ysort_gnome__stats      (int *a_comps, int *a_swaps, int *a_teles)
+ySORT_gnome_stats       (int *a_sorts, int *a_comps, int *a_swaps, int *a_teles)
 {
+   if (a_sorts != NULL)  *a_sorts = s_sorts;
    if (a_comps != NULL)  *a_comps = s_comps;
    if (a_swaps != NULL)  *a_swaps = s_swaps;
    if (a_teles != NULL)  *a_teles = s_teles;
