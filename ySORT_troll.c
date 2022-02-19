@@ -185,7 +185,7 @@ ysort_scatter__unit     (char *a_question, tSLOT a_slots [SEVENBIT], char a_num)
    int         c           =    0;
    int         x_fore      =    0;
    int         x_back      =    0;
-   tSORT_DATA *x_curr      = NULL;
+   tMOCK *x_curr      = NULL;
    /*---(initialize)---------------------*/
    strlcpy (unit_answer, "SCATTER unit     : unknown request", 100);
    if      (strcmp (a_question, "buckets"       ) == 0) {

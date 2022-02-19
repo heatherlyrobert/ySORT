@@ -210,6 +210,7 @@ char       /*----: set up program urgents/debugging --------------------------*/
 ysort__unit_quiet       (void)
 {
    yLOGS_begin ("ySORT", YLOG_SYS, YLOG_QUIET);
+   ySORT_purge_all ();
    ysort_mock_init    ();
    ysort__reinit ();
    return 0;
@@ -229,6 +230,7 @@ ysort__unit_loud        (void)
 char       /*----: stop logging ----------------------------------------------*/
 ysort__unit_end    (void)
 {
+   ySORT_purge_all ();
    ysort_mock_wrap    ();
    ysort__reinit ();
    yLOGS_end     ();

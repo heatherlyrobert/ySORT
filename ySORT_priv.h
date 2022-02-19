@@ -9,24 +9,33 @@
 
 #define     P_FOCUS     "PS (programming support)"
 #define     P_NICHE     "so (sort/search)"
+#define     P_SUBJECT   "sorting and searching"
 #define     P_PURPOSE   "provide strong link-list sorting and searching capabilities"
 
-#define     P_NAMESAKE  ""
+#define     P_NAMESAKE  "sisyphos-katergaris (trickster)"
 #define     P_HERITAGE  ""
 #define     P_IMAGERY   ""
+#define     P_REASON    ""
+
+#define     P_ONELINE   P_NAMESAKE " " P_SUBJECT
+
+#define     P_BASENAME  ""
+#define     P_FULLPATH  ""
+#define     P_SUFFIX    ""
+#define     P_CONTENT   ""
 
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
 #define     P_CODESIZE  "small       (appoximately 1,000 slocl)"
+#define     P_DEPENDS   "none"
 
 #define     P_AUTHOR    "heatherlyrobert"
 #define     P_CREATED   "2020-04"
-#define     P_DEPENDS   "none"
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x main sorts tested and working"
-#define     P_VERNUM    "0.5e"
-#define     P_VERTXT    "expanded troll buckets to full byte range to support helios"
+#define     P_VERNUM    "0.5g"
+#define     P_VERTXT    "drew in polymnia btree interface and unit tested"
 
 
 /*
@@ -112,24 +121,44 @@
 
 #include    <yURG.h>                    /* heatherly program logger            */
 #include    <yLOG.h>                    /* heatherly program logger            */
-#include    "ySTR.h"
+#include    <ySTR.h>
+#include    <yDLST_solo.h>
 
 
+typedef     struct      cSORT       tSORT;
 
-typedef struct cSORT_DATA tSORT_DATA;
-struct cSORT_DATA {
+/*----------+-----------+-----------+-----------+-----------+-----------+-----*/
+struct      cSORT {
+   /*---(information)-------*/
+   char        n;
+   char       *sort;
+   /*---(linked list)-------*/
+   tSORT      *prev;
+   tSORT      *next;
+   /*---(searching)---------*/
+   tSORT      *left;
+   tSORT      *right;
+   /*---(data)--------------*/
+   void       *data;
+   /*---(done)--------------*/
+};
+
+typedef struct cMOCK tMOCK;
+struct cMOCK {
    char        seq;
    char        label       [LEN_LABEL];
-   tSORT_DATA *prev;
-   tSORT_DATA *next;
-   tSORT_DATA *left;
-   tSORT_DATA *right;
+   tMOCK *prev;
+   tMOCK *next;
+   tMOCK *left;
+   tMOCK *right;
 };
-extern void   *g_head;
-extern void   *g_tail;
-extern int     g_count;
+extern tMOCK   *g_head;
+extern tMOCK   *g_tail;
+extern int           g_count;
 
 
+extern int   g_depth;
+extern char  g_path    [LEN_HUND];
 
 extern char    g_ready;
 extern uchar   g_order;
@@ -147,6 +176,12 @@ struct cSLOT {
 
 
 
+extern char    (*g_walk)      (void **a_cur, uchar a_mov);
+extern char*   (*g_key)       (void *a_cur);
+extern char    (*g_unhook)    (void *a_cur);
+extern char    (*g_hook)      (void *a_ref, void *a_cur);
+
+
 extern char    (*g_cursor)   (uchar a_type, void *a_head, void *a_tail, void *a_one, void **a_two, char a_action);
 extern char    (*g_checker)  (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uchar a_order);
 extern char    (*g_unlinker) (uchar a_type, void **a_head, void **a_tail, void *a_two);
@@ -161,14 +196,51 @@ extern char    (*g_forker)   (uchar a_type, void *a_node, void **a_left, void **
 extern char   unit_answer [LEN_RECD];
 
 
+
+/*===[[ ySORT_btree.c ]]======================================================*/
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+/*---(trees)----------------*/
+char        ySORT_btree             (char a_abbr, char *a_sort);
+char        ysort_btree_by_abbr     (char a_abbr);
+/*---(hooking)--------------*/
+char        ySORT_hook              (char a_abbr, void *a_data, char *a_sort, tSORT **r_link);
+char        ySORT_unhook            (tSORT **r_link);
+char        ysort_btree__remove     (char n, tSORT *a_old);
+char        ySORT_purge             (char a_abbr);
+char        ySORT_purge_all         (void);
+/*---(sort)-----------------*/
+char        ysort_btree_swap        (char n, tSORT *a_one, tSORT *a_two);
+char        ysort_btree_dgnome      (char a_abbr);
+/*---(sequence)-------------*/
+char        ySORT_by_cursor         (char a_abbr, char a_dir, void **r_data);
+char        ySORT_by_index          (char a_abbr, int i, void **r_data);
+int         ySORT_count             (char a_abbr);
+/*---(build)----------------*/
+int         ysort_btree_depth       (int a_size);
+int         ysort_btree_span        (int a_levels);
+tSORT*      ysort_btree_nextlevel   (int n, int a_lvl, int a_pos, int a_dist, char a_dir, tSORT *a_node);
+char        ysort_btree_build       (char a_abbr);
+/*---(search)---------------*/
+char        ysort_btree_display     (int a_lvl, tSORT *a_node);
+char        ySORT_list              (char a_abbr);
+tSORT*      ysort_btree_searchdown  (tSORT *a_node, char *a_dir, char *a_key);
+char        ySORT_by_name           (char a_abbr, char *a_key, void **r_data);
+/*---(full)-----------------*/
+char        ySORT_prepare           (char a_abbr);
+/*---(unittest)-------------*/
+char*       ysort_btree__unit       (char a_btree, char *a_question, int i);
+/*---(done)-----------------*/
+
+
+
+
+
 char        ysort_defense           (uchar a_mode, uchar a_order, void *a_head, void *a_tail);
 char        ysort__reinit           (void);
 char        ysort__unit_quiet       (void);
 char        ysort__unit_loud        (void);
 char        ysort__unit_end         (void);
 
-
-/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        ysort_gnome_driver      (uchar a_type, uchar a_lvl, void **a_head, void **a_tail);
 char*       ysort_gnome__unit       (char *a_question, int a_num);
 
@@ -180,6 +252,12 @@ char*       ysort_scatter__unit     (char *a_question, tSLOT a_slots [SEVENBIT],
 
 char        ysort_mock_init         (void);
 char        ysort_mock_wrap         (void);
+
+char        ysort_mock__move        (tMOCK **a_cur, char a_move);
+char*       ysort_mock__key         (tMOCK *a_cur);
+char        ysort_mock__unhook      (tMOCK *a_cur);
+char        ysort_mock__hook        (tMOCK *a_ref, tMOCK *a_cur);
+
 char        ysort_mock__cursor      (uchar a_type, void *a_head, void *a_tail, void *a_beg, void **a_new, char a_action);
 char        ysort_mock__checker     (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uchar a_order);
 char        ysort_mock__unlinker    (uchar a_type, void **a_head, void **a_tail, void *a_two);
@@ -188,7 +266,7 @@ char        ysort_mock__slotter     (uchar a_lvl, void *a_two, uchar a_order);
 char        ysort_mock__joiner      (void **a_bighead, void **a_bigtail, int *a_bigcount, void **a_subhead, void **a_subtail, int *a_subcount);
 char        ysort_mock__forker      (uchar a_type, void *a_node, void **a_left, void **a_right);
 char        ysort_mock_creator      (char *a_name);
-char        ysort_mock_printer      (tSORT_DATA *a_head);
+char        ysort_mock_printer      (tMOCK *a_head);
 
 
 

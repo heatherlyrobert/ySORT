@@ -26,10 +26,10 @@
 
 
 
-void   *g_head       = NULL;
-void   *g_tail       = NULL;
-int     g_count      = 0;
-uchar   g_order      = '-';
+tMOCK   *g_head       = NULL;
+tMOCK   *g_tail       = NULL;
+int           g_count      = 0;
+uchar         g_order      = '-';
 
 
 
@@ -237,17 +237,17 @@ ysort_gnome__unit       (char *a_question, int a_num)
    int         n           =    0;
    int         x_fore      =    0;
    int         x_back      =    0;
-   tSORT_DATA *x_curr      = NULL;
+   tMOCK *x_curr      = NULL;
    /*---(initialize)---------------------*/
    strlcpy (unit_answer, "GNOME unit       : unknown request", 100);
    /*---(basics)-------------------------*/
    if      (strcmp (a_question, "count"         ) == 0) {
-      x_curr = (tSORT_DATA *) g_head; while (x_curr != NULL) { ++x_fore; x_curr = x_curr->next; }
-      x_curr = (tSORT_DATA *) g_tail; while (x_curr != NULL) { ++x_back; x_curr = x_curr->prev; }
+      x_curr = (tMOCK *) g_head; while (x_curr != NULL) { ++x_fore; x_curr = x_curr->next; }
+      x_curr = (tMOCK *) g_tail; while (x_curr != NULL) { ++x_back; x_curr = x_curr->prev; }
       snprintf (unit_answer, LEN_FULL, "GNOME count      : %4dn, %4df, %4db", g_count, x_fore, x_back);
    }
    else if (strcmp (a_question, "seq"           ) == 0) {
-      x_curr = (tSORT_DATA *) g_head; 
+      x_curr = (tMOCK *) g_head; 
       strlcpy (t, "", LEN_RECD);
       for (i = 0; i < 20; ++i) {
          if (x_curr == NULL)  sprintf (s, "--");
@@ -259,7 +259,7 @@ ysort_gnome__unit       (char *a_question, int a_num)
       snprintf (unit_answer, LEN_RECD, "GNOME seq        : %s", t);
    }
    else if (strcmp (a_question, "sort"          ) == 0) {
-      x_curr  = (tSORT_DATA *) g_head;
+      x_curr  = (tMOCK *) g_head;
       while (x_curr != NULL) {
          if (n == a_num)  break;
          ++n;
