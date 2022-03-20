@@ -48,17 +48,18 @@ char        ySORT_search_stats      (int *a_result, void **a_last, int *a_depth,
 
 char        ySORT_walk              (uchar a_type, void *a_root, void *p_callback);
 
-char        ySORT_btree             (char a_abbr, char *a_sort);
-char        ySORT_hook              (char a_btree, void *a_data, char *a_sort, tSORT **r_link);
+char        ySORT_btree             (uchar a_abbr, char *a_sort);
+char        ySORT_hook              (uchar a_btree, void *a_data, char *a_sort, tSORT **r_link);
 char        ySORT_unhook            (tSORT **r_link);
-char        ySORT_purge             (char a_abbr);
+char        ySORT_purge             (uchar a_abbr);
 char        ySORT_purge_all         (void);
-char        ySORT_by_cursor         (char a_abbr, char a_dir, void **r_data);
-char        ySORT_by_index          (char a_abbr, int i, void **r_data);
-int         ySORT_count             (char a_abbr);
-char        ySORT_by_name           (char a_abbr, char *a_key, void **r_data);
-char        ySORT_prepare           (char a_abbr);
-char        ySORT_list              (char a_abbr);
+char        ySORT_by_cursor         (uchar a_abbr, char a_dir, void **r_data);
+char        ySORT_by_index          (uchar a_abbr, int i, void **r_data);
+int         ySORT_count             (uchar a_abbr);
+char        ySORT_by_name           (uchar a_abbr, char *a_key, void **r_data);
+char        ySORT_prepare           (uchar a_abbr);
+char        ySORT_treeform          (uchar a_abbr);
+char        ySORT_list              (uchar a_abbr);
 
 
 #endif

@@ -73,7 +73,9 @@ ysort_gnome__prepare    (char a_type, void *a_head, void *a_tail, void **a_comp,
    }
    /*---(get first)----------------------*/
    DEBUG_SORT   yLOG_complex ("ends"      , "head %p, tail %p", a_head, a_tail);
+   DEBUG_SORT   yLOG_note    ("entering g_cursor");
    rc = g_cursor (a_type, a_head, a_tail, NULL   , a_comp, '[');
+   DEBUG_SORT   yLOG_note    ("exiting g_cursor");
    DEBUG_SORT   yLOG_complex ("a_comp"    , "%4d, %p", rc, *a_comp);
    s_root  = *a_comp;
    DEBUG_SORT   yLOG_complex ("s_root"    , "%4d, %p", rc,  s_root);

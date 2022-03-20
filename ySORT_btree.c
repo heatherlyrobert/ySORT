@@ -26,6 +26,8 @@ struct      cROOTS {
 } static s_trees [MAX_BTREE];
 char        s_ntree    = 0;
 
+#define     B_ABBR      s_trees [n].abbr
+#define     B_NAME      s_trees [n].name
 #define     B_READY     s_trees [n].ready
 #define     B_HEAD      s_trees [n].head
 #define     B_TAIL      s_trees [n].tail
@@ -47,7 +49,7 @@ char  g_path    [LEN_HUND] = "";
 static void  o___TREES___________o () { return; }
 
 char
-ySORT_btree             (char a_abbr, char *a_sort)
+ySORT_btree             (uchar a_abbr, char *a_sort)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -62,7 +64,7 @@ ySORT_btree             (char a_abbr, char *a_sort)
    }
    /*---(check abbr)---------------------*/
    DEBUG_SORT   yLOG_schar   (a_abbr);
-   --rce;  if (strchr (YSTR_CHARS, a_abbr) == NULL) {
+   --rce;  if (a_abbr <= 32 && a_abbr == 127) {
       DEBUG_SORT   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
@@ -90,7 +92,7 @@ ySORT_btree             (char a_abbr, char *a_sort)
 }
 
 char
-ysort_btree_by_abbr     (char a_abbr)
+ysort_btree_by_abbr     (uchar a_abbr)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -111,7 +113,7 @@ ysort_btree_by_abbr     (char a_abbr)
 static void  o___HOOKING_________o () { return; }
 
 char
-ySORT_hook              (char a_abbr, void *a_data, char *a_sort, tSORT **r_link)
+ySORT_hook              (uchar a_abbr, void *a_data, char *a_sort, tSORT **r_link)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -128,6 +130,7 @@ ySORT_hook              (char a_abbr, void *a_data, char *a_sort, tSORT **r_link
       DEBUG_SORT   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
+   DEBUG_SORT   yLOG_snote   (B_NAME);
    DEBUG_SORT   yLOG_spoint  (a_data);
    --rce;  if (a_data == NULL) {
       DEBUG_SORT   yLOG_sexitr  (__FUNCTION__, rce);
@@ -202,6 +205,8 @@ ySORT_unhook            (tSORT **r_link)
    }
    /*---(set index for macros)-----------*/
    n = x_old->n;
+   DEBUG_SORT   yLOG_schar   (B_ABBR);
+   DEBUG_SORT   yLOG_snote   (B_NAME);
    /*---(out of linked list)-------------*/
    DEBUG_SORT   yLOG_snote   ("unlink");
    if (x_old->next != NULL)   x_old->next->prev = x_old->prev;
@@ -230,7 +235,7 @@ ySORT_unhook            (tSORT **r_link)
 }
 
 char
-ySORT_purge             (char a_abbr)
+ySORT_purge             (uchar a_abbr)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -330,7 +335,7 @@ ysort_btree_swap        (char n, tSORT *a_one, tSORT *a_two)
 }
 
 char
-ysort_btree_dgnome      (char a_abbr)
+ysort_btree_dgnome      (uchar a_abbr)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -423,6 +428,24 @@ ysort_btree_dgnome      (char a_abbr)
    return 0;
 }
 
+char
+ySORT_list              (uchar a_abbr)
+{
+   char        rce         =  -10;
+   int         n           =   -1;
+   int         c           =    0;
+   tSORT      *o           = NULL;          /* origin point                   */
+   n = ysort_btree_by_abbr   (a_abbr);
+   --rce;  if (n < 0)  return rce;
+   o   = B_HEAD;
+   while (o != NULL) {
+      DEBUG_SORT  yLOG_complex ("entry"     , "%2d %2d %s", c, o->n, o->sort);
+      o   = o->next;
+      ++c;
+   }
+   return 0;
+}
+
 
 
 /*====================------------------------------------====================*/
@@ -431,7 +454,7 @@ ysort_btree_dgnome      (char a_abbr)
 static void  o___SEQUENCE________o () { return; }
 
 char
-ySORT_by_cursor         (char a_abbr, char a_dir, void **r_data)
+ySORT_by_cursor         (uchar a_abbr, char a_dir, void **r_data)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -491,7 +514,7 @@ ySORT_by_cursor         (char a_abbr, char a_dir, void **r_data)
 }
 
 char
-ySORT_by_index          (char a_abbr, int i, void **r_data)
+ySORT_by_index          (uchar a_abbr, int i, void **r_data)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -548,7 +571,7 @@ ySORT_by_index          (char a_abbr, int i, void **r_data)
 }
 
 int
-ySORT_count             (char a_abbr)
+ySORT_count             (uchar a_abbr)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -653,7 +676,7 @@ ysort_btree_nextlevel   (int n, int a_lvl, int a_pos, int a_dist, char a_dir, tS
 }
 
 char
-ysort_btree_build       (char a_abbr)
+ysort_btree_build       (uchar a_abbr)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -717,13 +740,13 @@ ysort_btree_display     (int a_lvl, tSORT *a_node)
    if (a_lvl > 20)      return 0;
    for (i = 0; i < a_lvl; ++i)  strcat (x_pre, "  ");
    ysort_btree_display (a_lvl + 1, a_node->left);
-   printf ("%s%s\n", x_pre, a_node->sort);
+   DEBUG_SORT  yLOG_complex ("entry"     , "%s%s", x_pre, a_node->sort);
    ysort_btree_display (a_lvl + 1, a_node->right);
    return 0;
 }
 
 char
-ySORT_list              (char a_abbr)
+ySORT_treeform          (uchar a_abbr)
 {
    char        rce         =  -10;
    int         n           =   -1;
@@ -748,7 +771,7 @@ ysort_btree_searchdown  (tSORT *a_node, char *a_dir, char *a_key)
 }
 
 char
-ySORT_by_name           (char a_abbr, char *a_key, void **r_data)
+ySORT_by_name           (uchar a_abbr, char *a_key, void **r_data)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -818,7 +841,7 @@ ySORT_by_name           (char a_abbr, char *a_key, void **r_data)
 static void  o___FULL____________o () { return; }
 
 char
-ySORT_prepare           (char a_abbr)
+ySORT_prepare           (uchar a_abbr)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -852,7 +875,7 @@ ySORT_prepare           (char a_abbr)
 static void  o___UNITTEST________o () { return; }
 
 char*        /*-> tbd --------------------------------[ light  [us.JC0.271.X1]*/ /*-[01.0000.00#.!]-*/ /*-[--.---.---.--]-*/
-ysort_btree__unit       (char a_btree, char *a_question, int i)
+ysort_btree__unit       (uchar a_btree, char *a_question, int i)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
