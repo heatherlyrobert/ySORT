@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x main sorts tested and working"
-#define     P_VERNUM    "0.5h"
-#define     P_VERTXT    "fix tiny bug with yURG debugging change of defines constants"
+#define     P_VERNUM    "0.5i"
+#define     P_VERTXT    "added label sorting to assist with unit testing"
 
 
 /*

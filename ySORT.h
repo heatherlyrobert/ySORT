@@ -61,6 +61,7 @@ char        ySORT_prepare           (uchar a_abbr);
 char        ySORT_treeform          (uchar a_abbr);
 char        ySORT_list              (uchar a_abbr);
 
+char        ySORT_labels            (char *a_list);
 
 #endif
 /*===[[ END ]]================================================================*/
