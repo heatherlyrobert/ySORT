@@ -113,7 +113,7 @@ ysort_mock__move        (tMOCK **a_cur, char a_move)
    DEBUG_DATA   yLOG_spoint  (x_cur);
    --rce;  if (x_cur == NULL) {
       /*---(non-bounce)------------------*/
-      if (strchr ("Ö´Õ", a_move) != NULL) {
+      if (strchr (YDLST_DREL, a_move) != NULL) {
          DEBUG_DATA   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
       }
@@ -128,19 +128,19 @@ ysort_mock__move        (tMOCK **a_cur, char a_move)
    /*---(move)---------------------------*/
    DEBUG_DATA   yLOG_schar   (a_move);
    --rce;  switch (a_move) {
-   case '[' : case 'º' :   /* head         */
+   case YDLST_HEAD : case YDLST_DHEAD :   /* head         */
       x_cur = g_head;
       break;
-   case '<' : case 'Ö' :   /* previous     */
+   case YDLST_PREV : case YDLST_DPREV :   /* previous     */
       x_cur = x_cur->prev;
       break;
-   case '.' : case '´' :   /* current      */
+   case YDLST_CURR : case YDLST_DCURR :   /* current      */
       x_cur = x_cur;
       break;
-   case '>' : case 'Õ' :   /* next         */
+   case YDLST_NEXT : case YDLST_DNEXT :   /* next         */
       x_cur = x_cur->next;
       break;
-   case ']' : case '»' :   /* tail         */
+   case YDLST_TAIL : case YDLST_DTAIL :   /* tail         */
       x_cur = g_tail;
       break;
    default  :
@@ -151,7 +151,7 @@ ysort_mock__move        (tMOCK **a_cur, char a_move)
    DEBUG_DATA   yLOG_spoint  (x_cur);
    --rce;  if (x_cur == NULL) {
       /*---(non-bounce)------------------*/
-      if (strchr ("ºÖ´Õ»", a_move) != NULL) {
+      if (strchr (YDLST_DANGERS, a_move) != NULL) {
          *a_cur = x_cur;
       }
       /*---(all types)-------------------*/

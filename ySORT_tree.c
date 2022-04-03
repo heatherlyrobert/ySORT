@@ -386,11 +386,14 @@ ysort_tree__unit        (char *a_question, int n)
    /*---(locals)-------------------------*/
    int         c           =    0;
    char        t           [LEN_LABEL] = "";
+   tMOCK      *x_last      = NULL;
    /*---(parse location)-----------------*/
    strcpy  (unit_answer, "TREE             : label could not be parsed");
    /*---(overall)------------------------*/
    if      (strcmp (a_question, "result"        ) == 0) {
-      snprintf (unit_answer, LEN_FULL, "TREE result      : %2d %-20.20s  %2d %s", s_result, s_last, s_depth, s_path);
+      if (s_last == NULL)   strcpy  (t, "(null)");
+      else                  strlcpy (t, ((tMOCK *) s_last)->label, LEN_LABEL);
+      snprintf (unit_answer, LEN_FULL, "TREE result      : %2d %-20.20s  %2d %s", s_result, t, s_depth, s_path);
    }
    /*---(complete)-----------------------*/
    return unit_answer;

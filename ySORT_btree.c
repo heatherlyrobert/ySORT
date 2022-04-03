@@ -64,7 +64,7 @@ ySORT_btree             (uchar a_abbr, char *a_sort)
    }
    /*---(check abbr)---------------------*/
    DEBUG_SORT   yLOG_schar   (a_abbr);
-   --rce;  if (a_abbr <= 32 && a_abbr == 127) {
+   --rce;  if (a_abbr <= 32 || a_abbr == 127) {
       DEBUG_SORT   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }

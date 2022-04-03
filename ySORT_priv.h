@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x main sorts tested and working"
-#define     P_VERNUM    "0.5i"
-#define     P_VERTXT    "added label sorting to assist with unit testing"
+#define     P_VERNUM    "0.5j"
+#define     P_VERTXT    "updated unit testing for labels, and fixed little testing misses"
 
 
 /*
@@ -126,6 +126,7 @@
 
 
 typedef     struct      cSORT       tSORT;
+typedef     long long  llong;
 
 /*----------+-----------+-----------+-----------+-----------+-----------+-----*/
 struct      cSORT {
@@ -273,5 +274,11 @@ char        ysort_mock_printer      (tMOCK *a_head);
 
 char*       ysort_treeify__unit     (char *a_question, int n);
 
+
+/*===[[ ySORT_labels.c ]]=====================================================*/
+/*··········>·······················>·········································*/
+/*---(support)--------------*/
+llong       ysort_labels__fromlabel (char *a_label);
+char*       ysort_labels__tolabel   (llong a_value, char *a_label);
 
 #endif
