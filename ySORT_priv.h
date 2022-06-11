@@ -32,10 +32,10 @@
 #define     P_AUTHOR    "heatherlyrobert"
 #define     P_CREATED   "2020-04"
 
-#define     P_VERMAJOR  "0.Xx pre-production"
-#define     P_VERMINOR  "0.5x main sorts tested and working"
-#define     P_VERNUM    "0.5j"
-#define     P_VERTXT    "updated unit testing for labels, and fixed little testing misses"
+#define     P_VERMAJOR  "0.-- pre-production"
+#define     P_VERMINOR  "0.5- main sorts tested and working"
+#define     P_VERNUM    "0.5k"
+#define     P_VERTXT    "changed yurg debug to keep volume down"
 
 
 /*

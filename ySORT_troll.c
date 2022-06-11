@@ -24,14 +24,14 @@ ysort_troll__scatter    (uchar a_type, uchar a_lvl, void **a_head, void **a_tail
    void       *x_curr      = NULL;          /* current pointer                */
    void       *x_next      = NULL;          /* next pointer                   */
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(initialize)---------------------*/
    for (i = 0; i < SEVENBIT; ++i) {
       a_slots [i].head  = NULL;
       a_slots [i].tail  = NULL;
       a_slots [i].count = 0;
    }
-   DEBUG_SORT   yLOG_complex ("bef point" , "head %p, tail %p", *a_head, *a_tail);
+   DEBUG_YSORT   yLOG_complex ("bef point" , "head %p, tail %p", *a_head, *a_tail);
    /*---(walk through the list)----------*/
    rc = g_cursor (a_type, *a_head, *a_tail, NULL  , &x_curr, '[');
    while (x_curr != NULL) {
@@ -42,16 +42,16 @@ ysort_troll__scatter    (uchar a_type, uchar a_lvl, void **a_head, void **a_tail
       --(*a_count);
       /*---(add to slot)-----------------*/
       x_off = g_slotter  (a_lvl, x_curr, g_order);
-      DEBUG_SORT   yLOG_value   ("x_off"     , x_off);
+      DEBUG_YSORT   yLOG_value   ("x_off"     , x_off);
       rc = g_linker   (a_type, &(a_slots [x_off].head), &(a_slots [x_off].tail), NULL, x_curr);
       ++a_slots [x_off].count;
       /*---(prepare for next)------------*/
       x_curr = x_next;
       /*---(done)------------------------*/
    }
-   DEBUG_SORT   yLOG_complex ("aft point" , "head %p, tail %p", *a_head, *a_tail);
+   DEBUG_YSORT   yLOG_complex ("aft point" , "head %p, tail %p", *a_head, *a_tail);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -62,16 +62,16 @@ ysort_troll__gather     (void **a_head, void **a_tail, int *a_count, tSLOT a_slo
    char        rc          =    0;
    uchar       i           = 0;             /* generic iterator               */
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
-   DEBUG_SORT   yLOG_complex ("bef point" , "head %p, tail %p", *a_head, *a_tail);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_complex ("bef point" , "head %p, tail %p", *a_head, *a_tail);
    /*---(consolidate)--------------------*/
    for (i = 0; i < SEVENBIT; ++i) {
       if (a_slots [i].count <= 0)  continue;
       rc = g_joiner (a_head, a_tail, a_count, &(a_slots [i].head), &(a_slots [i].tail), &(a_slots [i].count));
    }
-   DEBUG_SORT   yLOG_complex ("aft point" , "head %p, tail %p", *a_head, *a_tail);
+   DEBUG_YSORT   yLOG_complex ("aft point" , "head %p, tail %p", *a_head, *a_tail);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -85,8 +85,8 @@ ysort_troll__driver     (uchar a_type, uchar a_lvl, void **a_head, void **a_tail
    tSLOT       x_slots     [SEVENBIT];
    int         x_comps, x_swaps, x_teles;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
-   DEBUG_SORT   yLOG_complex ("args"      , "%2d, %p, %p", a_lvl, *a_head, *a_tail);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_complex ("args"      , "%2d, %p, %p", a_lvl, *a_head, *a_tail);
    /*---(scatter into slots)-------------*/
    rc = ysort_troll__scatter     (a_type, a_lvl, a_head, a_tail, a_count, x_slots);
    /*---(review results)-----------------*/
@@ -109,7 +109,7 @@ ysort_troll__driver     (uchar a_type, uchar a_lvl, void **a_head, void **a_tail
    if (a_lvl > s_max)  s_max = a_lvl;
    ++s_buckets;
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -121,7 +121,7 @@ ySORT_troll             (uchar a_type, uchar a_order, void **a_head, void **a_ta
    char        rc          =    0;
    int         x_count     =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(initialize)---------------------*/
    s_buckets  = 0;
    s_slots    = 0;
@@ -132,23 +132,23 @@ ySORT_troll             (uchar a_type, uchar a_order, void **a_head, void **a_ta
    s_teles    = 0;
    /*---(defense)------------------------*/
    rc = ysort_defense   (YSORT_TROLL, a_order, *a_head, *a_tail);
-   DEBUG_SORT   yLOG_value   ("defense"   , rc);
+   DEBUG_YSORT   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(run driver)---------------------*/
    rc = ysort_troll__driver (a_type, 0, a_head, a_tail, &x_count);
-   DEBUG_SORT   yLOG_value   ("driver"    , rc);
+   DEBUG_YSORT   yLOG_value   ("driver"    , rc);
    --rce;  if (rc < 0) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(output)-------------------------*/
-   DEBUG_SORT   yLOG_complex ("stats"      , "%5dm, %5db, %5ds, %5dc, %5ds, %5dt", s_max, s_buckets, s_sorts, s_comps, s_swaps, s_teles);
-   DEBUG_SORT   ysort_mock_printer (*a_head);
+   DEBUG_YSORT   yLOG_complex ("stats"      , "%5dm, %5db, %5ds, %5dc, %5ds, %5dt", s_max, s_buckets, s_sorts, s_comps, s_swaps, s_teles);
+   DEBUG_YSORT   ysort_mock_printer (*a_head);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 

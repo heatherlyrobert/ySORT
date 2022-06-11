@@ -59,32 +59,32 @@ ysort_gnome__prepare    (char a_type, void *a_head, void *a_tail, void **a_comp,
    char        rce         =  -10;
    char        rc          =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(check endpoints)----------------*/
-   DEBUG_SORT   yLOG_point   ("a_head"    , a_head);
+   DEBUG_YSORT   yLOG_point   ("a_head"    , a_head);
    --rce;  if (a_head == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_SORT   yLOG_point   ("a_tail"    , a_tail);
+   DEBUG_YSORT   yLOG_point   ("a_tail"    , a_tail);
    --rce;  if (a_tail == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(get first)----------------------*/
-   DEBUG_SORT   yLOG_complex ("ends"      , "head %p, tail %p", a_head, a_tail);
-   DEBUG_SORT   yLOG_note    ("entering g_cursor");
+   DEBUG_YSORT   yLOG_complex ("ends"      , "head %p, tail %p", a_head, a_tail);
+   DEBUG_YSORT   yLOG_note    ("entering g_cursor");
    rc = g_cursor (a_type, a_head, a_tail, NULL   , a_comp, '[');
-   DEBUG_SORT   yLOG_note    ("exiting g_cursor");
-   DEBUG_SORT   yLOG_complex ("a_comp"    , "%4d, %p", rc, *a_comp);
+   DEBUG_YSORT   yLOG_note    ("exiting g_cursor");
+   DEBUG_YSORT   yLOG_complex ("a_comp"    , "%4d, %p", rc, *a_comp);
    s_root  = *a_comp;
-   DEBUG_SORT   yLOG_complex ("s_root"    , "%4d, %p", rc,  s_root);
+   DEBUG_YSORT   yLOG_complex ("s_root"    , "%4d, %p", rc,  s_root);
    rc = g_cursor (a_type, a_head, a_tail, *a_comp, a_curr, '>');
-   DEBUG_SORT   yLOG_complex ("a_curr"    , "%4d, %p", rc, *a_curr);
+   DEBUG_YSORT   yLOG_complex ("a_curr"    , "%4d, %p", rc, *a_curr);
    *a_next = *a_curr;
-   DEBUG_SORT   yLOG_complex ("a_next"    , "%4d, %p", rc, *a_next);
+   DEBUG_YSORT   yLOG_complex ("a_next"    , "%4d, %p", rc, *a_next);
    rc = g_cursor (a_type, a_head, a_tail, *a_curr, a_tele, '>');
-   DEBUG_SORT   yLOG_complex ("a_tele"    , "%4d, %p", rc, *a_tele);
+   DEBUG_YSORT   yLOG_complex ("a_tele"    , "%4d, %p", rc, *a_tele);
    /*---(prepare)------------------------*/
    s_pass  = 0;
    s_swaps = 0;
@@ -92,7 +92,7 @@ ysort_gnome__prepare    (char a_type, void *a_head, void *a_tail, void **a_comp,
    s_teles = 0;
    ++s_sorts;
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -102,16 +102,16 @@ ysort_gnome__swap_tele  (char a_type, void **a_head, void **a_tail, char *a_swap
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(check forced swap)--------------*/
    if (*a_swap == 'y') {
-      DEBUG_SORT   yLOG_note    ("SWAP then teleport");
+      DEBUG_YSORT   yLOG_note    ("SWAP then teleport");
       ++s_swaps;
       g_unlinker (a_type, a_head, a_tail, *a_curr);
       g_linker   (a_type, a_head, a_tail, *a_next, *a_curr);
       *a_swap = '-';
    } else {
-      DEBUG_SORT   yLOG_note    ("teleport only");
+      DEBUG_YSORT   yLOG_note    ("teleport only");
    }
    /*---(teleport)-----------------------*/
    *a_curr = *a_tele;
@@ -121,7 +121,7 @@ ysort_gnome__swap_tele  (char a_type, void **a_head, void **a_tail, char *a_swap
    }
    ++s_teles;
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -131,15 +131,15 @@ ysort_gnome__back_up    (char a_type, void **a_head, void **a_tail, char *a_swap
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(step back one)------------------*/
    *a_swap = 'y';
    *a_next = *a_comp;
-   DEBUG_SORT   yLOG_point   ("*a_next"   , *a_next);
+   DEBUG_YSORT   yLOG_point   ("*a_next"   , *a_next);
    rc = g_cursor (a_type, *a_head, *a_tail, *a_next, a_comp, '<');
-   DEBUG_SORT   yLOG_point   ("*a_comp"   , *a_comp);
+   DEBUG_YSORT   yLOG_point   ("*a_comp"   , *a_comp);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -155,17 +155,17 @@ ysort_gnome_driver       (uchar a_type, uchar a_lvl, void **a_head, void **a_tai
    void       *x_tele      = NULL;          /* teleport point                 */
    char        x_swap      =  '-';
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
    rc = ysort_gnome__prepare (a_type, *a_head, *a_tail, &x_comp, &x_next, &x_curr, &x_tele);
-   DEBUG_SORT   yLOG_value   ("prepare"   , rc);
+   DEBUG_YSORT   yLOG_value   ("prepare"   , rc);
    --rce;  if (rc < 0) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(do the gnome walk)--------------*/
    while (x_curr != NULL) {
-      DEBUG_SORT   yLOG_complex ("PASS"      , "#%-4d, comp %p, next %p, curr %p, tele %p", s_pass, x_comp, x_next, x_curr, x_tele);
+      DEBUG_YSORT   yLOG_complex ("PASS"      , "#%-4d, comp %p, next %p, curr %p, tele %p", s_pass, x_comp, x_next, x_curr, x_tele);
       ++s_pass;
       /*---(hit beginning)---------------*/
       if (x_comp == NULL) {
@@ -181,9 +181,9 @@ ysort_gnome_driver       (uchar a_type, uchar a_lvl, void **a_head, void **a_tai
       }
       /*---(next)------------------------*/
    }
-   DEBUG_SORT   yLOG_complex ("stats"      , "%5dp, %5dc, %5ds, %5dt", s_pass, s_comps, s_swaps, s_teles);
+   DEBUG_YSORT   yLOG_complex ("stats"      , "%5dp, %5dc, %5ds, %5dt", s_pass, s_comps, s_swaps, s_teles);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -194,19 +194,19 @@ ySORT_gnome              (uchar a_type, uchar a_order, void **a_head, void **a_t
    char        rce         =  -10;
    char        rc          =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
    rc = ysort_defense  (YSORT_GNOME, a_order, *a_head, *a_tail);
-   DEBUG_SORT   yLOG_value   ("defense"   , rc);
+   DEBUG_YSORT   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(run)----------------------------*/
    rc = ysort_gnome_driver (a_type, 0, a_head, a_tail);
-   DEBUG_SORT   yLOG_value   ("driver"    , rc);
+   DEBUG_YSORT   yLOG_value   ("driver"    , rc);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return rc;
 }
 

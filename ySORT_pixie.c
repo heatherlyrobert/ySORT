@@ -60,30 +60,30 @@ ysort_pixie__prepare    (void **a_comp, void **a_curr, void **a_next, void **a_t
    char        rce         =  -10;
    char        rc          =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(get first)----------------------*/
    rc = g_walk (a_comp, YDLST_DHEAD);
-   DEBUG_SORT   yLOG_complex ("a_comp"    , "%4d, %p", rc, *a_comp);
+   DEBUG_YSORT   yLOG_complex ("a_comp"    , "%4d, %p", rc, *a_comp);
    --rce;  if (rc < 0 || *a_comp == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    *a_curr = *a_comp;
    rc = g_walk (a_curr, YDLST_DNEXT);
-   DEBUG_SORT   yLOG_complex ("a_curr"    , "%4d, %p", rc, *a_curr);
+   DEBUG_YSORT   yLOG_complex ("a_curr"    , "%4d, %p", rc, *a_curr);
    --rce;  if (rc < 0 || *a_curr == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    *a_next = *a_curr;
-   DEBUG_SORT   yLOG_complex ("a_next"    , "%4d, %p", rc, *a_next);
+   DEBUG_YSORT   yLOG_complex ("a_next"    , "%4d, %p", rc, *a_next);
    *a_tele = *a_curr;
    rc = g_walk (a_tele, YDLST_DNEXT);
-   DEBUG_SORT   yLOG_complex ("a_tele"    , "%4d, %p", rc, *a_tele);
+   DEBUG_YSORT   yLOG_complex ("a_tele"    , "%4d, %p", rc, *a_tele);
    /*---(prepare)------------------------*/
    s_pass  = s_swaps = s_comps = s_teles = 0;
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -93,16 +93,16 @@ ysort_pixie__swap_tele  (char *a_swap, void **a_comp, void **a_next, void **a_cu
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(check forced swap)--------------*/
    if (*a_swap == 'y') {
-      DEBUG_SORT   yLOG_note    ("SWAP then teleport");
+      DEBUG_YSORT   yLOG_note    ("SWAP then teleport");
       ++s_swaps;
       g_unhook    (*a_curr);
       g_hook      (*a_next, *a_curr);
       *a_swap = '-';
    } else {
-      DEBUG_SORT   yLOG_note    ("teleport only");
+      DEBUG_YSORT   yLOG_note    ("teleport only");
    }
    /*---(teleport)-----------------------*/
    *a_curr = *a_tele;
@@ -113,7 +113,7 @@ ysort_pixie__swap_tele  (char *a_swap, void **a_comp, void **a_next, void **a_cu
    }
    ++s_teles;
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -123,16 +123,16 @@ ysort_pixie__back_up    (char *a_swap, void **a_comp, void **a_next)
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(step back one)------------------*/
    *a_swap = 'y';
    *a_next = *a_comp;
-   DEBUG_SORT   yLOG_point   ("*a_next"   , *a_next);
+   DEBUG_YSORT   yLOG_point   ("*a_next"   , *a_next);
    *a_comp = *a_next;
    rc = g_walk (a_comp, YDLST_DPREV);
-   DEBUG_SORT   yLOG_point   ("*a_comp"   , *a_comp);
+   DEBUG_YSORT   yLOG_point   ("*a_comp"   , *a_comp);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -150,17 +150,17 @@ ysort_pixie              (void)
    uchar      *s           = NULL;
    uchar      *t           = NULL;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
    rc = ysort_pixie__prepare (&x_comp, &x_curr, &x_next, &x_tele);
-   DEBUG_SORT   yLOG_value   ("prepare"   , rc);
+   DEBUG_YSORT   yLOG_value   ("prepare"   , rc);
    --rce;  if (rc < 0) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(do the gnome walk)--------------*/
    while (x_curr != NULL) {
-      DEBUG_SORT   yLOG_complex ("PASS"      , "#%-4d, comp %p, next %p, curr %p, tele %p", s_pass, x_comp, x_next, x_curr, x_tele);
+      DEBUG_YSORT   yLOG_complex ("PASS"      , "#%-4d, comp %p, next %p, curr %p, tele %p", s_pass, x_comp, x_next, x_curr, x_tele);
       ++s_pass;
       /*---(hit beginning)---------------*/
       if (x_comp == NULL) {
@@ -178,9 +178,9 @@ ysort_pixie              (void)
       }
       /*---(next)------------------------*/
    }
-   DEBUG_SORT   yLOG_complex ("stats"      , "%5dp, %5dc, %5ds, %5dt", s_pass, s_comps, s_swaps, s_teles);
+   DEBUG_YSORT   yLOG_complex ("stats"      , "%5dp, %5dc, %5ds, %5dt", s_pass, s_comps, s_swaps, s_teles);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -191,42 +191,42 @@ ySORT_pixie              (void *p_walk, void *p_key, void *p_unhook, void *p_hoo
    char        rce         =  -10;
    char        rc          =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(initialize)---------------------*/
    ysort__reinit ();
    /*---(walk/cursor)--------------------*/
-   DEBUG_SORT   yLOG_point   ("p_walk"    , p_walk);
+   DEBUG_YSORT   yLOG_point   ("p_walk"    , p_walk);
    --rce;  if (p_walk == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    g_walk   = p_walk;
    /*---(key provider)-------------------*/
-   DEBUG_SORT   yLOG_point   ("p_key"     , p_key);
+   DEBUG_YSORT   yLOG_point   ("p_key"     , p_key);
    --rce;  if (p_key == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    g_key    = p_key;
    /*---(list unhook)--------------------*/
-   DEBUG_SORT   yLOG_point   ("p_unhook"  , p_unhook);
+   DEBUG_YSORT   yLOG_point   ("p_unhook"  , p_unhook);
    --rce;  if (p_unhook  == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    g_unhook    = p_unhook;
    /*---(list hook)----------------------*/
-   DEBUG_SORT   yLOG_point   ("p_hook"    , p_hook);
+   DEBUG_YSORT   yLOG_point   ("p_hook"    , p_hook);
    --rce;  if (p_hook  == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    g_hook      = p_hook;
    /*---(run)----------------------------*/
    rc = ysort_pixie  ();
-   DEBUG_SORT   yLOG_value   ("driver"    , rc);
+   DEBUG_YSORT   yLOG_value   ("driver"    , rc);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return rc;
 }
 

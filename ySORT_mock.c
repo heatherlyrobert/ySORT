@@ -13,14 +13,14 @@ char
 ysort_mock_init         (void)
 {
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSORT   yLOG_senter  (__FUNCTION__);
    /*---(count)--------------------------*/
-   DEBUG_SORT   yLOG_snote   ("ground/reset globals");
+   DEBUG_YSORT   yLOG_snote   ("ground/reset globals");
    g_head  = NULL;
    g_tail  = NULL;
    g_count = 0;
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
@@ -31,10 +31,10 @@ ysort_mock_wrap         (void)
    tMOCK *x_curr      = NULL;
    tMOCK *x_next      = NULL;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_senter  (__FUNCTION__);
-   DEBUG_SORT   yLOG_sint    (g_count);
-   DEBUG_SORT   yLOG_spoint  (g_head);
-   DEBUG_SORT   yLOG_spoint  (g_tail);
+   DEBUG_YSORT   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSORT   yLOG_sint    (g_count);
+   DEBUG_YSORT   yLOG_spoint  (g_head);
+   DEBUG_YSORT   yLOG_spoint  (g_tail);
    /*---(purge all)----------------------*/
    x_curr = g_head;
    while (x_curr != NULL) {
@@ -47,11 +47,11 @@ ysort_mock_wrap         (void)
       --g_count;
       x_curr = x_next;
    }
-   DEBUG_SORT   yLOG_sint    (g_count);
-   DEBUG_SORT   yLOG_spoint  (g_head);
-   DEBUG_SORT   yLOG_spoint  (g_tail);
+   DEBUG_YSORT   yLOG_sint    (g_count);
+   DEBUG_YSORT   yLOG_spoint  (g_head);
+   DEBUG_YSORT   yLOG_spoint  (g_tail);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
@@ -68,22 +68,22 @@ ysort_mock__common      (char a_type, void *a_one  , void *a_two)
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSORT   yLOG_senter  (__FUNCTION__);
    /*---(check pointers)-----------------*/
-   DEBUG_SORT   yLOG_spoint  (a_one);
+   DEBUG_YSORT   yLOG_spoint  (a_one);
    --rce;  if (a_one == NULL && a_type != 'i') {
       return rce;
    }
-   DEBUG_SORT   yLOG_spoint  (a_two);
+   DEBUG_YSORT   yLOG_spoint  (a_two);
    --rce;  if (a_two == NULL) {
       return rce;
    }
    --rce;  if (a_one == a_two) {
-      DEBUG_SORT   yLOG_snote   ("same, no action");
+      DEBUG_YSORT   yLOG_snote   ("same, no action");
       return rce;
    }
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
@@ -102,31 +102,31 @@ ysort_mock__move        (tMOCK **a_cur, char a_move)
    int         c           =    0;
    tMOCK *x_cur       = NULL;
    /*---(header)-------------------------*/
-   DEBUG_DATA   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSORT   yLOG_senter  (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_DATA   yLOG_spoint  (a_cur);
+   DEBUG_YSORT   yLOG_spoint  (a_cur);
    --rce;  if (a_cur == NULL) {
-      DEBUG_DATA   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    x_cur = *a_cur;
-   DEBUG_DATA   yLOG_spoint  (x_cur);
+   DEBUG_YSORT   yLOG_spoint  (x_cur);
    --rce;  if (x_cur == NULL) {
       /*---(non-bounce)------------------*/
       if (strchr (YDLST_DREL, a_move) != NULL) {
-         DEBUG_DATA   yLOG_sexitr  (__FUNCTION__, rce);
+         DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
       }
       /*---(bounce types)----------------*/
       x_cur = g_head;
-      DEBUG_DATA   yLOG_spoint  (x_cur);
+      DEBUG_YSORT   yLOG_spoint  (x_cur);
       if (x_cur == NULL) {
-         DEBUG_DATA   yLOG_sexitr  (__FUNCTION__, rce);
+         DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
       }
    }
    /*---(move)---------------------------*/
-   DEBUG_DATA   yLOG_schar   (a_move);
+   DEBUG_YSORT   yLOG_schar   (a_move);
    --rce;  switch (a_move) {
    case YDLST_HEAD : case YDLST_DHEAD :   /* head         */
       x_cur = g_head;
@@ -144,24 +144,24 @@ ysort_mock__move        (tMOCK **a_cur, char a_move)
       x_cur = g_tail;
       break;
    default  :
-      DEBUG_DATA   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    /*---(check end)----------------------*/
-   DEBUG_DATA   yLOG_spoint  (x_cur);
+   DEBUG_YSORT   yLOG_spoint  (x_cur);
    --rce;  if (x_cur == NULL) {
       /*---(non-bounce)------------------*/
       if (strchr (YDLST_DANGERS, a_move) != NULL) {
          *a_cur = x_cur;
       }
       /*---(all types)-------------------*/
-      DEBUG_DATA   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    /*---(save back)----------------------*/
    *a_cur = x_cur;
    /*---(complete)-----------------------*/
-   DEBUG_DATA   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
@@ -226,21 +226,21 @@ ysort_mock__cursor      (uchar a_type, void *a_head, void *a_tail, void *a_beg, 
    tMOCK *x_beg       = NULL;
    tMOCK *x_new       = NULL;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSORT   yLOG_senter  (__FUNCTION__);
    /*---(check pointers)-----------------*/
-   DEBUG_SORT   yLOG_spoint  (a_beg);
-   DEBUG_SORT   yLOG_spoint  (a_new);
+   DEBUG_YSORT   yLOG_spoint  (a_beg);
+   DEBUG_YSORT   yLOG_spoint  (a_new);
    --rce;  if (a_new == NULL) {
-      DEBUG_SORT   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    /*---(prepare)------------------------*/
-   DEBUG_SORT   yLOG_snote   ("cast");
+   DEBUG_YSORT   yLOG_snote   ("cast");
    x_beg    = (tMOCK *) a_beg;
-   if (x_beg != NULL)  DEBUG_SORT   yLOG_sint    (x_beg->seq);
-   if (x_beg != NULL)  DEBUG_SORT   yLOG_snote   (x_beg->label);
+   if (x_beg != NULL)  DEBUG_YSORT   yLOG_sint    (x_beg->seq);
+   if (x_beg != NULL)  DEBUG_YSORT   yLOG_snote   (x_beg->label);
    /*---(update)-------------------------*/
-   DEBUG_SORT   yLOG_schar   (a_action);
+   DEBUG_YSORT   yLOG_schar   (a_action);
    switch (a_action) {
    case '>' : if (x_beg != NULL) { x_new = x_beg->next;   break; }
    case ']' : x_new = (tMOCK *) a_tail;              break;
@@ -248,11 +248,11 @@ ysort_mock__cursor      (uchar a_type, void *a_head, void *a_tail, void *a_beg, 
    case '[' : x_new = (tMOCK *) a_head;              break;
    }
    /*---(save back)----------------------*/
-   if (x_new != NULL)  DEBUG_SORT   yLOG_sint    (x_new->seq);
-   if (x_new != NULL)  DEBUG_SORT   yLOG_snote   (x_new->label);
+   if (x_new != NULL)  DEBUG_YSORT   yLOG_sint    (x_new->seq);
+   if (x_new != NULL)  DEBUG_YSORT   yLOG_snote   (x_new->label);
    *a_new = x_new;
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
@@ -269,34 +269,34 @@ ysort_mock__checker     (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uc
    char        t           [LEN_LABEL] = "";
    char       *x_label     = NULL;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
    rc = ysort_mock__common ('c', a_one, a_two);
    --rce;  if (rc < 0) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return 0;
    }
    /*---(prepare)------------------------*/
-   DEBUG_SORT   yLOG_snote   ("cast");
+   DEBUG_YSORT   yLOG_snote   ("cast");
    x_one    = (tMOCK *) a_one;
    x_two    = (tMOCK *) a_two;
-   DEBUG_SORT   yLOG_char    ("a_order"   , a_order);
+   DEBUG_YSORT   yLOG_char    ("a_order"   , a_order);
    /*---(handle normal)------------------*/
    if (a_order == YSORT_ASCEND || a_order == YSORT_DESCEND) {
       /*---(prepare)------------------------*/
       x_len1 = strlen (x_one->label);
       x_len2 = strlen (x_two->label);
-      DEBUG_SORT   yLOG_value   ("a_lvl"     , a_lvl);
+      DEBUG_YSORT   yLOG_value   ("a_lvl"     , a_lvl);
       if (x_len1 <= a_lvl && x_len2 <= a_lvl) {
-         DEBUG_SORT   yLOG_note    ("both are too short");
+         DEBUG_YSORT   yLOG_note    ("both are too short");
          rc = 0;
       }
       else if (x_len1 <= a_lvl) {
-         DEBUG_SORT   yLOG_note    ("first is too short");
+         DEBUG_YSORT   yLOG_note    ("first is too short");
          rc = 1;
       }
       else if (x_len2 <= a_lvl) {
-         DEBUG_SORT   yLOG_note    ("second is too short");
+         DEBUG_YSORT   yLOG_note    ("second is too short");
          rc = -1;
       }
       else {
@@ -316,13 +316,13 @@ ysort_mock__checker     (uchar a_type, uchar a_lvl, void *a_one, void *a_two, uc
       rc = strcmp (x_one->label, x_label);
    }
    /*---(check reversal)-----------------*/
-   DEBUG_SORT   yLOG_value   ("rc"        , rc);
+   DEBUG_YSORT   yLOG_value   ("rc"        , rc);
    if (a_order == YSORT_DESCEND || a_order == YSORT_REVERSE) {
       rc *= -1;
-      DEBUG_SORT   yLOG_value   ("updated"   , rc);
+      DEBUG_YSORT   yLOG_value   ("updated"   , rc);
    }
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return rc;
 }
 
@@ -338,40 +338,40 @@ ysort_mock__unlinker    (uchar a_type, void **a_head, void **a_tail, void *a_two
    char        h           [LEN_LABEL] = "NULL";
    char        t           [LEN_LABEL] = "NULL";
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
    rc = ysort_mock__common ('i', NULL, a_two);
    --rce;  if (rc < 0) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return 0;
    }
    /*---(prepare)------------------------*/
-   DEBUG_SORT   yLOG_complex ("pointers"  , "head %p, tail %p", a_head, a_tail);
+   DEBUG_YSORT   yLOG_complex ("pointers"  , "head %p, tail %p", a_head, a_tail);
    x_head   = * ((tMOCK **) a_head);
    x_tail   = * ((tMOCK **) a_tail);
-   DEBUG_SORT   yLOG_complex ("pointers"  , "head %p, tail %p", x_head, x_tail);
+   DEBUG_YSORT   yLOG_complex ("pointers"  , "head %p, tail %p", x_head, x_tail);
    x_two    = (tMOCK *) a_two;
    if (x_head != NULL)  strlcpy (h, x_head->label, LEN_LABEL);
    if (x_tail != NULL)  strlcpy (t, x_tail->label, LEN_LABEL);
-   DEBUG_SORT   yLOG_complex ("labels"    , "%-10.10s, %-10.10s, %-10.10s", h, t, x_two->label);
+   DEBUG_YSORT   yLOG_complex ("labels"    , "%-10.10s, %-10.10s, %-10.10s", h, t, x_two->label);
    /*---(unlink current from list)-------*/
-   DEBUG_SORT   yLOG_note    ("unlink");
+   DEBUG_YSORT   yLOG_note    ("unlink");
    if (x_two->next != NULL)   x_two->next->prev = x_two->prev;
    else                       x_tail            = x_two->prev;
    if (x_two->prev != NULL)   x_two->prev->next = x_two->next;
    else                       x_head            = x_two->next;
    /*---(ground pointers)----------------*/
-   DEBUG_SORT   yLOG_note    ("ground pointers");
+   DEBUG_YSORT   yLOG_note    ("ground pointers");
    x_two->next = NULL;
    x_two->prev = NULL;
    /*---(save back)----------------------*/
-   DEBUG_SORT   yLOG_complex ("pointers"  , "head %p, tail %p", x_head, x_tail);
-   DEBUG_SORT   yLOG_note    ("save back");
+   DEBUG_YSORT   yLOG_complex ("pointers"  , "head %p, tail %p", x_head, x_tail);
+   DEBUG_YSORT   yLOG_note    ("save back");
    *a_head = x_head;
    *a_tail = x_tail;
-   DEBUG_SORT   ysort_mock_printer (x_head);
+   DEBUG_YSORT   ysort_mock_printer (x_head);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -389,11 +389,11 @@ ysort_mock__linker      (uchar a_type, void **a_head, void **a_tail, void *a_one
    char        t           [LEN_LABEL] = "NULL";
    char        o           [LEN_LABEL] = "NULL";
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
    rc = ysort_mock__common ('i', a_one, a_two);
    --rce;  if (rc < 0) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return 0;
    }
    /*---(prepare)------------------------*/
@@ -404,22 +404,22 @@ ysort_mock__linker      (uchar a_type, void **a_head, void **a_tail, void *a_one
    if (x_head != NULL)  strlcpy (h, x_head->label, LEN_LABEL);
    if (x_tail != NULL)  strlcpy (t, x_tail->label, LEN_LABEL);
    if (x_one  != NULL)  strlcpy (o, x_one->label , LEN_LABEL);
-   DEBUG_SORT   yLOG_complex ("labels"    , "%-10.10s, %-10.10s, %-10.10s, %-10.10s", h, t, o, x_two->label);
+   DEBUG_YSORT   yLOG_complex ("labels"    , "%-10.10s, %-10.10s, %-10.10s, %-10.10s", h, t, o, x_two->label);
    /*---(insert back in)-----------------*/
    if (a_one == NULL) {
       if (x_head == NULL) {
-         DEBUG_SORT   yLOG_note    ("add first");
+         DEBUG_YSORT   yLOG_note    ("add first");
          x_head       = x_two;
          x_two->prev  = NULL;
       } else {
-         DEBUG_SORT   yLOG_note    ("append to tail");
+         DEBUG_YSORT   yLOG_note    ("append to tail");
          x_tail->next = x_two;
          x_two->prev  = x_tail;
       }
       x_tail       = x_two;
       x_two->next  = NULL;
    } else {
-      DEBUG_SORT   yLOG_note    ("insert before");
+      DEBUG_YSORT   yLOG_note    ("insert before");
       if (x_one->prev != NULL)   x_one->prev->next = x_two;
       else                       x_head            = x_two;
       x_two->prev   = x_one->prev;
@@ -427,12 +427,12 @@ ysort_mock__linker      (uchar a_type, void **a_head, void **a_tail, void *a_one
       x_one->prev   = x_two;
    }
    /*---(save back)----------------------*/
-   DEBUG_SORT   yLOG_note    ("save back");
+   DEBUG_YSORT   yLOG_note    ("save back");
    *a_head = x_head;
    *a_tail = x_tail;
-   DEBUG_SORT   ysort_mock_printer (x_head);
+   DEBUG_YSORT   ysort_mock_printer (x_head);
    /*---(output)-------------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    /*---(complete)-----------------------*/
    return 0;
 }
@@ -454,25 +454,25 @@ ysort_mock__slotter     (uchar a_lvl, void *a_two, uchar a_order)
    char        t           [LEN_LABEL] = "";
    uchar       x_slot      =    0;
    /*---(begin)--------------------------*/
-   DEBUG_SORT   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSORT   yLOG_senter  (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_SORT   yLOG_sint    (a_lvl);
+   DEBUG_YSORT   yLOG_sint    (a_lvl);
    --rce;  if (a_lvl < 0) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_SORT   yLOG_spoint  (a_two);
+   DEBUG_YSORT   yLOG_spoint  (a_two);
    --rce;  if (a_two == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(cast)---------------------------*/
    x_two = (tMOCK *) a_two;
    /*---(normal)-------------------------*/
    if (a_order == YSORT_ASCEND || a_order == YSORT_DESCEND) {
-      DEBUG_SORT   yLOG_snote   (x_two->label);
+      DEBUG_YSORT   yLOG_snote   (x_two->label);
       x_len = strlen (x_two->label);
-      DEBUG_SORT   yLOG_sint    (x_len);
+      DEBUG_YSORT   yLOG_sint    (x_len);
       if (a_lvl < x_len)    x_slot = x_two->label [a_lvl];
       else                  x_slot = 0;
    }
@@ -480,21 +480,21 @@ ysort_mock__slotter     (uchar a_lvl, void *a_two, uchar a_order)
    else if (a_order == YSORT_ORIGINAL || a_order == YSORT_REVERSE) {
       if (a_lvl >= 5)  return 0;
       sprintf (t, "%05d", x_two->seq);
-      DEBUG_SORT   yLOG_snote   (t);
+      DEBUG_YSORT   yLOG_snote   (t);
       x_len = strlen (t);
-      DEBUG_SORT   yLOG_sint    (x_len);
+      DEBUG_YSORT   yLOG_sint    (x_len);
       if (a_lvl < x_len)    x_slot = t [a_lvl];
    }
    /*---(check reversal)-----------------*/
-   DEBUG_SORT   yLOG_sint    (x_slot);
+   DEBUG_YSORT   yLOG_sint    (x_slot);
    if (a_order == YSORT_DESCEND || a_order == YSORT_REVERSE) {
       x_slot = SEVENBIT - x_slot - 1;
-      DEBUG_SORT   yLOG_sint    (x_slot);
+      DEBUG_YSORT   yLOG_sint    (x_slot);
    }
    /*---(slot)---------------------------*/
-   DEBUG_SORT   yLOG_schar   (chrvisible (x_slot));
+   DEBUG_YSORT   yLOG_schar   (chrvisible (x_slot));
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
    return x_slot;
 }
 
@@ -506,22 +506,22 @@ ysort_mock__joiner      (void **a_bighead, void **a_bigtail, int *a_bigcount, vo
    tMOCK *x_one       = NULL;
    tMOCK *x_two       = NULL;
    /*---(begin)--------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_SORT   yLOG_point   ("a_subhead" , *a_subhead);
+   DEBUG_YSORT   yLOG_point   ("a_subhead" , *a_subhead);
    --rce;  if (a_subhead == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(initial load)-------------------*/
-   DEBUG_SORT   yLOG_point   ("a_bighead" , *a_bighead);
+   DEBUG_YSORT   yLOG_point   ("a_bighead" , *a_bighead);
    if (*a_bighead == NULL) {
-      DEBUG_SORT   yLOG_note    ("initial load");
+      DEBUG_YSORT   yLOG_note    ("initial load");
       *a_bighead   = *a_subhead;
    }
    /*---(appending load)-----------------*/
    else {
-      DEBUG_SORT   yLOG_note    ("appending load");
+      DEBUG_YSORT   yLOG_note    ("appending load");
       x_one = (tMOCK *) *a_bigtail;
       x_two = (tMOCK *) *a_subhead;
       x_one->next = x_two;
@@ -534,9 +534,9 @@ ysort_mock__joiner      (void **a_bighead, void **a_bigtail, int *a_bigcount, vo
    *a_subhead   = NULL;
    *a_subtail   = NULL;
    *a_subcount  = 0;
-   DEBUG_SORT   ysort_mock_printer (*a_bighead);
+   DEBUG_YSORT   ysort_mock_printer (*a_bighead);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -557,15 +557,15 @@ ysort_mock__forker      (uchar a_type, void *a_node, void **a_left, void **a_rig
    tMOCK *x_left      = NULL;
    tMOCK *x_right     = NULL;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
-   DEBUG_SORT   yLOG_complex ("args"      , "%c, %p, %p, %p", a_type, a_node, a_left, a_right);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_complex ("args"      , "%c, %p, %p, %p", a_type, a_node, a_left, a_right);
    /*---(prepare)------------------------*/
    x_curr   = (tMOCK *) a_node;
-   DEBUG_SORT   yLOG_point   ("x_curr"    , x_curr);
-   DEBUG_SORT   yLOG_info    ("label"     , x_curr->label);
+   DEBUG_YSORT   yLOG_point   ("x_curr"    , x_curr);
+   DEBUG_YSORT   yLOG_info    ("label"     , x_curr->label);
    /*---(set is lower)-------------------*/
    if (a_type == tolower (a_type)) {
-      DEBUG_SORT   yLOG_note    ("saving run");
+      DEBUG_YSORT   yLOG_note    ("saving run");
       x_left  = * ((tMOCK **) a_left);
       x_right = * ((tMOCK **) a_right);
       if (a_left  != NULL)  x_curr->left  = x_left;
@@ -573,17 +573,17 @@ ysort_mock__forker      (uchar a_type, void *a_node, void **a_left, void **a_rig
    }
    /*---(get is upper)-------------------*/
    else {
-      DEBUG_SORT   yLOG_note    ("retrieving run");
+      DEBUG_YSORT   yLOG_note    ("retrieving run");
       if (a_left  != NULL)  *a_left  = x_left  = x_curr->left;
       if (a_right != NULL)  *a_right = x_right = x_curr->right;
    }
    /*---(output)-------------------------*/
-   if (x_left  != NULL) { DEBUG_SORT   yLOG_complex ("x_left"    , "%p, %s", x_left , x_left->label);  }
-   else                 { DEBUG_SORT   yLOG_complex ("x_left"    , "%p, %s", NULL   , "-"          );  }
-   if (x_right != NULL) { DEBUG_SORT   yLOG_complex ("x_right"   , "%p, %s", x_right, x_right->label); }
-   else                 { DEBUG_SORT   yLOG_complex ("x_right"   , "%p, %s", NULL   , "-"          );  }
+   if (x_left  != NULL) { DEBUG_YSORT   yLOG_complex ("x_left"    , "%p, %s", x_left , x_left->label);  }
+   else                 { DEBUG_YSORT   yLOG_complex ("x_left"    , "%p, %s", NULL   , "-"          );  }
+   if (x_right != NULL) { DEBUG_YSORT   yLOG_complex ("x_right"   , "%p, %s", x_right, x_right->label); }
+   else                 { DEBUG_YSORT   yLOG_complex ("x_right"   , "%p, %s", NULL   , "-"          );  }
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -602,24 +602,24 @@ ysort_mock_creator      (char *a_label)
    int         x_tries     =    0;
    tMOCK *x_new       = NULL;
    /*---(begin)--------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_SORT   yLOG_point   ("a_label"   , a_label);
+   DEBUG_YSORT   yLOG_point   ("a_label"   , a_label);
    --rce;  if (a_label == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_SORT   yLOG_info    ("a_label"   , a_label);
+   DEBUG_YSORT   yLOG_info    ("a_label"   , a_label);
    /*---(create cell)--------------------*/
    while (x_new == NULL) {
       ++x_tries;
       x_new = (tMOCK *) malloc (sizeof (tMOCK));
       if (x_tries > 10)   break;
    }
-   DEBUG_SORT   yLOG_value   ("x_tries"   , x_tries);
-   DEBUG_SORT   yLOG_point   ("x_new"     , x_new);
+   DEBUG_YSORT   yLOG_value   ("x_tries"   , x_tries);
+   DEBUG_YSORT   yLOG_point   ("x_new"     , x_new);
    --rce;  if (x_new == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(populate)-----------------------*/
@@ -628,11 +628,11 @@ ysort_mock_creator      (char *a_label)
    x_new->left  = NULL;
    x_new->right = NULL;
    ++g_count;
-   DEBUG_SORT   yLOG_value   ("g_count"   , g_count);
+   DEBUG_YSORT   yLOG_value   ("g_count"   , g_count);
    /*---(link it in)---------------------*/
    rc = ysort_mock__linker   ('-', &g_head, &g_tail, NULL, x_new);
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return rc;
 }
 
@@ -644,7 +644,7 @@ ysort_mock_printer      (tMOCK *x_head)
    tMOCK *x_curr      = NULL;
    x_curr = x_head;
    while (x_curr != NULL) {
-      DEBUG_SORT   yLOG_complex ("row"       , "%2d#, %2ds, %-20.20s, %p, %p, %p", i, x_curr->seq, x_curr->label, x_curr, x_curr->prev, x_curr->next);
+      DEBUG_YSORT   yLOG_complex ("row"       , "%2d#, %2ds, %-20.20s, %p, %p, %p", i, x_curr->seq, x_curr->label, x_curr, x_curr->prev, x_curr->next);
       ++i;
       x_curr = x_curr->next;
    }

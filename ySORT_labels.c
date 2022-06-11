@@ -26,33 +26,33 @@ ysort_labels__fromlabel (char *a_label)
    int         z           =    0;
    llong       x_value     =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT    yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT    yLOG_enter   (__FUNCTION__);
    /*---(get components)-----------------*/
-   DEBUG_SORT    yLOG_point   ("a_label"   , a_label);
+   DEBUG_YSORT    yLOG_point   ("a_label"   , a_label);
    --rce;  if (a_label == NULL) {
-      DEBUG_SORT    yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_SORT    yLOG_info    ("a_label"   , a_label);
+   DEBUG_YSORT    yLOG_info    ("a_label"   , a_label);
    /*---(convert to components)----------*/
    rc = str2gyges (a_label, &u, &x, &y, &z, 0, 0, '-');
-   DEBUG_SORT    yLOG_value   ("str2gyges" , rc);
+   DEBUG_YSORT    yLOG_value   ("str2gyges" , rc);
    --rce;  if (rc < 0)  {
-      DEBUG_SORT    yLOG_note    ("could not parse, EXITING");
-      DEBUG_SORT    yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT    yLOG_note    ("could not parse, EXITING");
+      DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_SORT    yLOG_complex ("parts"     , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);
+   DEBUG_YSORT    yLOG_complex ("parts"     , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);
    /*---(consolidate to key)-------------*/
    ++u;
    ++x;
    ++y;
    ++z;
-   DEBUG_SORT    yLOG_complex ("prepped"   , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);
+   DEBUG_YSORT    yLOG_complex ("prepped"   , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);
    x_value = (u * s_bf) + (x * s_xf) + (y * s_yf) + z;
-   DEBUG_SORT    yLOG_llong   ("x_value"   , x_value);
+   DEBUG_YSORT    yLOG_llong   ("x_value"   , x_value);
    /*---(complete)-----------------------*/
-   DEBUG_SORT    yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT    yLOG_exit    (__FUNCTION__);
    return x_value;
 }
 
@@ -68,16 +68,16 @@ ysort_labels__tolabel   (llong a_value, char *a_label)
    int         y           =    0;
    int         z           =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT    yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT    yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_SORT    yLOG_llong   ("a_value"   , a_value);
+   DEBUG_YSORT    yLOG_llong   ("a_value"   , a_value);
    --rce;  if (a_value < 1000100010001) {
-      DEBUG_SORT    yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_SORT    yLOG_point   ("a_label"   , a_label);
+   DEBUG_YSORT    yLOG_point   ("a_label"   , a_label);
    --rce;  if (a_label == NULL) {
-      DEBUG_SORT    yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(default)------------------------*/
@@ -91,21 +91,21 @@ ysort_labels__tolabel   (llong a_value, char *a_label)
    y      = x_rem / s_yf;
    x_rem -= y * s_yf;
    z      = x_rem;
-   DEBUG_SORT    yLOG_complex ("parts"     , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);
+   DEBUG_YSORT    yLOG_complex ("parts"     , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);
    /*---(get label)----------------------*/
    --u;
    --x;
    --y;
    --z;
-   DEBUG_SORT    yLOG_complex ("parts"     , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);
+   DEBUG_YSORT    yLOG_complex ("parts"     , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);
    rc = str4gyges (u, x, y, z, 0, a_label, '-');
    --rce;  if (rc < 0) {
-      DEBUG_SORT    yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_SORT    yLOG_info    ("a_label" , a_label);
+   DEBUG_YSORT    yLOG_info    ("a_label" , a_label);
    /*---(complete)-----------------------*/
-   DEBUG_SORT    yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT    yLOG_exit    (__FUNCTION__);
    return a_label;
 }
 
@@ -132,51 +132,37 @@ ysort_labels__prep      (char *a_list)
    char        rc          =  0;            /* return code                    */
    llong       x_value     =   0;
    /*---(header)-------------------------*/
-   DEBUG_SORT    yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT    yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_SORT    yLOG_point   ("a_list"    , a_list);
+   DEBUG_YSORT    yLOG_point   ("a_list"    , a_list);
    --rce;  if (a_list == NULL) {
-      DEBUG_SORT    yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_SORT    yLOG_info    ("a_list"    , a_list);
+   DEBUG_YSORT    yLOG_info    ("a_list"    , a_list);
    /*---(initialize)---------------------*/
-   DEBUG_SORT    yLOG_note    ("initialize");
+   DEBUG_YSORT    yLOG_note    ("initialize");
    for (i = 0; i < 1000; ++i)  s_array [i] = 0;
    s_narray = 0;
    /*---(parse/load)---------------------*/
-   DEBUG_SORT    yLOG_note    ("load the array");
+   DEBUG_YSORT    yLOG_note    ("load the array");
    strlcpy (x_list, a_list,  LEN_RECD);
    p = strtok_r (x_list, q, &r);
    s_narray = 0;
    --rce;  while (p != NULL) {
-      DEBUG_SORT    yLOG_info    ("parse"     , p);
+      DEBUG_YSORT    yLOG_info    ("parse"     , p);
       x_value = ysort_labels__fromlabel (p);
-      DEBUG_SORT    yLOG_llong   ("x_value"   , x_value);
+      DEBUG_YSORT    yLOG_llong   ("x_value"   , x_value);
       if (x_value < 1000100010001) {
          sprintf (a_list, "#REF (%s)", p);
-         DEBUG_SORT    yLOG_exitr   (__FUNCTION__, rce);
+         DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
-      /*> rc = str2gyges (p, &u, &x, &y, &z, 0, 0, '-');                                             <* 
-       *> DEBUG_SORT    yLOG_value   ("addresser" , rc);                                             <* 
-       *> if (rc < 0)  {                                                                             <* 
-       *>    DEBUG_SORT    yLOG_note    ("could not parse, EXITING");                                <* 
-       *>    DEBUG_SORT    yLOG_exitr   (__FUNCTION__, rce);                                         <* 
-       *>    return rce;                                                                             <* 
-       *> }                                                                                          <* 
-       *> DEBUG_SORT    yLOG_complex ("parts"     , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);   <* 
-       *> ++u;                                                                                       <* 
-       *> ++x;                                                                                       <* 
-       *> ++y;                                                                                       <* 
-       *> ++z;                                                                                       <* 
-       *> DEBUG_SORT    yLOG_complex ("inserted"  , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);   <* 
-       *> s_array [s_narray] = (u * s_bf) + (x * s_xf) + (y * s_yf) + z;                             <*/
       s_array [s_narray] = x_value;
       p = strtok_r (NULL  , q, &r);
       ++s_narray;
    }
-   DEBUG_SORT    yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT    yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -189,14 +175,14 @@ ysort_labels__itself    (void)
    llong       b           =  0;            /* comparison entry two           */
    int         tele        = -1;            /* teleport point to speed sort   */
    /*---(header)-------------------------*/
-   DEBUG_SORT    yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT    yLOG_enter   (__FUNCTION__);
    /*---(sort)---------------------------*/
    i = 1;
    while (i < s_narray) {
       /*---(load vars)-------------------*/
       a = s_array [i - 1];
       b = s_array [i];
-      DEBUG_SORT    yLOG_complex ("current"   , "compare i,%3d (t,%3d) =  a,%10lld to b,%10lld", i, tele, a, b);
+      DEBUG_YSORT    yLOG_complex ("current"   , "compare i,%3d (t,%3d) =  a,%10lld to b,%10lld", i, tele, a, b);
       /*---(compare)---------------------*/
       if (i == 0 || a <= b) {
          if (tele >= 0) {
@@ -212,12 +198,12 @@ ysort_labels__itself    (void)
       s_array [i]     = a;
       a = s_array [i - 1];
       b = s_array [i];
-      DEBUG_SORT    yLOG_complex ("swapped"   , "now     i,%3d (t,%3d) =  a,%10lld to b,%10lld", i, tele, a, b);
+      DEBUG_YSORT    yLOG_complex ("swapped"   , "now     i,%3d (t,%3d) =  a,%10lld to b,%10lld", i, tele, a, b);
       /*---(update)----------------------*/
       if (tele < 0) tele = i;
       if (i > 1) --i;
    }
-   DEBUG_SORT    yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT    yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -236,45 +222,31 @@ ysort_labels__wrap      (char *a_list)
    char        x_last      [LEN_LABEL] = "";
    char        x_label     [LEN_LABEL];     /* label for sorted entry         */
    /*---(header)-------------------------*/
-   DEBUG_SORT    yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT    yLOG_enter   (__FUNCTION__);
    strlcpy (a_list, ",", LEN_RECD);
    --rce;  for (i = 0; i < s_narray; ++i) {
       /*---(make label)------------------*/
-      DEBUG_SORT    yLOG_llong   ("value"   , s_array[i]);
+      DEBUG_YSORT    yLOG_llong   ("value"   , s_array[i]);
       rc = ysort_labels__tolabel (s_array [i], x_label);
       if (rc < 0) {
          sprintf (a_list, "#REF (%lld)", s_array [i]);
-         DEBUG_SORT    yLOG_exitr   (__FUNCTION__, rce);
+         DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
-      /*> x_rem  = s_array [i];                                                                      <* 
-       *> u      = x_rem / s_bf;                                                                     <* 
-       *> x_rem -= u * s_bf;                                                                         <* 
-       *> x      = x_rem / s_xf;                                                                     <* 
-       *> x_rem -= x * s_xf;                                                                         <* 
-       *> y      = x_rem / s_yf;                                                                     <* 
-       *> x_rem -= y * s_yf;                                                                         <* 
-       *> z      = x_rem;                                                                            <* 
-       *> --u;                                                                                       <* 
-       *> --x;                                                                                       <* 
-       *> --y;                                                                                       <* 
-       *> --z;                                                                                       <* 
-       *> DEBUG_SORT    yLOG_complex ("parts"     , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);   <* 
-       *> rc = str4gyges (u, x, y, z, 0, x_label, '-');                                              <*/
-      DEBUG_SORT    yLOG_info    ("label"   , x_label);
+      DEBUG_YSORT    yLOG_info    ("label"   , x_label);
       /*---(duplicates)------------------*/
       if (strcmp (x_label, x_last) == 0)  continue;
       strlcpy (x_last, x_label, LEN_LABEL);
       /*---(append to list)--------------*/
       strlcat (a_list, x_label, LEN_RECD);
       strlcat (a_list, ","    , LEN_RECD);
-      DEBUG_SORT    yLOG_info    ("a_list"  , a_list);
+      DEBUG_YSORT    yLOG_info    ("a_list"  , a_list);
       /*---(duplicates)------------------*/
    }
    if (strcmp (a_list, ",") == 0)  strlcpy (a_list, ".", LEN_RECD);
-   DEBUG_SORT    yLOG_info    ("a_list"    , a_list);
+   DEBUG_YSORT    yLOG_info    ("a_list"    , a_list);
    /*---(complete)-----------------------*/
-   DEBUG_SORT    yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT    yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -301,33 +273,40 @@ ySORT_labels       (char *a_list)
    char        rce         = -10;           /* return code for errors         */
    char        rc          =  0;            /* return code                    */
    /*---(header)-------------------------*/
-   DEBUG_SORT    yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT    yLOG_enter   (__FUNCTION__);
    /*---(defense: null)------------------*/
-   --rce;  if (a_list  == NULL)  {
-      DEBUG_SORT    yLOG_exit    (__FUNCTION__);
+   --rce;  if (a_list         == NULL)  {
+      DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
+   }
+   if (a_list [0] != ',') {
+      DEBUG_YSORT    yLOG_exit    (__FUNCTION__);
+      return 0;
    }
    /*---(sort)---------------------------*/
    rc = ysort_labels__prep   (a_list);
-   DEBUG_SORT    yLOG_value   ("prep"      , rc);
+   DEBUG_YSORT    yLOG_value   ("prep"      , rc);
    --rce;  if (rc < 0) {
-      DEBUG_SORT    yLOG_exit    (__FUNCTION__);
+      DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    rc = ysort_labels__itself ();
-   DEBUG_SORT    yLOG_value   ("itself"    , rc);
+   DEBUG_YSORT    yLOG_value   ("itself"    , rc);
    --rce;  if (rc < 0) {
       strlcpy (a_list, "#SORT", LEN_RECD);
-      DEBUG_SORT    yLOG_exit    (__FUNCTION__);
+      DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    rc = ysort_labels__wrap   (a_list);
-   DEBUG_SORT    yLOG_value   ("wrap"      , rc);
+   DEBUG_YSORT    yLOG_value   ("wrap"      , rc);
    --rce;  if (rc < 0) {
-      DEBUG_SORT    yLOG_exit    (__FUNCTION__);
+      DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(complete)-----------------------*/
-   DEBUG_SORT    yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT    yLOG_exit    (__FUNCTION__);
    return rc;
 }
+
+
+

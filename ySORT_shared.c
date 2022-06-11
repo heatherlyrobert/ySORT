@@ -75,59 +75,59 @@ ysort_defense           (uchar a_mode, uchar a_order, void *a_head, void *a_tail
    char        rce         =  -10;
    char        rc          =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(check endpoints)----------------*/
-   DEBUG_SORT   yLOG_point   ("a_head"    , a_head);
+   DEBUG_YSORT   yLOG_point   ("a_head"    , a_head);
    --rce;  if (a_head == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_SORT   yLOG_point   ("a_tail"    , a_tail);
+   DEBUG_YSORT   yLOG_point   ("a_tail"    , a_tail);
    --rce;  if (a_tail == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(check gnome functions)----------*/
-   DEBUG_SORT   yLOG_char    ("g_ready"   , g_ready);
-   DEBUG_SORT   yLOG_char    ("a_mode"    , a_mode);
+   DEBUG_YSORT   yLOG_char    ("g_ready"   , g_ready);
+   DEBUG_YSORT   yLOG_char    ("a_mode"    , a_mode);
    --rce;  switch (a_mode) {
    case YSORT_GNOME :
       if (strchr ("gtp", g_ready) == NULL) {
-         DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+         DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
       break;
    case YSORT_TROLL :
       if (strchr ("tp" , g_ready) == NULL) {
-         DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+         DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
       break;
    case YSORT_SEARCH :
       if (strchr ("gtp", g_ready) == NULL) {
-         DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+         DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
-      DEBUG_SORT   yLOG_point   ("g_forker"   , g_forker);
+      DEBUG_YSORT   yLOG_point   ("g_forker"   , g_forker);
       if (g_forker == NULL) {
-         DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+         DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
       break;
    default  :
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
       break;
    }
    /*---(check order)--------------------*/
-   DEBUG_SORT   yLOG_char    ("a_order"   , a_order);
+   DEBUG_YSORT   yLOG_char    ("a_order"   , a_order);
    --rce;  if (a_order == 0 || strchr (YSORT_ORDERS, a_order) == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    g_order = a_order;
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -138,64 +138,64 @@ ySORT_config            (uchar a_mode, void *p_cursor, void *p_checker, void *p_
    char        rce         =  -10;
    char        rc          =    0;
    /*---(header)-------------------------*/
-   DEBUG_SORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(initialize)---------------------*/
    ysort__reinit ();
    /*---(check mode)---------------------*/
-   DEBUG_SORT   yLOG_char    ("a_mode"    , a_mode);
+   DEBUG_YSORT   yLOG_char    ("a_mode"    , a_mode);
    --rce;  if (strchr (YSORT_ENGINES, a_mode) == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(check gnome functions)----------*/
-   DEBUG_SORT   yLOG_point   ("p_cursor"  , p_cursor);
+   DEBUG_YSORT   yLOG_point   ("p_cursor"  , p_cursor);
    --rce;  if (p_cursor == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    g_cursor    = p_cursor;
-   DEBUG_SORT   yLOG_point   ("p_checker" , p_checker);
+   DEBUG_YSORT   yLOG_point   ("p_checker" , p_checker);
    --rce;  if (p_checker == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    g_checker   = p_checker;
-   DEBUG_SORT   yLOG_point   ("p_unlinker", p_unlinker);
+   DEBUG_YSORT   yLOG_point   ("p_unlinker", p_unlinker);
    --rce;  if (p_unlinker == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    g_unlinker  = p_unlinker;
-   DEBUG_SORT   yLOG_point   ("p_linker"  , p_linker);
+   DEBUG_YSORT   yLOG_point   ("p_linker"  , p_linker);
    --rce;  if (p_linker == NULL) {
-      DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    g_linker    = p_linker;
    /*---(check troll functions)----------*/
    if (strchr (YSORT_TROLLS, a_mode) != NULL) {
-      DEBUG_SORT   yLOG_point   ("p_slotter" , p_slotter);
+      DEBUG_YSORT   yLOG_point   ("p_slotter" , p_slotter);
       --rce;  if (p_slotter == NULL) {
-         DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+         DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
       g_slotter   = p_slotter;
-      DEBUG_SORT   yLOG_point   ("p_joiner"  , p_joiner);
+      DEBUG_YSORT   yLOG_point   ("p_joiner"  , p_joiner);
       --rce;  if (p_joiner == NULL) {
-         DEBUG_SORT   yLOG_exitr   (__FUNCTION__, rce);
+         DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
       g_joiner    = p_joiner;
    }
    /*---(check troll functions)----------*/
-   DEBUG_SORT   yLOG_point   ("p_forker"  , p_forker);
+   DEBUG_YSORT   yLOG_point   ("p_forker"  , p_forker);
    if (p_forker != NULL)    g_forker     = p_forker;
    /*---(check troll uses gnome)---------*/
    if (a_mode == YSORT_PURE)    g_pure_troll = 'y';
    /*---(set ready)----------------------*/
    g_ready = a_mode;
    /*---(complete)-----------------------*/
-   DEBUG_SORT   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -221,7 +221,7 @@ ysort__unit_loud        (void)
 {
    yLOGS_begin ("ySORT", YLOG_SYS, YLOG_NOISE);
    yURG_name  ("kitchen"      , YURG_ON);
-   DEBUG_YSTR   yLOG_info     ("ySORT"   , ySORT_version   ());
+   DEBUG_YSORT   yLOG_info     ("ySORT"   , ySORT_version   ());
    ysort_mock_init    ();
    ysort__reinit ();
    return 0;
