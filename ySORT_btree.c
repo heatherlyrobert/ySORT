@@ -3,6 +3,17 @@
 #include    "ySORT_priv.h"
 
 
+/*
+ * ySORT_hook ()
+ *    -- r_link can be null and work awesome
+ *    -- a_sort must be in the a_data structure so it endures (we don't copy)
+ *
+ *
+ *
+ *
+ *
+ */
+
 /*----------+-----------+-----------+-----------+-----------+-----------+-----*/
 #define     MAX_BTREE   20
 typedef     struct      cROOTS      tROOTS;
@@ -49,7 +60,21 @@ char  g_path    [LEN_HUND] = "";
 static void  o___TREES___________o () { return; }
 
 char
-ySORT_btree             (uchar a_abbr, char *a_sort)
+ysort_btree_by_abbr     (uchar a_abbr)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         i           =    0;
+   /*---(defense)------------------------*/
+   for (i = 0; i < s_ntree; ++i) {
+      if (s_trees [i].abbr == a_abbr)   return i;
+   }
+   /*---(complete)-----------------------*/
+   return rce;
+}
+
+char
+ySORT_btree             (uchar a_abbr, cchar *a_sort)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -68,9 +93,13 @@ ySORT_btree             (uchar a_abbr, char *a_sort)
       DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
+   /*---(check duplicate)----------------*/
+   n = ysort_btree_by_abbr (a_abbr);
+   DEBUG_YSORT   yLOG_sint    (n);
+   if (n >= 0)   ySORT_purge (a_abbr);
+   else          n = s_ntree++;
    /*---(wipe)---------------------------*/
    DEBUG_YSORT   yLOG_snote   ("clear");
-   n = s_ntree;
    s_trees [n].abbr = '-';
    strlcpy (s_trees [n].name, "", LEN_LABEL);
    B_READY = '-';
@@ -84,25 +113,9 @@ ySORT_btree             (uchar a_abbr, char *a_sort)
    /*---(save)---------------------------*/
    s_trees [n].abbr = a_abbr;
    if (a_sort != NULL)  strlcpy (s_trees [n].name, a_sort, LEN_LABEL);
-   /*---(increment)----------------------*/
-   ++s_ntree;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
    return 0;
-}
-
-char
-ysort_btree_by_abbr     (uchar a_abbr)
-{
-   /*---(locals)-----------+-----+-----+-*/
-   char        rce         =  -10;
-   int         i           =    0;
-   /*---(defense)------------------------*/
-   for (i = 0; i < s_ntree; ++i) {
-      if (s_trees [i].abbr == a_abbr)   return i;
-   }
-   /*---(complete)-----------------------*/
-   return rce;
 }
 
 
@@ -141,6 +154,7 @@ ySORT_hook              (uchar a_abbr, void *a_data, char *a_sort, tSORT **r_lin
       DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
+   DEBUG_YSORT   yLOG_snote   (a_sort);
    /*---(create cell)--------------------*/
    while (x_new == NULL) {
       ++x_tries;
@@ -472,11 +486,6 @@ ySORT_by_cursor         (uchar a_abbr, char a_dir, void **r_data)
       DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_YSORT   yLOG_spoint  (r_data);
-   --rce;  if (r_data == NULL) {
-      DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
-      return rce;
-   }
    DEBUG_YSORT   yLOG_spoint  (B_HEAD);
    --rce;  if (B_HEAD == NULL) {
       DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
@@ -507,7 +516,7 @@ ySORT_by_cursor         (uchar a_abbr, char a_dir, void **r_data)
    B_SAVED   = o;
    /*---(save results)-------------------*/
    DEBUG_YSORT   yLOG_spoint  (B_SAVED->data);
-   *r_data = o->data;
+   if (r_data != NULL)   *r_data = o->data;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
    return 0;
@@ -530,11 +539,6 @@ ySORT_by_index          (uchar a_abbr, int i, void **r_data)
    n = ysort_btree_by_abbr   (a_abbr);
    DEBUG_YSORT   yLOG_value   ("n"         , n);
    --rce;  if (n < 0) {
-      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
-      return rce;
-   }
-   DEBUG_YSORT   yLOG_point   ("r_data"    , r_data);
-   --rce;  if (r_data == NULL) {
       DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -564,7 +568,7 @@ ySORT_by_index          (uchar a_abbr, int i, void **r_data)
    B_SAVED   = o;
    /*---(save results)-------------------*/
    DEBUG_YSORT   yLOG_point   ("data"      , B_SAVED->data);
-   *r_data = o->data;
+   if (r_data != NULL)   *r_data = o->data;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;

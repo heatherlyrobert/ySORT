@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "0.-- pre-production"
 #define     P_VERMINOR  "0.5- main sorts tested and working"
-#define     P_VERNUM    "0.5k"
-#define     P_VERTXT    "changed yurg debug to keep volume down"
+#define     P_VERNUM    "0.5l"
+#define     P_VERTXT    "updating btree to allow simple use-case, no local data"
 
 
 /*
@@ -201,7 +201,7 @@ extern char   unit_answer [LEN_RECD];
 /*===[[ ySORT_btree.c ]]======================================================*/
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 /*---(trees)----------------*/
-char        ySORT_btree             (uchar a_abbr, char *a_sort);
+char        ySORT_btree             (uchar a_abbr, cchar *a_sort);
 char        ysort_btree_by_abbr     (uchar a_abbr);
 /*---(hooking)--------------*/
 char        ySORT_hook              (uchar a_abbr, void *a_data, char *a_sort, tSORT **r_link);

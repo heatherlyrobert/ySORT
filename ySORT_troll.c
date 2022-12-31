@@ -172,8 +172,6 @@ ySORT_troll_stats       (int *a_buckets, int *a_slots, int *a_max, int *a_sorts,
 /*====================------------------------------------====================*/
 static void      o___UNIT_TEST_______________o (void) {;}
 
-char          unit_answer [LEN_RECD];
-
 char*            /* [------] unit test accessor ------------------------------*/
 ysort_scatter__unit     (char *a_question, tSLOT a_slots [SEVENBIT], char a_num)
 {

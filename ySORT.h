@@ -4,6 +4,7 @@
 
 
 
+typedef  const    char cchar;
 typedef  unsigned char uchar;
 
 typedef     struct      cSORT      tSORT;
@@ -48,7 +49,7 @@ char        ySORT_search_stats      (int *a_result, void **a_last, int *a_depth,
 
 char        ySORT_walk              (uchar a_type, void *a_root, void *p_callback);
 
-char        ySORT_btree             (uchar a_abbr, char *a_sort);
+char        ySORT_btree             (uchar a_abbr, cchar *a_sort);
 char        ySORT_hook              (uchar a_btree, void *a_data, char *a_sort, tSORT **r_link);
 char        ySORT_unhook            (tSORT **r_link);
 char        ySORT_purge             (uchar a_abbr);

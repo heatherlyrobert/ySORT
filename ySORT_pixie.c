@@ -237,8 +237,6 @@ ySORT_pixie              (void *p_walk, void *p_key, void *p_unhook, void *p_hoo
 /*====================------------------------------------====================*/
 static void      o___UNIT_TEST_______________o (void) {;}
 
-/*> char          unit_answer [LEN_RECD];                                             <*/
-
 /*> char*            /+ [------] unit test accessor ------------------------------+/                                                 <* 
  *> ysort_gnome__unit       (char *a_question, int a_num)                                                                            <* 
  *> {                                                                                                                                <* 
