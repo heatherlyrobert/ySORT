@@ -793,11 +793,6 @@ ySORT_by_name           (uchar a_abbr, char *a_key, void **r_data)
       return rce;
    }
    DEBUG_YSORT   yLOG_info    ("a_key"     , a_key);
-   DEBUG_YSORT   yLOG_point   ("r_data"    , r_data);
-   --rce;  if (r_data == NULL) {
-      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
-      return rce;
-   }
    /*---(find tree)----------------------*/
    n = ysort_btree_by_abbr   (a_abbr);
    DEBUG_YSORT   yLOG_value   ("n"         , n);
@@ -831,7 +826,7 @@ ySORT_by_name           (uchar a_abbr, char *a_key, void **r_data)
    B_SAVED   = o;
    /*---(save results)-------------------*/
    DEBUG_YSORT   yLOG_spoint  (B_SAVED->data);
-   *r_data = o->data;
+   if (r_data != NULL)  *r_data = o->data;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 0;

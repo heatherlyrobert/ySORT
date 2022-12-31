@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "0.-- pre-production"
 #define     P_VERMINOR  "0.5- main sorts tested and working"
-#define     P_VERNUM    "0.5l"
-#define     P_VERTXT    "updating btree to allow simple use-case, no local data"
+#define     P_VERNUM    "0.5m"
+#define     P_VERTXT    "btree now supports natsvi well, very simple, high-volume use"
 
 
 /*
