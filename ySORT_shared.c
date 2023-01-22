@@ -220,7 +220,7 @@ char       /*----: set up program urgents/debugging --------------------------*/
 ysort__unit_loud        (void)
 {
    yLOGS_begin ("ySORT", YLOG_SYS, YLOG_NOISE);
-   yURG_name  ("kitchen"      , YURG_ON);
+   yURG_by_name  ("kitchen"      , YURG_ON);
    DEBUG_YSORT   yLOG_info     ("ySORT"   , ySORT_version   ());
    ysort_mock_init    ();
    ysort__reinit ();
