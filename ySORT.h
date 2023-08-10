@@ -54,6 +54,8 @@ char        ySORT_hook              (uchar a_btree, void *a_data, char *a_sort, 
 char        ySORT_unhook            (tSORT **r_link);
 char        ySORT_purge             (uchar a_abbr);
 char        ySORT_purge_all         (void);
+char        ySORT_push              (uchar a_abbr);
+char        ySORT_pop               (uchar a_abbr);
 char        ySORT_by_cursor         (uchar a_abbr, char a_dir, void **r_data);
 char        ySORT_by_index          (uchar a_abbr, int i, void **r_data);
 int         ySORT_count             (uchar a_abbr);

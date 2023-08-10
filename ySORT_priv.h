@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "0.-- pre-production"
 #define     P_VERMINOR  "0.5- main sorts tested and working"
-#define     P_VERNUM    "0.5n"
-#define     P_VERTXT    "updated to yURG_by_name after yURG change"
+#define     P_VERNUM    "0.5m"
+#define     P_VERTXT    "added ySORT_push and ySORT_pop to allow lists to be created without disrupting cursors"
 
 
 /*

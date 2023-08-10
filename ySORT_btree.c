@@ -30,6 +30,7 @@ struct      cROOTS {
    char        search      [LEN_TITLE];
    /*---(sequential)--------*/
    tSORT      *saved;
+   tSORT      *push;
    /*---(stats)-------------*/
    int         count;
    int         depth;
@@ -47,6 +48,7 @@ char        s_ntree    = 0;
 #define     B_DEPTH     s_trees [n].depth
 #define     B_SEARCH    s_trees [n].search
 #define     B_SAVED     s_trees [n].saved
+#define     B_PUSH      s_trees [n].push
 
 
 int   g_depth   = 0;
@@ -109,6 +111,7 @@ ySORT_btree             (uchar a_abbr, cchar *a_sort)
    B_COUNT = 0;
    B_DEPTH = 0;
    B_SAVED = NULL;
+   B_PUSH  = NULL;
    strlcpy (B_SEARCH, "", LEN_TITLE);
    /*---(save)---------------------------*/
    s_trees [n].abbr = a_abbr;
@@ -466,6 +469,60 @@ ySORT_list              (uchar a_abbr)
 /*===----                      sequential access                       ----===*/
 /*====================------------------------------------====================*/
 static void  o___SEQUENCE________o () { return; }
+
+char
+ySORT_push              (uchar a_abbr)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         n           =   -1;
+   /*---(header)-------------------------*/
+   DEBUG_YSORT   yLOG_senter  (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_YSORT   yLOG_schar   (a_abbr);
+   n = ysort_btree_by_abbr   (a_abbr);
+   DEBUG_YSORT   yLOG_sint    (n);
+   --rce;  if (n < 0) {
+      DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(save-off)-----------------------*/
+   DEBUG_YSORT   yLOG_spoint  (B_PUSH);
+   DEBUG_YSORT   yLOG_spoint  (B_SAVED);
+   B_PUSH  = B_SAVED;
+   DEBUG_YSORT   yLOG_spoint  (B_PUSH);
+   DEBUG_YSORT   yLOG_spoint  (B_SAVED);
+   /*---(complete)-----------------------*/
+   DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
+char
+ySORT_pop               (uchar a_abbr)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         n           =   -1;
+   /*---(header)-------------------------*/
+   DEBUG_YSORT   yLOG_senter  (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_YSORT   yLOG_schar   (a_abbr);
+   n = ysort_btree_by_abbr   (a_abbr);
+   DEBUG_YSORT   yLOG_sint    (n);
+   --rce;  if (n < 0) {
+      DEBUG_YSORT   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(save-off)-----------------------*/
+   DEBUG_YSORT   yLOG_spoint  (B_PUSH);
+   DEBUG_YSORT   yLOG_spoint  (B_SAVED);
+   B_SAVED = B_PUSH;
+   DEBUG_YSORT   yLOG_spoint  (B_PUSH);
+   DEBUG_YSORT   yLOG_spoint  (B_SAVED);
+   /*---(complete)-----------------------*/
+   DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
 
 char
 ySORT_by_cursor         (uchar a_abbr, char a_dir, void **r_data)
