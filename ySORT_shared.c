@@ -33,13 +33,13 @@ ySORT_version           (void)
 {
    char    t [20] = "";
 #if    __TINYC__ > 0
-   strlcpy (t, "[tcc built  ]", 15);
+   ystrlcpy (t, "[tcc built  ]", 15);
 #elif  __GNUC__  > 0
-   strlcpy (t, "[gnu gcc    ]", 15);
+   ystrlcpy (t, "[gnu gcc    ]", 15);
 #elif  __HEPH__  > 0
-   strlcpy (t, "[hephaestus ]", 15);
+   ystrlcpy (t, "[hephaestus ]", 15);
 #else
-   strlcpy (t, "[unknown    ]", 15);
+   ystrlcpy (t, "[unknown    ]", 15);
 #endif
    snprintf (ySORT_ver, 100, "%s   %s : %s", t, P_VERNUM, P_VERTXT);
    return ySORT_ver;

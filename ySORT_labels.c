@@ -35,8 +35,8 @@ ysort_labels__fromlabel (char *a_label)
    }
    DEBUG_YSORT    yLOG_info    ("a_label"   , a_label);
    /*---(convert to components)----------*/
-   rc = str2gyges (a_label, &u, &x, &y, &z, 0, 0, '-');
-   DEBUG_YSORT    yLOG_value   ("str2gyges" , rc);
+   rc = ystr2gyges (a_label, &u, &x, &y, &z, 0, 0, '-');
+   DEBUG_YSORT    yLOG_value   ("ystr2gyges", rc);
    --rce;  if (rc < 0)  {
       DEBUG_YSORT    yLOG_note    ("could not parse, EXITING");
       DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
@@ -81,7 +81,7 @@ ysort_labels__tolabel   (llong a_value, char *a_label)
       return rce;
    }
    /*---(default)------------------------*/
-   strlcpy (a_label, "", LEN_LABEL);
+   ystrlcpy (a_label, "", LEN_LABEL);
    /*---(get components)-----------------*/
    x_rem  = a_value;
    u      = x_rem / s_bf;
@@ -98,7 +98,7 @@ ysort_labels__tolabel   (llong a_value, char *a_label)
    --y;
    --z;
    DEBUG_YSORT    yLOG_complex ("parts"     , "u=%04d, x=%04d, y=%04d, z=%04d", u, x, y, z);
-   rc = str4gyges (u, x, y, z, 0, a_label, '-');
+   rc = ystr4gyges (u, x, y, z, 0, a_label, '-');
    --rce;  if (rc < 0) {
       DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
@@ -146,7 +146,7 @@ ysort_labels__prep      (char *a_list)
    s_narray = 0;
    /*---(parse/load)---------------------*/
    DEBUG_YSORT    yLOG_note    ("load the array");
-   strlcpy (x_list, a_list,  LEN_RECD);
+   ystrlcpy (x_list, a_list,  LEN_RECD);
    p = strtok_r (x_list, q, &r);
    s_narray = 0;
    --rce;  while (p != NULL) {
@@ -223,7 +223,7 @@ ysort_labels__wrap      (char *a_list)
    char        x_label     [LEN_LABEL];     /* label for sorted entry         */
    /*---(header)-------------------------*/
    DEBUG_YSORT    yLOG_enter   (__FUNCTION__);
-   strlcpy (a_list, ",", LEN_RECD);
+   ystrlcpy (a_list, ",", LEN_RECD);
    --rce;  for (i = 0; i < s_narray; ++i) {
       /*---(make label)------------------*/
       DEBUG_YSORT    yLOG_llong   ("value"   , s_array[i]);
@@ -236,14 +236,14 @@ ysort_labels__wrap      (char *a_list)
       DEBUG_YSORT    yLOG_info    ("label"   , x_label);
       /*---(duplicates)------------------*/
       if (strcmp (x_label, x_last) == 0)  continue;
-      strlcpy (x_last, x_label, LEN_LABEL);
+      ystrlcpy (x_last, x_label, LEN_LABEL);
       /*---(append to list)--------------*/
-      strlcat (a_list, x_label, LEN_RECD);
-      strlcat (a_list, ","    , LEN_RECD);
+      ystrlcat (a_list, x_label, LEN_RECD);
+      ystrlcat (a_list, ","    , LEN_RECD);
       DEBUG_YSORT    yLOG_info    ("a_list"  , a_list);
       /*---(duplicates)------------------*/
    }
-   if (strcmp (a_list, ",") == 0)  strlcpy (a_list, ".", LEN_RECD);
+   if (strcmp (a_list, ",") == 0)  ystrlcpy (a_list, ".", LEN_RECD);
    DEBUG_YSORT    yLOG_info    ("a_list"    , a_list);
    /*---(complete)-----------------------*/
    DEBUG_YSORT    yLOG_exit    (__FUNCTION__);
@@ -293,7 +293,7 @@ ySORT_labels       (char *a_list)
    rc = ysort_labels__itself ();
    DEBUG_YSORT    yLOG_value   ("itself"    , rc);
    --rce;  if (rc < 0) {
-      strlcpy (a_list, "#SORT", LEN_RECD);
+      ystrlcpy (a_list, "#SORT", LEN_RECD);
       DEBUG_YSORT    yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }

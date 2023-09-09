@@ -32,10 +32,10 @@
 #define     P_AUTHOR    "heatherlyrobert"
 #define     P_CREATED   "2020-04"
 
-#define     P_VERMAJOR  "0.-- pre-production"
-#define     P_VERMINOR  "0.5- main sorts tested and working"
-#define     P_VERNUM    "0.5m"
-#define     P_VERTXT    "added ySORT_push and ySORT_pop to allow lists to be created without disrupting cursors"
+#define     P_VERMAJOR  "1.-- production"
+#define     P_VERMINOR  "1.0- stable, update as necessary"
+#define     P_VERNUM    "1.0a"
+#define     P_VERTXT    "updated ySTR functions to ¶ystr¶ prefix"
 
 
 /*

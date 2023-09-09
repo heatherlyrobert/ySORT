@@ -185,9 +185,9 @@ ysort_scatter__unit     (char *a_question, tSLOT a_slots [SEVENBIT], char a_num)
    int         x_back      =    0;
    tMOCK *x_curr      = NULL;
    /*---(initialize)---------------------*/
-   strlcpy (unit_answer, "SCATTER unit     : unknown request", 100);
+   ystrlcpy (unit_answer, "SCATTER unit     : unknown request", 100);
    if      (strcmp (a_question, "buckets"       ) == 0) {
-      strlcpy (t, "", LEN_RECD);
+      ystrlcpy (t, "", LEN_RECD);
       for (i = 'a'; i <= 'z'; ++i) {
          if (a_slots [i].count == 0) {
             sprintf (s, " -");
@@ -196,21 +196,21 @@ ysort_scatter__unit     (char *a_question, tSLOT a_slots [SEVENBIT], char a_num)
             ++n;
             c += a_slots [i].count;
          }
-         strlcat (t, s  , LEN_RECD);
+         ystrlcat (t, s  , LEN_RECD);
          if (x_curr!= NULL)  x_curr = x_curr->next;
       }
       snprintf (unit_answer, LEN_RECD, "SCATTER buckets  : %2d %2d %s", c, n, t);
    }
    else if (strcmp (a_question, "slot"          ) == 0) {
-      strlcpy (t, "", LEN_RECD);
+      ystrlcpy (t, "", LEN_RECD);
       x_curr = a_slots [a_num].head;
       while (x_curr != NULL) {
          sprintf (s, " [%-8.8s]", x_curr->label);
-         strlcat (t, s  , LEN_RECD);
+         ystrlcat (t, s  , LEN_RECD);
          ++c;
          x_curr = x_curr->next;
       }
-      if (strcmp (t, "") == 0)  strlcpy (t, " -", LEN_RECD);
+      if (strcmp (t, "") == 0)  ystrlcpy (t, " -", LEN_RECD);
       snprintf (unit_answer, LEN_RECD, "SCATTER slot (%c) : %2d %s", a_num, c, t);
    }
    /*---(complete)-----------------------*/

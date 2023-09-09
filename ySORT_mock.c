@@ -351,8 +351,8 @@ ysort_mock__unlinker    (uchar a_type, void **a_head, void **a_tail, void *a_two
    x_tail   = * ((tMOCK **) a_tail);
    DEBUG_YSORT   yLOG_complex ("pointers"  , "head %p, tail %p", x_head, x_tail);
    x_two    = (tMOCK *) a_two;
-   if (x_head != NULL)  strlcpy (h, x_head->label, LEN_LABEL);
-   if (x_tail != NULL)  strlcpy (t, x_tail->label, LEN_LABEL);
+   if (x_head != NULL)  ystrlcpy (h, x_head->label, LEN_LABEL);
+   if (x_tail != NULL)  ystrlcpy (t, x_tail->label, LEN_LABEL);
    DEBUG_YSORT   yLOG_complex ("labels"    , "%-10.10s, %-10.10s, %-10.10s", h, t, x_two->label);
    /*---(unlink current from list)-------*/
    DEBUG_YSORT   yLOG_note    ("unlink");
@@ -401,9 +401,9 @@ ysort_mock__linker      (uchar a_type, void **a_head, void **a_tail, void *a_one
    x_tail   = * ((tMOCK **) a_tail);
    x_one    = (tMOCK *) a_one;
    x_two    = (tMOCK *) a_two;
-   if (x_head != NULL)  strlcpy (h, x_head->label, LEN_LABEL);
-   if (x_tail != NULL)  strlcpy (t, x_tail->label, LEN_LABEL);
-   if (x_one  != NULL)  strlcpy (o, x_one->label , LEN_LABEL);
+   if (x_head != NULL)  ystrlcpy (h, x_head->label, LEN_LABEL);
+   if (x_tail != NULL)  ystrlcpy (t, x_tail->label, LEN_LABEL);
+   if (x_one  != NULL)  ystrlcpy (o, x_one->label , LEN_LABEL);
    DEBUG_YSORT   yLOG_complex ("labels"    , "%-10.10s, %-10.10s, %-10.10s, %-10.10s", h, t, o, x_two->label);
    /*---(insert back in)-----------------*/
    if (a_one == NULL) {
@@ -492,7 +492,7 @@ ysort_mock__slotter     (uchar a_lvl, void *a_two, uchar a_order)
       DEBUG_YSORT   yLOG_sint    (x_slot);
    }
    /*---(slot)---------------------------*/
-   DEBUG_YSORT   yLOG_schar   (chrvisible (x_slot));
+   DEBUG_YSORT   yLOG_schar   (ychrvisible (x_slot));
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
    return x_slot;

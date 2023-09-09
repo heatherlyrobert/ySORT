@@ -241,7 +241,7 @@ ysort_gnome__unit       (char *a_question, int a_num)
    int         x_back      =    0;
    tMOCK *x_curr      = NULL;
    /*---(initialize)---------------------*/
-   strlcpy (unit_answer, "GNOME unit       : unknown request", 100);
+   ystrlcpy (unit_answer, "GNOME unit       : unknown request", 100);
    /*---(basics)-------------------------*/
    if      (strcmp (a_question, "count"         ) == 0) {
       x_curr = (tMOCK *) g_head; while (x_curr != NULL) { ++x_fore; x_curr = x_curr->next; }
@@ -250,12 +250,12 @@ ysort_gnome__unit       (char *a_question, int a_num)
    }
    else if (strcmp (a_question, "seq"           ) == 0) {
       x_curr = (tMOCK *) g_head; 
-      strlcpy (t, "", LEN_RECD);
+      ystrlcpy (t, "", LEN_RECD);
       for (i = 0; i < 20; ++i) {
          if (x_curr == NULL)  sprintf (s, "--");
          else                 sprintf (s, "%02d", x_curr->seq);
-         if (i > 0)  strlcat (t, " ", LEN_RECD);
-         strlcat (t, s  , LEN_RECD);
+         if (i > 0)  ystrlcat (t, " ", LEN_RECD);
+         ystrlcat (t, s  , LEN_RECD);
          if (x_curr!= NULL)  x_curr = x_curr->next;
       }
       snprintf (unit_answer, LEN_RECD, "GNOME seq        : %s", t);

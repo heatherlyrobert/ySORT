@@ -103,7 +103,7 @@ ySORT_btree             (uchar a_abbr, cchar *a_sort)
    /*---(wipe)---------------------------*/
    DEBUG_YSORT   yLOG_snote   ("clear");
    s_trees [n].abbr = '-';
-   strlcpy (s_trees [n].name, "", LEN_LABEL);
+   ystrlcpy (s_trees [n].name, "", LEN_LABEL);
    B_READY = '-';
    B_HEAD  = NULL;
    B_TAIL  = NULL;
@@ -112,10 +112,10 @@ ySORT_btree             (uchar a_abbr, cchar *a_sort)
    B_DEPTH = 0;
    B_SAVED = NULL;
    B_PUSH  = NULL;
-   strlcpy (B_SEARCH, "", LEN_TITLE);
+   ystrlcpy (B_SEARCH, "", LEN_TITLE);
    /*---(save)---------------------------*/
    s_trees [n].abbr = a_abbr;
-   if (a_sort != NULL)  strlcpy (s_trees [n].name, a_sort, LEN_LABEL);
+   if (a_sort != NULL)  ystrlcpy (s_trees [n].name, a_sort, LEN_LABEL);
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
    return 0;
@@ -823,7 +823,7 @@ ysort_btree_searchdown  (tSORT *a_node, char *a_dir, char *a_key)
    int         rc          =    0;
    if (a_node == NULL)  return NULL;
    ++g_depth;
-   strlcat (g_path, a_dir, LEN_HUND);
+   ystrlcat (g_path, a_dir, LEN_HUND);
    rc = strcmp  (a_node->sort, a_key);
    DEBUG_YSORT   yLOG_complex ("compare"   , "%s  %-20.20s  %4d", a_dir, a_node->sort, rc);
    if (rc >  0)  return ysort_btree_searchdown (a_node->left , "L", a_key);
@@ -864,7 +864,7 @@ ySORT_by_name           (uchar a_abbr, char *a_key, void **r_data)
    }
    /*---(prepare)------------------------*/
    g_depth = 0;
-   strlcpy (g_path, "", LEN_HUND);
+   ystrlcpy (g_path, "", LEN_HUND);
    /*---(search)-------------------------*/
    DEBUG_YSORT   yLOG_note    ("dive into btree");
    o = ysort_btree_searchdown (B_ROOT, "@", a_key);
@@ -879,7 +879,7 @@ ySORT_by_name           (uchar a_abbr, char *a_key, void **r_data)
    }
    /*---(save)---------------------------*/
    DEBUG_YSORT   yLOG_note    ("found");
-   strlcpy (B_SEARCH, a_key, LEN_TITLE);
+   ystrlcpy (B_SEARCH, a_key, LEN_TITLE);
    B_SAVED   = o;
    /*---(save results)-------------------*/
    DEBUG_YSORT   yLOG_spoint  (B_SAVED->data);
@@ -945,9 +945,9 @@ ysort_btree__unit       (uchar a_btree, char *a_question, int i)
       strcpy  (t, "å");
       for (i = 0; i < s_ntree; ++i) {
          sprintf (s, "%c", s_trees [i].abbr);
-         strlcat (t, s, LEN_HUND);
+         ystrlcat (t, s, LEN_HUND);
       }
-      strlcat (t, "æ", LEN_HUND);
+      ystrlcat (t, "æ", LEN_HUND);
       snprintf (unit_answer, LEN_RECD, "BTREE trees      : %2d  %s", s_ntree, t);
       return unit_answer;
    }

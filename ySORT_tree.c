@@ -195,7 +195,7 @@ ysort_tree__searchdown       (uchar a_type, void *a_node, char *a_dir, void *a_k
    }
    /*---(prepare)------------------------*/
    ++s_depth;
-   strlcat (s_path, a_dir, LEN_DESC);
+   ystrlcat (s_path, a_dir, LEN_DESC);
    DEBUG_YSORT   yLOG_info    ("s_path"    , s_path);
    /*---(compare)------------------------*/
    rc = g_checker (a_type, 0, a_node, a_key, YSORT_SEARCH); 
@@ -228,7 +228,7 @@ ysort_tree__notfound    (void)
    s_last   = NULL;
    s_result = -1;
    s_depth  = 0;
-   strlcpy (s_path, "-", LEN_DESC);
+   ystrlcpy (s_path, "-", LEN_DESC);
 }
 
 char
@@ -242,7 +242,7 @@ ySORT_search            (uchar a_type, void *a_root, void *a_key, void **a_found
    DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
    s_depth = 0;
-   strlcpy (s_path, "", LEN_DESC);
+   ystrlcpy (s_path, "", LEN_DESC);
    if (a_found != NULL)  *a_found = NULL;
    /*---(defense)------------------------*/
    DEBUG_YSORT   yLOG_point   ("a_root"    , a_root);
@@ -310,9 +310,9 @@ ysort_tree__walk      (uchar a_type, int a_lvl, void *a_node, char *a_path)
    sprintf (x_path, "%sL", a_path, LEN_DESC);
    ysort_tree__walk  (a_type, a_lvl + 1, x_left, x_path);
    /*---(self)---------------------------*/
-   strlcpy (x_pre, "", LEN_RECD);
-   for (i =  0; i < a_lvl - 1; ++i)  strlcat (x_pre, "   ", LEN_RECD);
-   strlcat (x_pre, "+--", LEN_RECD);
+   ystrlcpy (x_pre, "", LEN_RECD);
+   for (i =  0; i < a_lvl - 1; ++i)  ystrlcat (x_pre, "   ", LEN_RECD);
+   ystrlcat (x_pre, "+--", LEN_RECD);
    for (i = 1; i < 20; ++i) {
       if      (strncmp (a_path + i, "LR", 2) == 0)  x_pre [3 * i] = '|';
       else if (strncmp (a_path + i, "RL", 2) == 0)  x_pre [3 * i] = '|';
@@ -369,7 +369,7 @@ ySORT_search_stats      (int *a_result, void **a_last, int *a_depth, char *a_pat
    if (a_result  != NULL)  *a_result  = s_result;
    if (a_last    != NULL)  *a_last    = s_last;
    if (a_depth   != NULL)  *a_depth   = s_depth;
-   if (a_path    != NULL)  strlcpy (a_path, s_path, LEN_DESC);
+   if (a_path    != NULL)  ystrlcpy (a_path, s_path, LEN_DESC);
    return 0;
 }
 
@@ -392,7 +392,7 @@ ysort_tree__unit        (char *a_question, int n)
    /*---(overall)------------------------*/
    if      (strcmp (a_question, "result"        ) == 0) {
       if (s_last == NULL)   strcpy  (t, "(null)");
-      else                  strlcpy (t, ((tMOCK *) s_last)->label, LEN_LABEL);
+      else                  ystrlcpy (t, ((tMOCK *) s_last)->label, LEN_LABEL);
       snprintf (unit_answer, LEN_FULL, "TREE result      : %2d %-20.20s  %2d %s", s_result, t, s_depth, s_path);
    }
    /*---(complete)-----------------------*/
