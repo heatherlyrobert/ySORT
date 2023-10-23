@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.-- production"
 #define     P_VERMINOR  "1.0- stable, update as necessary"
-#define     P_VERNUM    "1.0a"
-#define     P_VERTXT    "updated ySTR functions to ¶ystr¶ prefix"
+#define     P_VERNUM    "1.0b"
+#define     P_VERTXT    "couple debugging adds to troll"
 
 
 /*

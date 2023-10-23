@@ -25,6 +25,10 @@ ysort_troll__scatter    (uchar a_type, uchar a_lvl, void **a_head, void **a_tail
    void       *x_next      = NULL;          /* next pointer                   */
    /*---(header)-------------------------*/
    DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSORT   yLOG_point   ("g_cursor"  , g_cursor);
+   DEBUG_YSORT   yLOG_point   ("g_unlinker", g_unlinker);
+   DEBUG_YSORT   yLOG_point   ("g_slotter" , g_slotter);
+   DEBUG_YSORT   yLOG_point   ("g_linker"  , g_linker);
    /*---(initialize)---------------------*/
    for (i = 0; i < SEVENBIT; ++i) {
       a_slots [i].head  = NULL;
@@ -34,19 +38,26 @@ ysort_troll__scatter    (uchar a_type, uchar a_lvl, void **a_head, void **a_tail
    DEBUG_YSORT   yLOG_complex ("bef point" , "head %p, tail %p", *a_head, *a_tail);
    /*---(walk through the list)----------*/
    rc = g_cursor (a_type, *a_head, *a_tail, NULL  , &x_curr, '[');
+   DEBUG_YSORT_M yLOG_point   ("head"      , x_curr);
    while (x_curr != NULL) {
       /*---(save next)-------------------*/
       rc    = g_cursor (a_type, *a_head, *a_tail, x_curr, &x_next, '>');
+      DEBUG_YSORT_M yLOG_value   ("cursor"    , rc);
+      DEBUG_YSORT_M yLOG_point   ("x_next"    , x_next);
       /*---(remove from source)----------*/
-      rc = g_unlinker (a_type, a_head, a_tail, x_curr);
+      rc    = g_unlinker (a_type, a_head, a_tail, x_curr);
+      DEBUG_YSORT_M yLOG_value   ("unlink"    , rc);
       --(*a_count);
       /*---(add to slot)-----------------*/
       x_off = g_slotter  (a_lvl, x_curr, g_order);
+      DEBUG_YSORT_M yLOG_value   ("slotter"   , rc);
       DEBUG_YSORT   yLOG_value   ("x_off"     , x_off);
-      rc = g_linker   (a_type, &(a_slots [x_off].head), &(a_slots [x_off].tail), NULL, x_curr);
+      rc    = g_linker   (a_type, &(a_slots [x_off].head), &(a_slots [x_off].tail), NULL, x_curr);
+      DEBUG_YSORT_M yLOG_value   ("linker"    , rc);
       ++a_slots [x_off].count;
       /*---(prepare for next)------------*/
       x_curr = x_next;
+      DEBUG_YSORT_M yLOG_point   ("x_curr"    , x_curr);
       /*---(done)------------------------*/
    }
    DEBUG_YSORT   yLOG_complex ("aft point" , "head %p, tail %p", *a_head, *a_tail);
