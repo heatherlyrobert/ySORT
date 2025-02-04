@@ -3,6 +3,7 @@
 #define YSORT_HGUARD loaded
 
 
+#include    <ySTR_solo.h>
 
 typedef  const    char cchar;
 typedef  unsigned char uchar;
@@ -65,6 +66,12 @@ char        ySORT_treeform          (uchar a_abbr);
 char        ySORT_list              (uchar a_abbr);
 
 char        ySORT_labels            (char *a_list);
+
+char        ySORT_string            (char a_list [LEN_MASS]);
+int         ySORT_string_count      (void);
+char        ySORT_string_cursor     (char a_dir, char r_item [LEN_HUND]);
+char        ySORT_string_index      (int i, char r_item [LEN_HUND]);
+
 
 #endif
 /*===[[ END ]]================================================================*/

@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.-- production"
 #define     P_VERMINOR  "1.0- stable, update as necessary"
-#define     P_VERNUM    "1.0c"
-#define     P_VERTXT    "minor updates to support library changes"
+#define     P_VERNUM    "1.0d"
+#define     P_VERTXT    "added ySORT_string ability, as long desired"
 
 
 /*
@@ -122,6 +122,7 @@
 #include    <yURG.h>                    /* heatherly program logger            */
 #include    <yLOG.h>                    /* heatherly program logger            */
 #include    <ySTR.h>
+
 #include    <yDLST_solo.h>
 
 
@@ -280,5 +281,26 @@ char*       ysort_treeify__unit     (char *a_question, int n);
 /*---(support)--------------*/
 llong       ysort_labels__fromlabel (char *a_label);
 char*       ysort_labels__tolabel   (llong a_value, char *a_label);
+
+
+
+/*===[[ ySORT_list.c ]]=======================================================*/
+/*··········>·······················>·········································*/
+/*---(parts)----------------*/
+char        ysort_string__prepare   (char a_list [LEN_MASS]);
+char        ysort_string__itself    (void);
+char        ysort_string__wrap      (char r_list [LEN_MASS]);
+/*---(driver)---------------*/
+char        ySORT_string            (char b_list [LEN_MASS]);
+/*---(data)-----------------*/
+int         ySORT_string_count      (void);
+char        ySORT_string_cursor     (char a_dir, char r_item [LEN_HUND]);
+char        ySORT_string_index      (int i, char r_item [LEN_HUND]);
+/*---(unittest)-------------*/
+char*       ysort_string__unit      (char *a_question, int a_num);
+/*---(done)-----------------*/
+
+
+
 
 #endif
