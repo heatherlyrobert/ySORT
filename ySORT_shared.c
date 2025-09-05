@@ -205,34 +205,3 @@ ySORT_config            (uchar a_mode, void *p_cursor, void *p_checker, void *p_
 /*===----                    unit testing accessor                     ----===*/
 /*====================------------------------------------====================*/
 static void      o___UNITTEST________________o (void) {;}
-
-char       /*----: set up program urgents/debugging --------------------------*/
-ysort__unit_quiet       (void)
-{
-   yLOGS_begin ("ySORT", YLOG_SYS, YLOG_QUIET);
-   ySORT_purge_all ();
-   ysort_mock_init    ();
-   ysort__reinit ();
-   return 0;
-}
-
-char       /*----: set up program urgents/debugging --------------------------*/
-ysort__unit_loud        (void)
-{
-   yLOGS_begin ("ySORT", YLOG_SYS, YLOG_NOISE);
-   yURG_by_name  ("kitchen"      , YURG_ON);
-   DEBUG_YSORT   yLOG_info     ("ySORT"   , ySORT_version   ());
-   ysort_mock_init    ();
-   ysort__reinit ();
-   return 0;
-}
-
-char       /*----: stop logging ----------------------------------------------*/
-ysort__unit_end    (void)
-{
-   ySORT_purge_all ();
-   ysort_mock_wrap    ();
-   ysort__reinit ();
-   yLOGS_end     ();
-   return 0;
-}

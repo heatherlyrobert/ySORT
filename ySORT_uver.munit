@@ -1,0 +1,334 @@
+#include    <ySTR_solo.h>
+
+#include    "ySORT_solo.h"
+#include    "ySORT_uver.h"
+
+#include    <yCOLOR_solo.h>
+#include    <yUNIT_solo.h>
+
+#include    "master.c"
+
+
+char       s_small    [LEN_DESC][LEN_TITLE];
+
+char
+unit___ysort_create (void)
+{
+   yUNIT_mincond  ("creating data");
+   strcpy (s_small [ 0], "coconut··········-··-··-·  ");
+   strcpy (s_small [ 1], "mouse············-··-··-·  ");
+   strcpy (s_small [ 2], "muskox···········-··-··-·  ");
+   strcpy (s_small [ 3], "tiger············-··-··-·  ");
+   strcpy (s_small [ 4], "rabbit···········-··-··-·  ");
+   strcpy (s_small [ 5], "dragon···········-··-··-·  ");
+   strcpy (s_small [ 6], "snake············-··-··-·  ");
+   strcpy (s_small [ 7], "horse············-··-··-·  ");
+   strcpy (s_small [ 8], "goat·············-··-··-·  ");
+   strcpy (s_small [ 9], "monkey···········-··-··-·  ");
+   strcpy (s_small [10], "rooster··········-··-··-·  ");
+   strcpy (s_small [11], "aardvark·········-··-··-·  ");
+   strcpy (s_small [12], "buffalo··········-··-··-·  ");
+   strcpy (s_small [13], "camel············-··-··-·  ");
+   strcpy (s_small [14], "dolphin··········-··-··-·  ");
+   strcpy (s_small [15], "elephant·········-··-··-·  ");
+   strcpy (s_small [16], "falcon···········-··-··-·  ");
+   strcpy (s_small [17], "giraffe··········-··-··-·  ");
+   strcpy (s_small [18], "hippo············-··-··-·  ");
+   strcpy (s_small [19], "iguana···········-··-··-·  ");
+   strcpy (s_small [20], "jaguar···········-··-··-·  ");
+   strcpy (s_small [21], "kangaroo·········-··-··-·  ");
+   strcpy (s_small [22], "llama············-··-··-·  ");
+   strcpy (s_small [23], "millipede········-··-··-·  ");
+   strcpy (s_small [24], "nautilus·········-··-··-·  ");
+   strcpy (s_small [25], "octopus··········-··-··-·  ");
+   strcpy (s_small [26], "peacock··········-··-··-·  ");
+   strcpy (s_small [27], "quetzal··········-··-··-·  ");
+   strcpy (s_small [28], "rhino············-··-··-·  ");
+   strcpy (s_small [29], "squirrel·········-··-··-·  ");
+   strcpy (s_small [30], "tortoise·········-··-··-·  ");
+   strcpy (s_small [31], "unicorn··········-··-··-·  ");
+   strcpy (s_small [32], "vulture··········-··-··-·  ");
+   strcpy (s_small [33], "warthog··········-··-··-·  ");
+   strcpy (s_small [34], "axolotl··········-··-··-·  ");
+   strcpy (s_small [35], "yeti·············-··-··-·  ");
+   strcpy (s_small [36], "zebra············-··-··-·  ");
+   strcpy (s_small [37], "·················-··-··-·  ");
+   strcpy (s_small [38], "·················-··-··-·  ");
+   strcpy (s_small [39], "·················-··-··-·  ");
+   yUNIT_mindnoc  ();
+
+   return 0;
+}
+
+char
+unit___ysort__umods    (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yENV", "ysort_uver", "(UVER) verify preparing strings");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   /*> ysort__unit_loud ();                                                           <*/
+
+   unit___ysort_create ();
+
+   yUNIT_mincond  ("verify updating strings");
+   yUNIT_minval   ("call mods"                          , ysort__umods ('b', s_small, LEN_TITLE, 15, 37)  ,    0);
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0]        , "coconut        ··-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4]        , "rabbit         ··-··-··-·  ");
+   yUNIT_minstr   ("... show display 14"                , s_small  [14]        , "dolphin        ··-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29]        , "squirrel       ··-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36]        , "zebra          ··-··-··-·  ");
+   yUNIT_minstr   ("... show display 37"                , s_small  [37]        , "·················-··-··-·  ");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify putting it back");
+   yUNIT_minval   ("call mods"                          , ysort__umods ('e', s_small, LEN_TITLE, 15, 37)  ,    0);
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0]        , "coconut··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4]        , "rabbit···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 14"                , s_small  [14]        , "dolphin··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29]        , "squirrel·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36]        , "zebra············-··-··-·  ");
+   yUNIT_minstr   ("... show display 37"                , s_small  [37]        , "·················-··-··-·  ");
+   yUNIT_mindnoc  ();
+
+   unit___ysort_create ();
+
+   yUNIT_mincond  ("attempt with bad phases");
+   yUNIT_minval   ("call mods"                          , ysort__umods ( 0 , s_small, LEN_TITLE, 15, 37)  , -999);
+   yUNIT_minval   ("call mods"                          , ysort__umods ('-', s_small, LEN_TITLE, 15, 37)  , -999);
+   yUNIT_minval   ("call mods"                          , ysort__umods ('B', s_small, LEN_TITLE, 15, 37)  , -999);
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0]        , "coconut··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4]        , "rabbit···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 14"                , s_small  [14]        , "dolphin··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29]        , "squirrel·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36]        , "zebra············-··-··-·  ");
+   yUNIT_minstr   ("... show display 37"                , s_small  [37]        , "·················-··-··-·  ");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("attempt with NULLs, zeros, and rational limits");
+   yUNIT_minval   ("call mods"                          , ysort__umods ('b', NULL   , LEN_TITLE, 15, 37)  , -999);
+   yUNIT_minval   ("call mods"                          , ysort__umods ('b', s_small, 0        , 15, 37)  , -999);
+   yUNIT_minval   ("call mods"                          , ysort__umods ('b', s_small, 4        , 15, 37)  , -999);
+   yUNIT_minval   ("call mods"                          , ysort__umods ('b', s_small, LEN_TITLE,  0, 37)  , -999);
+   yUNIT_minval   ("call mods"                          , ysort__umods ('b', s_small, 5        ,  6, 37)  , -999);
+   yUNIT_minval   ("call mods"                          , ysort__umods ('b', s_small, LEN_TITLE, 15,  0)  , -999);
+   yUNIT_minval   ("call mods"                          , ysort__umods ('b', s_small, LEN_TITLE, 15,  4)  , -999);
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0]        , "coconut··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4]        , "rabbit···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 14"                , s_small  [14]        , "dolphin··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29]        , "squirrel·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36]        , "zebra············-··-··-·  ");
+   yUNIT_minstr   ("... show display 37"                , s_small  [37]        , "·················-··-··-·  ");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("attempt with a row too long");
+   strcpy (s_small [ 2], "muskox···········-··-··-·        ");
+   yUNIT_minval   ("call mods"                          , ysort__umods ('b', s_small, LEN_TITLE, 15, 37)  , -999);
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0]        , "coconut        ··-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4]        , "rabbit···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 14"                , s_small  [14]        , "dolphin··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29]        , "squirrel·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36]        , "zebra············-··-··-·  ");
+   yUNIT_minstr   ("... show display 37"                , s_small  [37]        , "·················-··-··-·  ");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify putting it back");
+   yUNIT_minval   ("call mods"                          , ysort__umods ('e', s_small, LEN_TITLE, 15, 37)  , -999);
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0]        , "coconut··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4]        , "rabbit···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 14"                , s_small  [14]        , "dolphin··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29]        , "squirrel·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36]        , "zebra············-··-··-·  ");
+   yUNIT_minstr   ("... show display 37"                , s_small  [37]        , "·················-··-··-·  ");
+   yUNIT_mindnoc  ();
+
+   unit___ysort_create ();
+
+   yUNIT_mincond  ("verify less cleaning space");
+   yUNIT_minval   ("call mods"                          , ysort__umods ('b', s_small, LEN_TITLE, 10, 37)  ,    0);
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0]        , "coconut   ·······-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4]        , "rabbit    ·······-··-··-·  ");
+   yUNIT_minstr   ("... show display 14"                , s_small  [14]        , "dolphin   ·······-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29]        , "squirrel  ·······-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36]        , "zebra     ·······-··-··-·  ");
+   yUNIT_minstr   ("... show display 37"                , s_small  [37]        , "·················-··-··-·  ");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify putting it back");
+   yUNIT_minval   ("call mods"                          , ysort__umods ('e', s_small, LEN_TITLE, 15, 37)  ,    0);
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0]        , "coconut··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4]        , "rabbit···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 14"                , s_small  [14]        , "dolphin··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29]        , "squirrel·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36]        , "zebra············-··-··-·  ");
+   yUNIT_minstr   ("... show display 37"                , s_small  [37]        , "·················-··-··-·  ");
+   yUNIT_mindnoc  ();
+
+   unit___ysort_create ();
+
+   yUNIT_mincond  ("verify fewer records in table");
+   yUNIT_minval   ("call mods"                          , ysort__umods ('b', s_small, LEN_TITLE, 10, 20)  ,    0);
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0]        , "coconut   ·······-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4]        , "rabbit    ·······-··-··-·  ");
+   yUNIT_minstr   ("... show display 14"                , s_small  [14]        , "dolphin   ·······-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29]        , "squirrel·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36]        , "zebra············-··-··-·  ");
+   yUNIT_minstr   ("... show display 37"                , s_small  [37]        , "·················-··-··-·  ");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify putting it back");
+   yUNIT_minval   ("call mods"                          , ysort__umods ('e', s_small, LEN_TITLE, 15, 37)  ,    0);
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0]        , "coconut··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4]        , "rabbit···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 14"                , s_small  [14]        , "dolphin··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29]        , "squirrel·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36]        , "zebra············-··-··-·  ");
+   yUNIT_minstr   ("... show display 37"                , s_small  [37]        , "·················-··-··-·  ");
+   yUNIT_mindnoc  ();
+
+   /*> ysort__unit_end  ();                                                           <*/
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+unit___ysort_sort      (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yENV", "ysort_uver", "() verify sorting strings");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   unit___ysort_create ();
+
+   yUNIT_mincond  ("verify before");
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0], "coconut··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  1"                , s_small  [ 1], "mouse············-··-··-·  ");
+   yUNIT_minstr   ("... show display  2"                , s_small  [ 2], "muskox···········-··-··-·  ");
+   yUNIT_minstr   ("... show display  3"                , s_small  [ 3], "tiger············-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4], "rabbit···········-··-··-·  ");
+   yUNIT_minstr   ("... show display  5"                , s_small  [ 5], "dragon···········-··-··-·  ");
+   yUNIT_minstr   ("... show display  6"                , s_small  [ 6], "snake············-··-··-·  ");
+   yUNIT_minstr   ("... show display  7"                , s_small  [ 7], "horse············-··-··-·  ");
+   yUNIT_minstr   ("... show display  8"                , s_small  [ 8], "goat·············-··-··-·  ");
+   yUNIT_minstr   ("... show display  9"                , s_small  [ 9], "monkey···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 10"                , s_small  [10], "rooster··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 11"                , s_small  [11], "aardvark·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 12"                , s_small  [12], "buffalo··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 13"                , s_small  [13], "camel············-··-··-·  ");
+   yUNIT_minstr   ("... show display 14"                , s_small  [14], "dolphin··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 15"                , s_small  [15], "elephant·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 16"                , s_small  [16], "falcon···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 17"                , s_small  [17], "giraffe··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 18"                , s_small  [18], "hippo············-··-··-·  ");
+   yUNIT_minstr   ("... show display 19"                , s_small  [19], "iguana···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 20"                , s_small  [20], "jaguar···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 21"                , s_small  [21], "kangaroo·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 22"                , s_small  [22], "llama············-··-··-·  ");
+   yUNIT_minstr   ("... show display 23"                , s_small  [23], "millipede········-··-··-·  ");
+   yUNIT_minstr   ("... show display 24"                , s_small  [24], "nautilus·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 25"                , s_small  [25], "octopus··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 26"                , s_small  [26], "peacock··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 27"                , s_small  [27], "quetzal··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 28"                , s_small  [28], "rhino············-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29], "squirrel·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 30"                , s_small  [30], "tortoise·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 31"                , s_small  [31], "unicorn··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 32"                , s_small  [32], "vulture··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 33"                , s_small  [33], "warthog··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 34"                , s_small  [34], "axolotl··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 35"                , s_small  [35], "yeti·············-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36], "zebra············-··-··-·  ");
+   yUNIT_minstr   ("... show display 37"                , s_small  [37], "·················-··-··-·  ");
+   yUNIT_minstr   ("... show display 38"                , s_small  [38], "·················-··-··-·  ");
+   yUNIT_minstr   ("... show display 39"                , s_small  [39], "·················-··-··-·  ");
+   yUNIT_minprcs  ();
+
+   yUNIT_mincond  ("verify sorting");
+   yUNIT_minval   ("call sort"                          , ysort_ustrings   (s_small, LEN_TITLE, 15, 37)  ,    0);
+
+   yUNIT_minstr   ("... show display  0"                , s_small  [ 0], "aardvark·········-··-··-·  ");
+   yUNIT_minstr   ("... show display  1"                , s_small  [ 1], "axolotl··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  2"                , s_small  [ 2], "buffalo··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  3"                , s_small  [ 3], "camel············-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [ 4], "coconut··········-··-··-·  ");
+
+   yUNIT_minstr   ("... show display 14"                , s_small  [ 5], "dolphin··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  5"                , s_small  [ 6], "dragon···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 15"                , s_small  [ 7], "elephant·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 16"                , s_small  [ 8], "falcon···········-··-··-·  ");
+
+   yUNIT_minstr   ("... show display 17"                , s_small  [ 9], "giraffe··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  8"                , s_small  [10], "goat·············-··-··-·  ");
+   yUNIT_minstr   ("... show display 18"                , s_small  [11], "hippo············-··-··-·  ");
+   yUNIT_minstr   ("... show display  7"                , s_small  [12], "horse············-··-··-·  ");
+   yUNIT_minstr   ("... show display 19"                , s_small  [13], "iguana···········-··-··-·  ");
+
+   yUNIT_minstr   ("... show display 20"                , s_small  [14], "jaguar···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 21"                , s_small  [15], "kangaroo·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 22"                , s_small  [16], "llama············-··-··-·  ");
+
+   yUNIT_minstr   ("... show display 23"                , s_small  [17], "millipede········-··-··-·  ");
+   yUNIT_minstr   ("... show display  9"                , s_small  [18], "monkey···········-··-··-·  ");
+   yUNIT_minstr   ("... show display  1"                , s_small  [19], "mouse············-··-··-·  ");
+   yUNIT_minstr   ("... show display  2"                , s_small  [20], "muskox···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 24"                , s_small  [21], "nautilus·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 25"                , s_small  [22], "octopus··········-··-··-·  ");
+
+   yUNIT_minstr   ("... show display 26"                , s_small  [23], "peacock··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 27"                , s_small  [24], "quetzal··········-··-··-·  ");
+   yUNIT_minstr   ("... show display  4"                , s_small  [25], "rabbit···········-··-··-·  ");
+   yUNIT_minstr   ("... show display 28"                , s_small  [26], "rhino············-··-··-·  ");
+   yUNIT_minstr   ("... show display 10"                , s_small  [27], "rooster··········-··-··-·  ");
+
+   yUNIT_minstr   ("... show display  6"                , s_small  [28], "snake············-··-··-·  ");
+   yUNIT_minstr   ("... show display 29"                , s_small  [29], "squirrel·········-··-··-·  ");
+   yUNIT_minstr   ("... show display  3"                , s_small  [30], "tiger············-··-··-·  ");
+   yUNIT_minstr   ("... show display 30"                , s_small  [31], "tortoise·········-··-··-·  ");
+   yUNIT_minstr   ("... show display 31"                , s_small  [32], "unicorn··········-··-··-·  ");
+
+   yUNIT_minstr   ("... show display 32"                , s_small  [33], "vulture··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 33"                , s_small  [34], "warthog··········-··-··-·  ");
+   yUNIT_minstr   ("... show display 35"                , s_small  [35], "yeti·············-··-··-·  ");
+   yUNIT_minstr   ("... show display 36"                , s_small  [36], "zebra············-··-··-·  ");
+
+   yUNIT_minstr   ("... show display 37"                , s_small  [37], "·················-··-··-·  ");
+   yUNIT_minstr   ("... show display 38"                , s_small  [38], "·················-··-··-·  ");
+   yUNIT_minstr   ("... show display 39"                , s_small  [39], "·················-··-··-·  ");
+   yUNIT_minprcs  ();
+
+   return 0;
+}
+
+char
+main                    (int a_argc, char *a_argv [])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_unit      =    0;
+   int         n           =    0;
+   char        x_list      =    0;
+   /*---(arguments)----------------------*/
+   printf ("## %s\n", "brontes-akmonides (son of the anvil) process control");
+   printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);
+   if (a_argc >= 2) {
+      if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';
+      else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';
+      else                                          x_unit = atoi (a_argv [1]);
+   }
+   if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);
+   else                       printf ("## selected all scripts\n");
+   if (x_list == 'y')         printf ("## list script(s) only\n");
+   else if (x_list == '!')    printf ("## generate initial wave file\n");
+   else                       printf ("## execute conditions and steps\n");
+   printf ("\n");
+   /*---(scripts)------------------------*/
+   unit___ysort__umods       (++n, x_list, x_unit);
+   unit___ysort_sort         (++n, x_list, x_unit);
+   /*---(wrapup)-------------------------*/
+   yUNIT_mintinu    ();
+   /*---(complete)-----------------------*/
+   return 0;
+}
+

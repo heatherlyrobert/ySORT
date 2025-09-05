@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.-- production"
 #define     P_VERMINOR  "1.0- stable, update as necessary"
-#define     P_VERNUM    "1.0d"
-#define     P_VERTXT    "added ySORT_string ability, as long desired"
+#define     P_VERNUM    "1.1f"
+#define     P_VERTXT    "added uver string sort for HFIX support"
 
 
 /*
