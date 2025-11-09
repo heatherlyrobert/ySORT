@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.-- production"
 #define     P_VERMINOR  "1.0- stable, update as necessary"
-#define     P_VERNUM    "1.1g"
-#define     P_VERTXT    "updated ySORT_btree, cleaned up a little, better unit testing"
+#define     P_VERNUM    "1.1h"
+#define     P_VERTXT    "couple quick changes to get unit testing full successful again"
 
 
 /*
