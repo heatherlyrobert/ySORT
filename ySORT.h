@@ -50,20 +50,36 @@ char        ySORT_search_stats      (int *a_result, void **a_last, int *a_depth,
 
 char        ySORT_walk              (uchar a_type, void *a_root, void *p_callback);
 
+
+/*===[[ polymnia_btre.c ]]===================================================*/
+/*········´ ´···············trees·´ ´·········································*/
 char        ySORT_btree             (uchar a_abbr, cchar *a_sort);
-char        ySORT_hook              (uchar a_btree, void *a_data, char *a_sort, tSORT **r_link);
+/*········´ ´·············hooking·´ ´·········································*/
+char        ySORT_hook              (uchar a_btree, void *a_data, char a_sort [LEN_TITLE], tSORT **r_link);
 char        ySORT_unhook            (tSORT **r_link);
 char        ySORT_purge             (uchar a_abbr);
 char        ySORT_purge_all         (void);
+/*········´ ´·············sorting·´ ´·········································*/
+char        ySORT_list              (uchar a_abbr);
 char        ySORT_push              (uchar a_abbr);
 char        ySORT_pop               (uchar a_abbr);
-char        ySORT_by_cursor         (uchar a_abbr, char a_dir, void **r_data);
-char        ySORT_by_index          (uchar a_abbr, int i, void **r_data);
-int         ySORT_count             (uchar a_abbr);
-char        ySORT_by_name           (uchar a_abbr, char *a_key, void **r_data);
+/*········´ ´·············treeify·´ ´·········································*/
+int         ySORT_btree_depth       (int a_size);
+int         ySORT_btree_span        (int a_levels);
 char        ySORT_prepare           (uchar a_abbr);
 char        ySORT_treeform          (uchar a_abbr);
-char        ySORT_list              (uchar a_abbr);
+/*········´ ´··············search·´ ´·········································*/
+int         ySORT_count             (uchar a_abbr);
+char        ySORT_by_name           (uchar a_abbr, char a_name [LEN_TITLE], void **r_data, int *r_tries);
+char        ySORT_by_cursor         (uchar a_abbr, char a_dir             , void **r_data, int *r_tries);
+char        ySORT_by_index          (uchar a_abbr, int  a_index           , void **r_data, int *r_tries);
+char        ySORT_by_tree           (uchar a_abbr, char a_key  [LEN_TITLE], void **r_data, int *r_tries);
+/*········´ ´·············testing·´· ´·········································*/
+char*       ySORT_btree_list        (uchar a_abbr);
+/*········´ ´················DONE·´ ´·········································*/
+
+
+
 
 char        ySORT_labels            (char *a_list);
 

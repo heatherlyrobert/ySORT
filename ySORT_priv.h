@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.-- production"
 #define     P_VERMINOR  "1.0- stable, update as necessary"
-#define     P_VERNUM    "1.1f"
-#define     P_VERTXT    "added uver string sort for HFIX support"
+#define     P_VERNUM    "1.1g"
+#define     P_VERTXT    "updated ySORT_btree, cleaned up a little, better unit testing"
 
 
 /*
@@ -205,21 +205,13 @@ extern char   unit_answer [LEN_RECD];
 char        ySORT_btree             (uchar a_abbr, cchar *a_sort);
 char        ysort_btree_by_abbr     (uchar a_abbr);
 /*---(hooking)--------------*/
-char        ySORT_hook              (uchar a_abbr, void *a_data, char *a_sort, tSORT **r_link);
 char        ySORT_unhook            (tSORT **r_link);
 char        ysort_btree__remove     (char n, tSORT *a_old);
 char        ySORT_purge             (uchar a_abbr);
-char        ySORT_purge_all         (void);
 /*---(sort)-----------------*/
 char        ysort_btree_swap        (char n, tSORT *a_one, tSORT *a_two);
 char        ysort_btree_dgnome      (uchar a_abbr);
-/*---(sequence)-------------*/
-char        ySORT_by_cursor         (uchar a_abbr, char a_dir, void **r_data);
-char        ySORT_by_index          (uchar a_abbr, int i, void **r_data);
-int         ySORT_count             (uchar a_abbr);
 /*---(build)----------------*/
-int         ysort_btree_depth       (int a_size);
-int         ysort_btree_span        (int a_levels);
 tSORT*      ysort_btree_nextlevel   (int n, int a_lvl, int a_pos, int a_dist, char a_dir, tSORT *a_node);
 char        ysort_btree_build       (uchar a_abbr);
 /*---(search)---------------*/
@@ -227,7 +219,6 @@ char        ysort_btree_display     (int a_lvl, tSORT *a_node);
 char        ySORT_treeform          (uchar a_abbr);
 char        ySORT_list              (uchar a_abbr);
 tSORT*      ysort_btree_searchdown  (tSORT *a_node, char *a_dir, char *a_key);
-char        ySORT_by_name           (uchar a_abbr, char *a_key, void **r_data);
 /*---(full)-----------------*/
 char        ySORT_prepare           (uchar a_abbr);
 /*---(unittest)-------------*/
