@@ -51,7 +51,7 @@ char        ySORT_search_stats      (int *a_result, void **a_last, int *a_depth,
 char        ySORT_walk              (uchar a_type, void *a_root, void *p_callback);
 
 
-/*===[[ polymnia_btre.c ]]===================================================*/
+/*===[[ ySORT_btree.c ]]======================================================*/
 /*········´ ´···············trees·´ ´·········································*/
 char        ySORT_btree             (uchar a_abbr, cchar *a_sort);
 /*········´ ´·············hooking·´ ´·········································*/

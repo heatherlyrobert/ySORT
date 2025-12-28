@@ -6,7 +6,8 @@
 #include    <yCOLOR_solo.h>
 #include    <yUNIT_solo.h>
 
-#include    "master.c"
+#include    "unit_code.h"
+#include    "unit_code.c"
 
 
 char       s_small    [LEN_DESC][LEN_TITLE];

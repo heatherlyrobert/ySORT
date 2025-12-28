@@ -5,37 +5,63 @@
 
 
 /*===[[ HEADER ]]=============================================================*/
-/*345678901-12345678901-123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
-
+/*                      ´·········1·········2·········3·········4·········5·········6·········7*/
+/*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
+/*········· ··········· ´·····························´········································*/
+#define     P_NAME      "ySORT"
+/*········· ··········· ´·····························´········································*/
 #define     P_FOCUS     "PS (programming support)"
 #define     P_NICHE     "so (sort/search)"
 #define     P_SUBJECT   "sorting and searching"
 #define     P_PURPOSE   "provide strong link-list sorting and searching capabilities"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_NAMESAKE  "sisyphos-katergaris (trickster)"
+#define     P_PRONOUNCE "sihs·ih·fihs"
 #define     P_HERITAGE  ""
+#define     P_BRIEFLY   ""
 #define     P_IMAGERY   ""
 #define     P_REASON    ""
-
+/*········· ··········· ´·····························´········································*/
 #define     P_ONELINE   P_NAMESAKE " " P_SUBJECT
-
-#define     P_BASENAME  ""
+/*········· ··········· ´·····························´········································*/
+#define     P_HOMEDIR   "/home/system/ySORT.gnome_sorting_and_searching"
+#define     P_BASENAME  "libySORT.so"
 #define     P_FULLPATH  ""
-#define     P_SUFFIX    ""
-#define     P_CONTENT   ""
-
+#define     P_SUFFIX    "···"
+#define     P_CONTENT   "···"
+/*········· ··········· ´·····························´········································*/
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
+#define     P_COMPILER  "gcc 5.3.0"
 #define     P_CODESIZE  "small       (appoximately 1,000 slocl)"
-#define     P_DEPENDS   "none"
-
+/*········· ··········· ´·····························´········································*/
+#define     P_DEPSTDC   "stdio,stdlib,string"
+#define     P_DEPPOSIX  "´"
+#define     P_DEPCORE   "yLOG,yURG,ySTR"
+#define     P_DEPVIKEY  "´"
+#define     P_DEPGRAPH  "´"
+#define     P_DEPOTHER  "´"
+#define     P_DEPSOLO   "yDLST_solo"
+/*········· ··········· ´·····························´········································*/
 #define     P_AUTHOR    "heatherlyrobert"
 #define     P_CREATED   "2020-04"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.-- production"
 #define     P_VERMINOR  "1.0- stable, update as necessary"
-#define     P_VERNUM    "1.1h"
-#define     P_VERTXT    "couple quick changes to get unit testing full successful again"
+#define     P_VERNUM    "1.1i"
+#define     P_VERTXT    "unit tested shared btree swap function"
+/*········· ··········· ´·····························´········································*/
+#define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
+#define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
+#define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
+/*········· ··········· ´·····························´········································*/
+#define     P_HEADERS   P_FOCUS, P_NICHE, P_SUBJECT, P_PURPOSE, P_NAMESAKE, P_PRONOUNCE, P_HERITAGE, P_BRIEFLY, P_IMAGERY, P_REASON, P_ONELINE, P_HOMEDIR, P_BASENAME, P_FULLPATH, P_SUFFIX, P_CONTENT, P_SYSTEM, P_LANGUAGE, P_COMPILER, P_CODESIZE, P_DEPSTDC, P_DEPPOSIX, P_DEPCORE, P_DEPVIKEY, P_DEPOTHER, P_DEPGRAPH, P_DEPSOLO, P_AUTHOR, P_CREATED, P_VERMAJOR, P_VERMINOR, P_VERNUM, P_VERTXT
+/*········· ··········· ´·····························´········································*/
+/*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
+/*                      ´·········1·········2·········3·········4·········5·········6·········7*/
+/*===[[ HEADER END ]]=========================================================*/
+
+
 
 
 /*
@@ -200,30 +226,22 @@ extern char   unit_answer [LEN_RECD];
 
 
 /*===[[ ySORT_btree.c ]]======================================================*/
-/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-/*---(trees)----------------*/
-char        ySORT_btree             (uchar a_abbr, cchar *a_sort);
+/*········´ ´···············trees·´ ´·········································*/
 char        ysort_btree_by_abbr     (uchar a_abbr);
-/*---(hooking)--------------*/
-char        ySORT_unhook            (tSORT **r_link);
-char        ysort_btree__remove     (char n, tSORT *a_old);
-char        ySORT_purge             (uchar a_abbr);
-/*---(sort)-----------------*/
-char        ysort_btree_swap        (char n, tSORT *a_one, tSORT *a_two);
-char        ysort_btree_dgnome      (uchar a_abbr);
-/*---(build)----------------*/
+char        ysort_btree_wipe        (char n);
+char        ysort_btree_data        (char a_abbr, char r_name [LEN_LABEL], char *r_ready, tSORT ***r_head, tSORT ***r_tail, int *r_count);
+/*········´ ´·············treeify·´ ´·········································*/
 tSORT*      ysort_btree_nextlevel   (int n, int a_lvl, int a_pos, int a_dist, char a_dir, tSORT *a_node);
 char        ysort_btree_build       (uchar a_abbr);
-/*---(search)---------------*/
+/*········´ ´··············search·´ ´·········································*/
 char        ysort_btree_display     (int a_lvl, tSORT *a_node);
-char        ySORT_treeform          (uchar a_abbr);
-char        ySORT_list              (uchar a_abbr);
 tSORT*      ysort_btree_searchdown  (tSORT *a_node, char *a_dir, char *a_key);
-/*---(full)-----------------*/
-char        ySORT_prepare           (uchar a_abbr);
-/*---(unittest)-------------*/
+char        ysort_by_cursor         (uchar a_abbr, char a_dir, tSORT** r_entry, void **r_data, int *r_tries);
+char        ysort_by_index          (uchar a_abbr, int a_index, tSORT **r_entry, void **r_data, int *r_tries);
+char        ysort_by_name           (uchar a_abbr, char a_name [LEN_TITLE], tSORT **r_entry, void **r_data, int *r_tries);
+/*········´ ´············unittest·´ ´·········································*/
 char*       ysort_btree__unit       (uchar a_btree, char *a_question, int i);
-/*---(done)-----------------*/
+/*········´ ´················DONE·´ ´·········································*/
 
 
 
@@ -231,9 +249,6 @@ char*       ysort_btree__unit       (uchar a_btree, char *a_question, int i);
 
 char        ysort_defense           (uchar a_mode, uchar a_order, void *a_head, void *a_tail);
 char        ysort__reinit           (void);
-char        ysort__unit_quiet       (void);
-char        ysort__unit_loud        (void);
-char        ysort__unit_end         (void);
 
 char        ysort_gnome_driver      (uchar a_type, uchar a_lvl, void **a_head, void **a_tail);
 char*       ysort_gnome__unit       (char *a_question, int a_num);
@@ -292,6 +307,21 @@ char*       ysort_string__unit      (char *a_question, int a_num);
 /*---(done)-----------------*/
 
 
+
+/*===[[ ySORT_intern.c ]]=====================================================*/
+/*········´ ´·············support·´ ´·········································*/
+char*       ysort_intern_show       (void);
+char        ysort_intern_init       (void);
+char        ysort_intern_prep       (tSORT *a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles);
+char        ysort_intern_done       (int *r_loops, int *r_comps, int *r_swaps, int *r_teles);
+char        ysort_intern_swap       (tSORT *a_one, tSORT *a_two);
+/*········´ ´···············sorts·´ ´·········································*/
+char        ysort_intern_gnome      (char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles);
+char        ysort_intern_dgnome     (char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles);
+char        ysort_intern_sgnome     (char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles);
+/*········´ ´············unittest·´ ´·········································*/
+char*       ysort_entry             (int a_index, tSORT *a_entry);
+/*········´ ´················DONE·´ ´·········································*/
 
 
 #endif

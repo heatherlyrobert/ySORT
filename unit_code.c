@@ -4,7 +4,6 @@
 char       /*----: set up program urgents/debugging --------------------------*/
 ysort__unit_quiet       (void)
 {
-   yLOGS_begin ("ySORT", 's', 'Q');
    ysort_mock_init ();
    ysort__reinit   ();
    return 0;
