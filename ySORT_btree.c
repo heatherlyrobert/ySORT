@@ -3,6 +3,37 @@
 #include    "ySORT_priv.h"
 
 
+
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+
+#define  P_COPYRIGHT   \
+   "copyright (c) 2020 robert.s.heatherly at balsashrike at gmail dot com"
+
+#define  P_LICENSE     \
+   "the only place you could have gotten this code is my github, my website,¦"   \
+   "or illegal sharing. given that, you should be aware that this is GPL licensed."
+
+#define  P_COPYLEFT    \
+   "the GPL COPYLEFT REQUIREMENT means any modifications or derivative works¦"   \
+   "must be released under the same GPL license, i.e, must be free and open."
+
+#define  P_INCLUDE     \
+   "the GPL DOCUMENTATION REQUIREMENT means that you must include the original¦" \
+   "copyright notice and the full licence text with any resulting anything."
+
+#define  P_AS_IS       \
+   "the GPL NO WARRANTY CLAUSE means the software is provided without any¦"      \
+   "warranty and the author cannot be held liable for damages."
+
+#define  P_THEFT    \
+   "if you knowingly violate the spirit of these ideas, i suspect you might¦"    \
+   "find any number of freedom-minded hackers may take it quite personally ;)"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+
+
 /*
  * ySORT_hook ()
  *    -- r_link can be null and work awesome
@@ -154,6 +185,7 @@ ysort_btree_data        (char a_abbr, char r_name [LEN_LABEL], char *r_ready, tS
       DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
+   DEBUG_YSORT   yLOG_char    ("B_READY"   , B_READY);
    DEBUG_YSORT   yLOG_point   ("B_HEAD"    , B_HEAD);
    DEBUG_YSORT   yLOG_point   ("B_TAIL"    , B_TAIL);
    DEBUG_YSORT   yLOG_value   ("B_COUNT"   , B_COUNT);
@@ -164,16 +196,10 @@ ysort_btree_data        (char a_abbr, char r_name [LEN_LABEL], char *r_ready, tS
    if (r_tail  != NULL)  *r_tail  = &(B_TAIL);
    if (r_count != NULL)  *r_count = B_COUNT;
    /*---(trouble)------------------------*/
-   DEBUG_YSORT   yLOG_char    ("B_READY"   , B_READY);
-   /*> --rce;  if (B_READY != 'y') {                                                  <* 
-    *>    DEBUG_YSORT   yLOG_note    ("sort does not register as ready");             <* 
-    *>    DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);                             <* 
-    *>    return rce;                                                                 <* 
-    *> }                                                                              <*/
    --rce;  if (B_TAIL == NULL) {
       DEBUG_YSORT   yLOG_note    ("zero items, no sorting required");
-      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
-      return rce;
+      DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+      return 0;
    }
    --rce;  if (B_COUNT <= 1) {
       DEBUG_YSORT   yLOG_note    ("one item, no sorting required");
@@ -944,7 +970,7 @@ ySORT_prepare           (uchar a_abbr)
    DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(prepare proj)-------------------*/
    DEBUG_YSORT   yLOG_char    ("a_abbr"    , a_abbr);
-   rc = ysort_intern_dgnome (a_abbr, NULL, NULL, NULL, NULL);
+   rc = ysort_intern (YSORT_DGNOME, a_abbr, NULL, NULL, NULL, NULL, NULL);
    DEBUG_YSORT   yLOG_value   ("dgnome"     , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);

@@ -4,6 +4,37 @@
 
 
 
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+
+#define  P_COPYRIGHT   \
+   "copyright (c) 2020 robert.s.heatherly at balsashrike at gmail dot com"
+
+#define  P_LICENSE     \
+   "the only place you could have gotten this code is my github, my website,¦"   \
+   "or illegal sharing. given that, you should be aware that this is GPL licensed."
+
+#define  P_COPYLEFT    \
+   "the GPL COPYLEFT REQUIREMENT means any modifications or derivative works¦"   \
+   "must be released under the same GPL license, i.e, must be free and open."
+
+#define  P_INCLUDE     \
+   "the GPL DOCUMENTATION REQUIREMENT means that you must include the original¦" \
+   "copyright notice and the full licence text with any resulting anything."
+
+#define  P_AS_IS       \
+   "the GPL NO WARRANTY CLAUSE means the software is provided without any¦"      \
+   "warranty and the author cannot be held liable for damages."
+
+#define  P_THEFT    \
+   "if you knowingly violate the spirit of these ideas, i suspect you might¦"    \
+   "find any number of freedom-minded hackers may take it quite personally ;)"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+
+
+
 /*===[[ HEADER ]]=============================================================*/
 /*                      ´·········1·········2·········3·········4·········5·········6·········7*/
 /*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
@@ -16,17 +47,17 @@
 #define     P_PURPOSE   "provide strong link-list sorting and searching capabilities"
 /*········· ··········· ´·····························´········································*/
 #define     P_NAMESAKE  "sisyphos-katergaris (trickster)"
-#define     P_PRONOUNCE "sihs·ih·fihs"
-#define     P_HERITAGE  ""
-#define     P_BRIEFLY   ""
-#define     P_IMAGERY   ""
-#define     P_REASON    ""
+#define     P_PRONOUNCE "sihs·uh·fihs"
+#define     P_HERITAGE  "greek king doomed by zeus to eternally roll a large boulder up a hill"
+#define     P_BRIEFLY   "punished with neverending task"
+#define     P_IMAGERY   "man pushing a large buolder up a hill"
+#define     P_REASON    "it anythign is sisyphean, its sorting ;)"
 /*········· ··········· ´·····························´········································*/
 #define     P_ONELINE   P_NAMESAKE " " P_SUBJECT
 /*········· ··········· ´·····························´········································*/
 #define     P_HOMEDIR   "/home/system/ySORT.gnome_sorting_and_searching"
 #define     P_BASENAME  "libySORT.so"
-#define     P_FULLPATH  ""
+#define     P_FULLPATH  "/usr/local/lib64/libySORT.so"
 #define     P_SUFFIX    "···"
 #define     P_CONTENT   "···"
 /*········· ··········· ´·····························´········································*/
@@ -47,9 +78,9 @@
 #define     P_CREATED   "2020-04"
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.-- production"
-#define     P_VERMINOR  "1.0- stable, update as necessary"
-#define     P_VERNUM    "1.1i"
-#define     P_VERTXT    "unit tested shared btree swap function"
+#define     P_VERMINOR  "1.1- add docs and comparison sorts"
+#define     P_VERNUM    "1.1j"
+#define     P_VERTXT    "gnome variations and comparions are working/unit tested, except bubble :("
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -60,6 +91,164 @@
 /*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
 /*                      ´·········1·········2·········3·········4·········5·········6·········7*/
 /*===[[ HEADER END ]]=========================================================*/
+
+
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_DISCLAIM    \
+   "i am a crazy, selfish, dog-fooding c-programmer. my code tends to be¦"         \
+   "experimental and constantly evolving. my point is NOT to be the best, it¦"     \
+   "is to challenge myself, build from scratch, and allow fast problem solving."
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_BOTHER      \
+   "modern sorting appears to be focused, maybe rightfully, on massive, complex¦"  \
+   "datasets using hyper-efficient algorhythms in order to enable various forms¦"  \
+   "of data mining and analysis.  this is a critical, but small set of end-uses."
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_COVERS      \
+   "actual sorting is a very broad category of end-uses, from tiny to massive¦"    \
+   "data-sets, sorted by anything from text fields to complex/compound keys,¦"     \
+   "and delivered in stable or unstable orders as strings, list, or structures."
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_SUBDISC     \
+   "-- multiplle lines in text files or data streams¦"                             \
+   "-- words, labels, etc stored in a single string¦"                              \
+   "-- binary data organized by data statistics or characteristics¦"               \
+   "-- complex data structures such as graphs stored in multiple orders¦"          \
+   "-- data structures of various types in linked lists¦"                          \
+   "-- data stored in array or matrix formats¦"                                    \
+   "-- use-or-add lists that are searched and only added to if new is unique¦"     \
+   "-- dependency lists which must be stored in stable orders¦"                    \
+   "-- internal results used in unit-testing which need predictable orders"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_USECASE     \
+   "i sort many things, in multiple concurrent orders, but not random new data¦"   \
+   "like wind-speeds ;).  my working data, like dependency graphs, or curated¦"    \
+   "datasets are small-to-moderate size and frequently re-sorted when changed."
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_CURRENT     \
+   "my use-cases for sorting appear to be the exact opposite of everyone else's,¦" \
+   "which focus on efficiently sorting large, ever collected and changing¦"        \
+   "random data every time.  actually makes me feel little and unimportant ;)"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_VALUE       \
+   "matching the proper sorting algorithms to the use-case dramitically¦"          \
+   "increases the speed and efficiency of the program especially of the¦"          \
+   "data set is dynamic and not pre-prepared."
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_FEAR        \
+   "many of my tools are completely reliant on moderate sized, always ordered¦"    \
+   "efficiently searchable datasets for real-time execution.  i simply must¦"      \
+   "get this right without just buying more and faster hardware."
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_MISSING     \
+   "-- reusable sorts optimized for lists that are nearly sorted"                  \
+   "-- sorts that generate b-trees for searching"                                  \
+   "´´´"                                                                      
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_KEEPING     \
+   "starting fresh"                                                                \
+   "´´´"                                                                           \
+   "´´´"                                                                      
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_PERK        \
+   "there are libraries out there that could be bent and modded to help, but¦"     \
+   "this is absolutely critical and i cant get screwed with upgrades,¦"            \
+   "migrations, ownership changes, bug-fix schedules, and licensing¦"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_SCOPE       \
+   "this library will focus on small-to-moderate sized datasets in multiple¦"      \
+   "data formats, from linked-lists to strings, that consist of data that¦"        \
+   "is updated frequently, but must always be in order and searchable."
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_ACCEPT      \
+   "-- automatically create and maintain data in a doubly-linked list¦"            \
+   "-- if requested, automatically maintain btree searching ability¦"              \
+   "-- data must be able to be kept in multiple searchable orders¦"                \
+   ""                                                                         
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_REJECT      \
+   "-- memory allocation, programs must malloc structures on their own¦"           \
+   ""                                                                              \
+   ""                                                                         
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_ASSUME      \
+   "-- moves are fastest as its just pointers, but any reduction is valuable¦"     \
+   "-- comparisons of string keys are relatively fast and simple¦"                 \
+   "-- swaps are the slowest part of a sort, so minimize occurance¦"               \
+   "-- structures will contain a ¶key¶ field in string format¦"                    \
+   ""
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_ALWAYS      \
+   "-- run on any linux box from raspberry to cray¦"                               \
+   "-- stay focused, small, tight, reliable, and secure¦"                          \
+   "-- as always, tight and portable glibc/ansi-c code¦"                           \
+   "-- stay away from dependency on external code libraries, like boost¦"          \
+   "-- only human-readable, 8-bit safe, ascii streams for moving data¦"            \
+   "-- store data in regular or binary files, not dedicated databases¦"            \
+   "-- dedicated, maintained, automated unit and string testing¦"                  \
+   "-- integrated debugging/logging for rapid problem solving¦"                    \
+   "-- use secure communications between systems where required¦"                  \
+   "-- clean, clean code so i can maintain after long absences¦"                   \
+   "-- no international, multi-lang, multi-byte support (freaking ever)¦"          \
+   "-- one-hundred percent keyboard driven and centric¦"                           \
+   "-- all tables must be self describing with labels and queries¦"                \
+   "-- all data structures must include dumps, reports, and audits¦"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_SUMMARY     \
+   "ySORT is my primary sorting library for all non-random data use-cases¦"        \
+   "which rely on dynamic datasets which must be kept in a consistent, stable¦"    \
+   "order to operate properly, and be searched efficiently."                  
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_DANGERS     \
+   "given that nearly all of my programs will use this sorting, any troubles¦"     \
+   "will bring the whole thing down until i fix whatever issue.  that means¦"      \
+   "unit-testing and string-testing will be even more vital that usual."      
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+#define  P_GREEK       \
+  "sisyphos-katergris (trickster) was an ancient greek king of corinth who¦"       \
+  "symbolizes both extreme and amorl cunning and a cautionary tail of¦"            \
+  "punishment by the gods.  four things in his history stand out.¦                 \             \
+  "¦"                                                                              \
+  "first, he and his brother salmoneus hated each other and sisyphos went so¦"     \
+  "far as to consult the oracle at dephi on how to kill is brother without¦"       \
+  "incurring consequences.  he also seduced his brothers daughter and had¦"        \
+  "childer in order to use them to overthrow salmoneus.  when she figured¦"        \
+  "it out, she killed the children.  wow.¦"                                        \
+  "¦"                                                                              \
+  "second, after bretraying zeus to gain advantage, he then trapped thanatos¦"     \
+  "in chains after zeus sent the god to capture him.  this caused all deaths¦"     \
+  "to stop and therefore great suffering.  zeus had to threaten him greatly¦"      \
+  "in order to get the natural cycle to begin again¦"                              \
+  "¦"                                                                              \
+  "third, in order to cheat death from disease, he had his wife throw his¦"        \
+  "body into the streets after his passing.  his used this to trick hades¦"        \
+  "to let return to the living to scold his wite and then refused to return.¦      \
+  "he stayed until he died of old age.¦"                                           \
+  "¦"                                                                              \
+  "last, when he finally arrived in hell, his punishment was to roll a boulder¦"   \
+  "up a steep hill every day which then magically escaped him and rolled¦"         \
+  "back to the bottom before he reached the top for an enternity of useless¦"      \
+  "effor and unending frustration."
+
 
 
 
@@ -312,13 +501,20 @@ char*       ysort_string__unit      (char *a_question, int a_num);
 /*········´ ´·············support·´ ´·········································*/
 char*       ysort_intern_show       (void);
 char        ysort_intern_init       (void);
-char        ysort_intern_prep       (tSORT *a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles);
-char        ysort_intern_done       (int *r_loops, int *r_comps, int *r_swaps, int *r_teles);
+char        ysort_intern_prep       (tSORT *a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls);
+char        ysort_intern_done       (int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls);
 char        ysort_intern_swap       (tSORT *a_one, tSORT *a_two);
-/*········´ ´···············sorts·´ ´·········································*/
-char        ysort_intern_gnome      (char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles);
-char        ysort_intern_dgnome     (char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles);
-char        ysort_intern_sgnome     (char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles);
+/*········´ ´··············public·´ ´·········································*/
+char        ysort__intern_bubble    (void);
+char        ysort__intern_select    (void);
+char        ysort__intern_quicksub  (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT *a_beg, tSORT *a_end);
+char        ysort__intern_quick     (void);
+/*········´ ´··············gnomes·´ ´·········································*/
+char        ysort__intern_cgnome    (void);
+char        ysort__intern_tgnome    (void);
+char        ysort__intern_dgnome    (void);
+char        ysort__intern_sgnome    (void);
+char        ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls);
 /*········´ ´············unittest·´ ´·········································*/
 char*       ysort_entry             (int a_index, tSORT *a_entry);
 /*········´ ´················DONE·´ ´·········································*/
