@@ -53,10 +53,11 @@ typedef     struct      cSORT      tSORT;
 #define    YSORT_DGNOME     'D'
 #define    YSORT_TGNOME     'T'
 #define    YSORT_SGNOME     'S'
+#define    YSORT_UGNOME     'U'
 
-#define    YSORT_BUBBLE     'B'
-#define    YSORT_SELECT     'L'
-#define    YSORT_QUICK      'Q'
+#define    YSORT_BUBBLE     'b'
+#define    YSORT_SELECT     'l'
+#define    YSORT_QUICK      'q'
 
 
 #define    YSORT_NONE       'n'

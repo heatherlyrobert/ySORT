@@ -60,30 +60,36 @@
  */
 
 /*
- *                      F                             G                          H                         I                            J                            K
- *            moderately out-of-order      tail add to sorted list     fully sorted list           reverse sorted list         totally random list         random with dups        
- *            ------------------------     ------------------------    ------------------------    ------------------------    ------------------------    ------------------------
- *            loop comp swap tele call     loop comp swap tele call    loop comp swap tele call    loop comp swap tele call    loop comp swap tele call    loop comp swap tele call
+ *                    è/F                                     è/G                                  è/H                                 è/I                                    è/J                                    è/K                                       ô/b                                         ô/c                                         ô/d                    
+ *            moderately out-of-order                tail add to sorted list               fully sorted list                     reverse sorted list                   totally random list                   random with dups                      fifty proper names                           hundred proper names                       three-hundred proper names         
+ *            -----------------------------------    -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------------   -----------------------------------------   -----------------------------------------
+ *            loop comp swap tele call usec  rpct    loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct    loop  comp  swap  tele  call  usec  rpct    loop  comp  swap  tele  call  usec  rpct    loop  comp  swap  tele  call  usec  rpct
  *
- *    cgnome   123  120   49    ´    ´       57   57   16    ´    ´      25   25    0    ´    ´     675  650  325    ´    ´     389  385  182    ´    ´     369  366  172    ´    ´
+ *    cgnome   123  120   49    ´    ´    7  0.56      57   57   16    ´    ´    3  0.33     25   25    0    ´    ´    4  1.00    675  650  325    ´    ´   21  2.71    389  385  182    ´    ´   13  1.83    369  366  172    ´    ´   12  1.67    1233  1230   592     ´     ´    41  2.60    5367  5364  2634     ´     ´   154  3.46   43463 43458 21582     ´     ´  1236  3.67
  *
- *    tgnome    74  (71)  49   25    ´       41  (41)  16   25    ´      25   25    0   24    ´     350  325  325   25    ´     207  203  182   25    ´     197  194  172   25    ´
+ *    tgnome    74  (71)  49   25    ´   12  1.11      41  (41)  16   25    ´    5  1.00     25   25    0   24    ´    5  1.50    350  325  325   25    ´   16  2.00    207  203  182   25    ´   11  1.50    197  194  172   25    ´   11  1.50     641   638   592    49     ´    32  2.00    2733  2730  2634    99     ´   109  2.43   21881 21876 21582   299     ´   943  2.80
  *
- *    dgnome    74   71  (24)  25    ´       41   41   (1)  25    ´      25   25    0   24    ´     350  325   25   25    ´     207  203   20   25    ´     197  194   19   25    ´
+ *    dgnome    74   71  (24)  25    ´   11 (´´´´)     41   41   (1)  25    ´    5 (´´´´)    25   25    0   24    ´    4 (´´´´)   350  325   25   25    ´    9 (´´´´)   207  203   20   25    ´    8 (´´´´)   197  194   19   25    ´    8 (´´´´)    641   638    46    49     ´    17 (´´´´)   2733  2730    96    99     ´    46  ´´´´   21881 21876   296   299     ´   338  ´´´´
  *
- *    sgnome   ---  ---  ---  ---  ---       17   17    1    ´    ´     ---  ---  ---  ---  ---     ---  ---  ---  ---  ---     ---  ---  ---  ---  ---     ---  ---  ---  ---  ---
+ *    ugnome     "    "    "    "    ´   12     ´       "    "    "    "    ´    5     ´      "    "    "    "    ´    4     ´      "    "    "    "    ´   10     ´      "    "    "    "    ´    8     ´      "    "    "    "    ´    8     ´       "     "     "     "     ´    17     ´       "     "     "     "     ´    55     ´       "     "     "     "     ´   359     ´
  *
- *    bubble   325  325   24    ´    ´      325  325    1    ´    ´     325  325    0    ´    ´     325  325    ´    ´    ´     325  325    ´    ´    ´     325  325    ´    ´    ´
+ *    sgnome   ---  ---  ---  ---  ---  ---   ---      17   17    1    ´    ´    6   ---    ---  ---  ---  ---  ---  ---   ---    ---  ---  ---  ---  ---  ---   ---    ---  ---  ---  ---  ---  ---   ---    ---  ---  ---  ---  ---  ---   ---     ---   ---   ---   ---   ---   ---   ---     ---   ---   ---   ---   ---   ---   ---     ---   ---   ---   ---   ---   ---   ---
  *
- *    select   325  325   24    ´    ´      325  325    1    ´    ´     325  325    0    ´    ´     325  325   25    ´    ´     325  325   20    ´    ´     325  325   19    ´    ´
+ *    bubble   676  650   24    ´    ´   21  2.11     676  650   16    ´    ´   13  3.67    676  650    0    ´    ´   13  5.50    676  650  325    ´    ´   23  3.00    676  650  182    ´    ´   22  3.33    676  650  172    ´    ´   20  3.00    2500  2450   592     ´     ´    67  4.33   10000  9900  2634     ´     ´   265  5.98   90000 89700 21582     ´     ´  2417  7.19
  *
- *    quick    146  146  141    ´   31      181  181  189    ´   49     325  325  350    ´   51     325  325   25    ´   51     110  110   68    ´   37     114  114   77    ´   37
+ *    select   325  325   24    ´    ´   12  1.11     325  325    1    ´    ´    7  1.67    325  325    0    ´    ´    7  2.50    325  325   25    ´    ´    9  1.00    325  325   20    ´    ´   10  1.33    325  325   19    ´    ´    9  1.67    1225  1225    46     ´     ´    25  1.53    4950  4950    96     ´     ´    74  1.64   44850 44850   296     ´     ´   620  1.84
  *
+ *    quick    146  146  141    ´   31   23  2.33     181  181  189    ´   49   21  6.33    325  325  350    ´   51   22 10.00    325  325   25    ´   51   14  1.71    110  110   68    ´   37   12  1.67    114  114   77    ´   37   13  1.83     365   365   147     ´    67    22  1.33     590   590   315     ´   139    35 (0.82)   2690  2690  1575     ´   401   136 (0.40)
+ *
+ *    troll     85   81   30   24    6   17  1.67      51   49    2   24    6   13  3.67     38   37    0   24    6    7  2.50    193  169   37   24    6   11  1.29    121  116   30   24    6   12  1.67    118  114   29   24    6   10  1.33     302   288    86    46    14    23  1.40     590   590   315     ´   139    35  0.91    3499  3429  1367   298    62   136 (0.40)
+ *
+ *    OVERHEAD                            2                                      2                                     2                                     2                                     2                                     2                                           2                                           2                                           2
  *
  *    at a high level, swapping is much more complex/dangerous, and generally expensive, than comparison.
  *    this is especially true when actually moving the objects themselves.  when these objects are in
  *    a list, most would say its easy to change pointers ;)  true, but only if using a singly-linked list
- *    rather that doubly-linked, trees, or graphs.
+ *    rather that doubly-linked, trees, or graphs.  in a linked list, swapping any item with another is
+ *    the same amount of work.
  *
  *    in my case, for list safety, i typically use double-linked lists with head/tail pointers.  swapping
  *    is much quicker that arrays, etc, but definately non-trivial.
@@ -112,6 +118,7 @@ static  int      s_comps    = 0;
 static  int      s_swaps    = 0;
 static  int      s_teles    = 0;
 static  int      s_calls    = 0;
+static  llong    s_dur      = 0;
 
 static  int      s_SORTS    = 0;
 static  int      s_LOOPS    = 0;
@@ -291,13 +298,15 @@ ysort__intern_bubble    (void)
    tSORT      *n           = NULL;          /* main index                     */
    int         x_match     =    0;
    char        x_flag      =  '-';
+   int         i           =    0;
    /*---(header)-------------------------*/
    DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
    h = *s_head;
    DEBUG_YSORT   yLOG_info    ("h"         , h->sort);
    /*---(walk list)----------------------*/
-   while (h != NULL) {
+   for (i = 0; i < s_count; ++i) {
+      DEBUG_YSORT   yLOG_note    (ySORT_btree_list ('u'));
       o = *s_head;
       DEBUG_YSORT   yLOG_info    ("o"         , o->sort);
       while (o != NULL) {
@@ -311,10 +320,10 @@ ysort__intern_bubble    (void)
          /*---(compare)------------------*/
          ++s_comps;
          x_match = strcmp (o->sort, n->sort);
-         x_flag  = (x_match <= 0) ? '-' : '#';
+         x_flag  = (x_match <= 0) ? '<' : '>';
          DEBUG_YSORT   yLOG_complex ("compare"   , "(%4d) %-20.20s   %-20.20s v %-20.20s   %c %4d   %4d %4d %4d", s_loops, h->sort, o->sort, n->sort, x_flag, x_match, s_comps, s_swaps, s_teles);
          /*---(swap)------------------------*/
-         if (x_flag == '#') {
+         if (x_flag == '>') {
             DEBUG_YSORT   yLOG_note    ("swap");
             ysort_intern_swap (o, n);
          }
@@ -325,7 +334,7 @@ ysort__intern_bubble    (void)
          /*---(done)---------------------*/
       }
       /*---(next)------------------------*/
-      h = h->next;
+      /*> h = h->next;                                                                <*/
       /*---(done)------------------------*/
    }
    /*---(complete)-----------------------*/
@@ -360,10 +369,10 @@ ysort__intern_select    (void)
          /*---(compare)------------------*/
          ++s_comps;
          x_match = strcmp (m->sort, o->sort);
-         x_flag  = (x_match <= 0) ? '-' : '#';
+         x_flag  = (x_match <= 0) ? '<' : '>';
          DEBUG_YSORT   yLOG_complex ("compare"   , "(%4d) %-20.20s   %-20.20s v %-20.20s   %c %4d   %4d %4d %4d", s_loops, h->sort, m->sort, o->sort, x_flag, x_match, s_comps, s_swaps, s_teles);
          /*---(save min)--------------------*/
-         if (x_flag == '#') {
+         if (x_flag == '>') {
             DEBUG_YSORT   yLOG_note    ("new min");
             m = o;
          }
@@ -387,10 +396,73 @@ ysort__intern_select    (void)
 }
 
 char
+ysort__intern_check     (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT **a_beg, tSORT **a_end, int a_slots, char r_path [LEN_TITLE])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        x_path      [LEN_TITLE] = "";
+   /*---(header)-------------------------*/
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   /*---(statistic)----------------------*/
+   ++s_calls;
+   /*---(check depth)--------------------*/
+   DEBUG_YSORT   yLOG_value   ("a_lvl"     , a_lvl);
+   DEBUG_YSORT   yLOG_value   ("a_max"     , a_max);
+   if (a_lvl >= a_max) {
+      DEBUG_YSORT   yLOG_note    ("hit max recursion");
+      DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+      return 0;
+   }
+   /*---(defense on ends)----------------*/
+   DEBUG_YSORT   yLOG_point   ("a_beg"     , a_beg);
+   --rce;  if (a_beg  == NULL) {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSORT   yLOG_point   ("*a_beg"    , *a_beg);
+   --rce;  if (*a_beg == NULL) {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSORT   yLOG_info    ("*a_beg"    , (*a_beg)->sort);
+   DEBUG_YSORT   yLOG_point   ("a_end"     , a_end);
+   --rce;  if (a_end  == NULL) {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSORT   yLOG_point   ("*a_end"    , *a_end);
+   --rce;  if (*a_end == NULL) {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSORT   yLOG_info    ("*a_end"    , (*a_end)->sort);
+   /*---(slots)--------------------------*/
+   DEBUG_YSORT   yLOG_value   ("a_slots"   , a_slots);
+   --rce;  if (a_slots < 0) {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(update path)--------------------*/
+   DEBUG_YSORT   yLOG_point   ("a_path"    , a_path);
+   --rce;  if (a_path == NULL) {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   snprintf (x_path, LEN_TITLE, "%s%c", a_path, a_dir);
+   DEBUG_YSORT   yLOG_info    ("x_path"    , x_path);
+   /*---(save-back)----------------------*/
+   if (r_path  != NULL)  strlcpy (r_path, x_path, LEN_TITLE);
+   /*---(complete)-----------------------*/
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+   return 1;
+}
+
+char
 ysort__intern_quicksub  (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT *a_beg, tSORT *a_end)
 {
    /*---(locals)-----------+-----+-----+-*/
-   char         rce        =  -10;
+   char        rce         =  -10;
+   char        rc          =    0;
    tSORT      *p           = NULL;          /* pivot entry                    */
    tSORT      *c           = NULL;          /* current entry                  */
    tSORT      *n           = NULL;          /* next entry                     */
@@ -405,28 +477,11 @@ ysort__intern_quicksub  (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_m
    /*---(statistic)----------------------*/
    ++s_calls;
    /*---(defense)------------------------*/
-   DEBUG_YSORT   yLOG_value   ("a_lvl"     , a_lvl);
-   DEBUG_YSORT   yLOG_value   ("a_max"     , a_max);
-   if (a_lvl >= a_max) {
-      DEBUG_YSORT   yLOG_note    ("hit max recursion");
+   rc = ysort__intern_check   (a_dir, a_path, a_lvl, a_max, &a_beg, &a_end, 1, x_path);
+   DEBUG_YSORT   yLOG_value   ("div_chk"   , rc);
+   if (rc <= 0) {
       DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
-      return 0;
-   }
-   DEBUG_YSORT   yLOG_point   ("a_beg"     , a_beg);
-   --rce;  if (a_beg == NULL) {
-      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
-      return rce;
-   }
-   DEBUG_YSORT   yLOG_info    ("a_beg"     , a_beg->sort);
-   DEBUG_YSORT   yLOG_point   ("a_end"     , a_end);
-   --rce;  if (a_end == NULL) {
-      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
-      return rce;
-   }
-   DEBUG_YSORT   yLOG_info    ("a_end"     , a_end->sort);
-   --rce;  if (a_beg == a_end) {
-      DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
-      return 0;
+      return rc;
    }
    /*---(start at head)------------------*/
    p = a_end;
@@ -434,8 +489,6 @@ ysort__intern_quicksub  (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_m
    x_max = p->prev;
    DEBUG_YSORT   yLOG_complex ("ends"      , "beg=%-20.20s end=%-20.20s max=%-20.20s", (x_beg == NULL) ? "(null)" : x_beg->sort, (x_end == NULL) ? "(null)" : x_end->sort, (x_max == NULL) ? "(null)" : x_max->sort);
    /*---(prepare)------------------------*/
-   snprintf (x_path, LEN_TITLE, "%s%c", a_path, a_dir);
-   DEBUG_YSORT   yLOG_info    ("x_path"    , x_path);
    ysort_intern_swap (c, p);
    c = p->next;
    /*---(walk the elements)--------------*/
@@ -493,6 +546,202 @@ ysort__intern_quick     (void)
    return rc;
 }
 
+char
+ysort__intern_unzip     (char c_cutoff, tSORT *a_beg, tSORT **r_mid1, tSORT **r_mid2, tSORT *a_end, int a_slots, int *r_cnt1, int *r_cnt2)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         i           =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   /*---(get sub-counts)-----------------*/
+   DEBUG_YSORT   yLOG_value   ("c_cutoff"  , c_cutoff);
+   DEBUG_YSORT   yLOG_value   ("a_slots"   , a_slots);
+   if (a_slots < c_cutoff) {
+      DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+      return 0;
+   }
+   DEBUG_YSORT   yLOG_point   ("r_cnt1"    , r_cnt1);
+   --rce;  if (r_cnt1 == NULL)  {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   *r_cnt1 = a_slots / 2;
+   DEBUG_YSORT   yLOG_value   ("*r_cnt1"   , *r_cnt1);
+   DEBUG_YSORT   yLOG_point   ("r_cnt2"    , r_cnt2);
+   --rce;  if (r_cnt2 == NULL)  {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   *r_cnt2 = a_slots - *r_cnt1;
+   DEBUG_YSORT   yLOG_value   ("*r_cnt2"   , *r_cnt2);
+   /*---(get mid-points)-----------------*/
+   DEBUG_YSORT   yLOG_point   ("r_mid1"    , r_mid1);
+   --rce;  if (r_mid1 == NULL)  {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   *r_mid1 = a_beg;
+   DEBUG_YSORT   yLOG_point   ("*r_mid1"   , *r_mid1);
+   for (i = 1; i < *r_cnt1; ++i)   *r_mid1 = (*r_mid1)->next;
+   DEBUG_YSORT   yLOG_point   ("r_mid2"    , r_mid2);
+   --rce;  if (r_mid2 == NULL)  {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   *r_mid2 = (*r_mid1)->next;
+   DEBUG_YSORT   yLOG_point   ("*r_mid2"   , *r_mid2);
+   /*---(display)------------------------*/
+   DEBUG_YSORT   yLOG_info    ("a_beg"     , (a_beg     == NULL) ? "(null)" : a_beg->sort);
+   DEBUG_YSORT   yLOG_info    ("*r_mid1"   , ((*r_mid1) == NULL) ? "(null)" : (*r_mid1)->sort);
+   DEBUG_YSORT   yLOG_info    ("*r_mid2"   , ((*r_mid2) == NULL) ? "(null)" : (*r_mid2)->sort);
+   DEBUG_YSORT   yLOG_info    ("a_end"     , (a_end     == NULL) ? "(null)" : a_end->sort);
+   /*---(complete)-----------------------*/
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+   return 1;
+}
+
+char
+ysort__intern_zip       (tSORT *a_beg, tSORT *a_mid1, tSORT *a_mid2, tSORT *a_end)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   tSORT      *l           = NULL;
+   tSORT      *r           = NULL;
+   tSORT      *n           = NULL;
+   int         x_match     =    0;
+   char        x_flag      =  '-';
+   tSORT      *x_lend      = NULL;
+   tSORT      *x_rend      = NULL;
+   /*---(header)-------------------------*/
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   /*---(prepare)------------------------*/
+   l = a_beg;
+   r = a_mid2;
+   x_rend = a_end->next;
+   /*---(zip-up)-------------------------*/
+   while (l != NULL && r != NULL) {
+      ++s_loops;
+      n = r->next;
+      /*---(check ends)------------------*/
+      if (l == a_mid1->next) {
+         DEBUG_YSORT   yLOG_note    ("hit left end, done");
+         break;
+      }
+      if (n == x_rend) {
+         DEBUG_YSORT   yLOG_note    ("hit right end, done");
+         break;
+      }
+      /*---(compare)---------------------*/
+      ++s_comps;
+      x_match = strcmp (l->sort, r->sort);
+      x_flag  = (x_match <= 0) ? '<' : '>';
+      DEBUG_YSORT   yLOG_complex ("compare"   , "(%4d) %-20.20s v %-20.20s   %c %4d   %4d %4d %4d   %-20.20s", s_loops, l->sort, r->sort, x_flag, x_match, s_comps, s_swaps, s_teles, (n == NULL) ? "(null)" : n->sort);
+      /*---(swap)------------------------*/
+      if (x_flag == '<') {
+         DEBUG_YSORT   yLOG_note    ("all good, move left forward");
+         l = l->next;
+      } else {
+         DEBUG_YSORT   yLOG_note    ("swap, and move right forward");
+         x_rend = r->next;
+         ysort_intern_swap (l, r);
+         r = n;
+      }
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+   return 1;
+}
+
+char
+ysort__intern_troller   (char c_cutoff, char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT **b_beg, tSORT **b_end, int a_slots)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   char        x_div       =    0;
+   char        x_path      [LEN_TITLE] = "";
+   tSORT      *x_beg       = NULL;
+   int         x_cnt1      =    0;
+   tSORT      *x_mid1      = NULL;
+   int         x_cnt2      =    0;
+   tSORT      *x_mid2      = NULL;
+   tSORT      *x_end       = NULL;
+   /*---(header)-------------------------*/
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   /*---(statistic)----------------------*/
+   ++s_calls;
+   /*---(defense)------------------------*/
+   rc = ysort__intern_check     (a_dir, a_path, a_lvl, a_max, b_beg, b_end, a_slots, x_path);
+   DEBUG_YSORT   yLOG_value   ("check"     , rc);
+   --rce;  if (rc <  0) {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(unzip/divide)-------------------*/
+   x_div = ysort__intern_unzip     (c_cutoff, *b_beg, &x_mid1, &x_mid2, *b_end, a_slots, &x_cnt1, &x_cnt2);
+   DEBUG_YSORT   yLOG_value   ("unzip"     , x_div);
+   --rce;  if (x_div < 0) {
+      DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(sort small group)---------------*/
+   --rce;  if (x_div == 0) {
+      rc = ysort__intern_ugnome    (b_beg, b_end);
+      DEBUG_YSORT   yLOG_value   ("ugnome"    , rc);
+      if (rc < 0) {
+         DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+         return rce;
+      }
+   }
+   /*---(recurse to sort)----------------*/
+   --rce;  if (x_div == 1) {
+      rc = ysort__intern_troller  (c_cutoff, 'L', x_path, a_lvl + 1, a_max, b_beg , &x_mid1, x_cnt1);
+      DEBUG_YSORT   yLOG_value   ("left"      , rc);
+      if (rc < 0) {
+         DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+         return rce;
+      }
+   }
+   --rce;  if (x_div == 1) {
+      rc = ysort__intern_troller  (c_cutoff, 'R', x_path, a_lvl + 1, a_max, &x_mid2, b_end , x_cnt2);
+      DEBUG_YSORT   yLOG_value   ("right"     , rc);
+      if (rc < 0) {
+         DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+         return rce;
+      }
+   }
+   /*---(zip/merge)----------------------*/
+   --rce;  if (x_div == 1) {
+      DEBUG_YSORT   yLOG_complex ("division"  , "b=%-12.12s  m=%-12.12s     m=%-12.12s  e=%-12.12s", (*b_beg == NULL) ? "(null)" : (*b_beg)->sort, (x_mid1 == NULL) ? "(null)" : x_mid1->sort, (x_mid2 == NULL) ? "(null)" : x_mid2->sort, (*b_end == NULL) ? "(null)" : (*b_end)->sort);
+      rc    = ysort__intern_zip       (*b_beg, x_mid1, x_mid2, *b_end);
+      DEBUG_YSORT   yLOG_value   ("zip"       , rc);
+      if (rc < 0) {
+         DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
+         return rce;
+      }
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+   return 1;
+}
+
+char
+ysort__intern_troll     (void)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rc          =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   /*---(call initial)-------------------*/
+   strcpy (s_path, "");
+   rc = ysort__intern_troller  (20, '*', s_path, 0, 50, s_head, s_tail, s_count);
+   /*---(complete)-----------------------*/
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+   return rc;
+}
+
 
 /*
  *  classic gnome > any, always, anywhere gnome
@@ -530,10 +779,10 @@ ysort__intern_cgnome    (void)
       /*---(compare)---------------------*/
       ++s_comps;
       x_match = strcmp (p->sort, o->sort);
-      x_flag  = (x_match <= 0) ? '-' : '#';
+      x_flag  = (x_match <= 0) ? '<' : '>';
       DEBUG_YSORT   yLOG_complex ("compare"   , "(%4d) %-20.20s v %-20.20s   %c %4d   %4d %4d %4d   n=%-20.20s", s_loops, p->sort, o->sort, x_flag, x_match, s_comps, s_swaps, s_teles, (n == NULL) ? "(null)" : n->sort);
       /*---(handle good)-----------------*/
-      if (x_flag == '-') {
+      if (x_flag == '<') {
          if (o->next == NULL) {
             DEBUG_YSORT   yLOG_note    ("hit end, all done");
             break;
@@ -585,10 +834,10 @@ ysort__intern_tgnome    (void)
       /*---(compare)---------------------*/
       ++s_comps;
       x_match = strcmp (p->sort, o->sort);
-      x_flag  = (x_match <= 0) ? '-' : '#';
+      x_flag  = (x_match <= 0) ? '<' : '>';
       DEBUG_YSORT   yLOG_complex ("compare"   , "(%4d) %-20.20s v %-20.20s   %c %4d   %4d %4d %4d   t=%-20.20s", s_loops, p->sort, o->sort, x_flag, x_match, s_comps, s_swaps, s_teles, (t == NULL) ? "(null)" : t->sort);
       /*---(handle good)-----------------*/
-      if (x_flag == '-') {
+      if (x_flag == '<') {
          if (o->next == NULL) {
             DEBUG_YSORT   yLOG_note    ("hit end, all done");
             break;
@@ -661,10 +910,10 @@ ysort__intern_dgnome    (void)
       /*---(compare)---------------------*/
       ++s_comps;
       x_match = strcmp (p->sort, c->sort);
-      x_flag  = (x_match <= 0) ? '-' : '#';
+      x_flag  = (x_match <= 0) ? '<' : '>';
       DEBUG_YSORT   yLOG_complex ("compare"   , "%c %4d   %4d  %4d  %4d", x_flag, x_match, s_comps, s_swaps, s_teles);
       /*---(handle good)-----------------*/
-      if (x_flag == '-') {
+      if (x_flag == '<') {
          if (o->next == NULL) {
             DEBUG_YSORT   yLOG_note    ("hit end, all done");
             break;
@@ -687,6 +936,101 @@ ysort__intern_dgnome    (void)
       }
       /*---(done)------------------------*/
    }
+   /*---(complete)-----------------------*/
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+   return 1;
+}
+
+char         /*-> used within merge-style sorts ------------------------------*/
+ysort__intern_ugnome    (tSORT **b_beg, tSORT **b_end)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   tSORT      *p           = NULL;          /* main entry                     */
+   tSORT      *o           = NULL;          /* origin entry                   */
+   tSORT      *c           = NULL;          /* current target                 */
+   tSORT      *t           = NULL;          /* teleport entry                 */
+   int         x_match     =    0;
+   char        x_flag      =  '-';
+   char        x_swap      =  '-';
+   tSORT      *x_beg       = NULL;
+   tSORT      *x_end       = NULL;
+   /*---(header)-------------------------*/
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   /*---(save positions)-----------------*/
+   x_beg = *b_beg;
+   DEBUG_YSORT   yLOG_point   ("x_beg"     , x_beg);
+   x_end = *b_end;
+   DEBUG_YSORT   yLOG_point   ("x_end"     , x_end);
+   /*---(start at head)------------------*/
+   o = x_beg->next;
+   DEBUG_YSORT   yLOG_point   ("o"         , o);
+   c = o;
+   DEBUG_YSORT   yLOG_point   ("c"         , c);
+   t = o->next;
+   DEBUG_YSORT   yLOG_point   ("t"         , t);
+   /*---(do the gnome walk)--------------*/
+   while (o != NULL) {
+      /*---(beginning)-------------------*/
+      DEBUG_YSORT   yLOG_note    (ySORT_btree_list ('u'));
+      ++s_loops;
+      p = o->prev;
+      DEBUG_YSORT   yLOG_complex ("current"   , "(%d) p=%-12.12s  o=%-12.12s  %c  å  c=%-12.12s  æ  t=%-12.12s  b=%-12.12s  e=%-12.12s", s_loops, (p == NULL) ? "(null)" : p->sort, (o == NULL) ? "(null)" : o->sort, x_swap, (c == NULL) ? "(null)" : c->sort, (t == NULL) ? "(null)" : t->sort, (x_beg == NULL) ? "(null)" : x_beg->sort, (x_end == NULL) ? "(null)" : x_end->sort);
+      /*---(teleport)--------------------*/
+      if (o == x_beg) {
+         DEBUG_YSORT   yLOG_note    ("hit head, swap if necessary, teleport back to next run");
+         if (x_swap == 'y') {
+            if (c == x_end)  x_end = c->prev;
+            ysort_intern_swap (o, c);
+            x_beg = c;
+            DEBUG_YSORT   yLOG_info    ("x_beg"     , x_beg->sort);
+            x_swap = '-';
+         }
+         ++s_teles;
+         c = o = t;
+         if (t != NULL) t = o->next;
+         else           t = NULL;;
+         if (c == x_end->next) {
+            DEBUG_YSORT   yLOG_note    ("hit end, all done");
+            break;
+         }
+         continue;
+      }
+      /*---(compare)---------------------*/
+      ++s_comps;
+      x_match = strcmp (p->sort, c->sort);
+      x_flag  = (x_match <= 0) ? '<' : '>';
+      DEBUG_YSORT   yLOG_complex ("compare"   , "%c %4d   %4d  %4d  %4d", x_flag, x_match, s_comps, s_swaps, s_teles);
+      /*---(handle good)-----------------*/
+      if (x_flag == '<') {
+         DEBUG_YSORT   yLOG_note    ("good match, swap if necessary, teleport back to next run");
+         if (x_swap == 'y') {
+            if (c == x_end)  x_end = c->prev;
+            ysort_intern_swap (o, c);
+            DEBUG_YSORT   yLOG_info    ("x_end"     , x_end->sort);
+            x_swap = '-';
+         }
+         ++s_teles;
+         c = o = t;
+         if (t != NULL) t = o->next;
+         else           t = NULL;
+         if (c == x_end->next) {
+            DEBUG_YSORT   yLOG_note    ("hit end, all done");
+            break;
+         }
+      }
+      /*---(handle good)-----------------*/
+      else {
+         DEBUG_YSORT   yLOG_note    ("mark swap and move backward");
+         x_swap = 'y';
+         o = p;
+      }
+      /*---(done)------------------------*/
+   }
+   /*---(save-back)----------------------*/
+   if (b_beg  != NULL)  *b_beg = x_beg;
+   if (b_end  != NULL)  *b_end = x_end;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 1;
@@ -736,10 +1080,10 @@ ysort__intern_sgnome    (void)
       /*---(compare)---------------------*/
       ++s_comps;
       x_match = strcmp (p->sort, c->sort);
-      x_flag  = (x_match <= 0) ? '-' : '#';
+      x_flag  = (x_match <= 0) ? '<' : '>';
       DEBUG_YSORT   yLOG_complex ("compare"   , "%c %4d   %4d  %4d  %4d", x_flag, x_match, s_comps, s_swaps, s_teles);
       /*---(handle good)-----------------*/
-      if (x_flag == '-') {
+      if (x_flag == '<') {
          if (o->next == NULL) {
             DEBUG_YSORT   yLOG_note    ("hit end, all done");
             break;
@@ -747,7 +1091,7 @@ ysort__intern_sgnome    (void)
          DEBUG_YSORT   yLOG_note    ("good match, swap if necessary, done");
          if (x_swap == 'y') {
             ysort_intern_swap (o, c);
-               x_swap = '-';
+            x_swap = '-';
          }
          break;
       }
@@ -765,14 +1109,18 @@ ysort__intern_sgnome    (void)
 }
 
 char
-ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls)
+ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls, llong *r_dur)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        rc          =    0;
    char        rc_final    =    0;
+   char       *x_head      = NULL;
+   char       *x_tail      = NULL;
    /*---(header)-------------------------*/
    DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   /*---(start clock)--------------------*/
+   ysort__intern_beg ();
    /*---(preparation)--------------------*/
    rc = ysort_intern_prep (a_abbr, r_loops, r_comps, r_swaps, r_teles, r_calls);
    DEBUG_YSORT   yLOG_value   ("prep"      , rc);
@@ -780,6 +1128,8 @@ ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, i
       DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rc);
       return rc;
    }
+   x_head = *s_head;
+   x_tail = *s_tail;
    /*---(launch gnome type)--------------*/
    DEBUG_YSORT   yLOG_char    ("a_type"    , a_type);
    --rce;  switch (a_type) {
@@ -795,6 +1145,9 @@ ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, i
    case YSORT_SGNOME    :
       rc_final = ysort__intern_sgnome   ();
       break;
+   case YSORT_UGNOME    :
+      rc_final = ysort__intern_ugnome   (&x_head, &x_tail);
+      break;
    case YSORT_BUBBLE    :
       rc_final = ysort__intern_bubble   ();
       break;
@@ -803,6 +1156,12 @@ ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, i
       break;
    case YSORT_QUICK     :
       rc_final = ysort__intern_quick    ();
+      break;
+   case YSORT_TROLL     :
+      rc_final = ysort__intern_troll    ();
+      break;
+   case '-'             :
+      /* just to check overhead */
       break;
    default              :
       DEBUG_YSORT   yLOG_note    ("unknown sort type");
@@ -817,6 +1176,9 @@ ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, i
       DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rc);
       return rc;
    }
+   /*---(end clock)----------------------*/
+   s_dur = ysort__intern_end ();
+   if (r_dur  != NULL)  *r_dur = s_dur;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return rc_final;
@@ -877,4 +1239,35 @@ ysort_entry             (int a_index, tSORT *a_entry)
    DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
    return unit_answer;
 }
+
+llong        /*-> duration in microeconds ------------------------------------*/
+ysort__intern_dur       (char a_type)
+{
+   /*---(locals)-------------------------*/
+   char        rce         = -10;
+   llong       a           =   0;
+   tTSPEC      t;
+   static llong s_beg      =   0;
+   llong        x_end      =   0;
+   llong        x_dur      =   0;
+   /*---(header)-------------------------*/
+   DEBUG_YENV  yLOG_enter   (__FUNCTION__);
+   /*---(current time)-------------------*/
+   clock_gettime (CLOCK_MONOTONIC, &t);
+   /*---(convert to millisec)------------*/
+   a += (llong) t.tv_sec  * 1000000;
+   a += (llong) t.tv_nsec / 1000;
+   /*---(handle stage)-------------------*/
+   switch (a_type) {
+   case 'b'  :  s_beg = a;                          break;
+   case 'e'  :  x_end = a;  x_dur = x_end - s_beg;  break;
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_YENV  yLOG_exit    (__FUNCTION__);
+   return x_dur;
+}
+
+llong ysort__intern_beg  (void) { return ysort__intern_dur ('b'); }
+llong ysort__intern_end  (void) { return ysort__intern_dur ('e'); }
+
 

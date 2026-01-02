@@ -970,7 +970,7 @@ ySORT_prepare           (uchar a_abbr)
    DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(prepare proj)-------------------*/
    DEBUG_YSORT   yLOG_char    ("a_abbr"    , a_abbr);
-   rc = ysort_intern (YSORT_DGNOME, a_abbr, NULL, NULL, NULL, NULL, NULL);
+   rc = ysort_intern (YSORT_DGNOME, a_abbr, NULL, NULL, NULL, NULL, NULL, NULL);
    DEBUG_YSORT   yLOG_value   ("dgnome"     , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);

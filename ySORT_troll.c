@@ -34,6 +34,17 @@
 /*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
 
 
+/*
+ *   large data sorts tend to be divide into seqments, sort segments, combine back up
+ *      -- quick sort
+ *      -- merge sort
+ *      -- troll (MINE)
+ *
+ *
+ *
+ *
+ */
+
 
 static int     s_buckets    = 0;
 static int     s_slots      = 0;

@@ -79,8 +79,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.-- production"
 #define     P_VERMINOR  "1.1- add docs and comparison sorts"
-#define     P_VERNUM    "1.1j"
-#define     P_VERTXT    "gnome variations and comparions are working/unit tested, except bubble :("
+#define     P_VERNUM    "1.1k"
+#define     P_VERTXT    "added major dataset (400+ lines) and unit tested merge/troll !!!"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -340,9 +340,11 @@
 
 #include    <yDLST_solo.h>
 
+#include    <time.h>                    /* time, localtime, strftime, ...              */
 
 typedef     struct      cSORT       tSORT;
-typedef     long long  llong;
+typedef     struct      timespec    tTSPEC;
+typedef     long long   llong;
 
 /*----------+-----------+-----------+-----------+-----------+-----------+-----*/
 struct      cSORT {
@@ -507,16 +509,27 @@ char        ysort_intern_swap       (tSORT *a_one, tSORT *a_two);
 /*········´ ´··············public·´ ´·········································*/
 char        ysort__intern_bubble    (void);
 char        ysort__intern_select    (void);
+/*········´ ´···············quick·´ ´·········································*/
 char        ysort__intern_quicksub  (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT *a_beg, tSORT *a_end);
 char        ysort__intern_quick     (void);
+/*········´ ´···············merge·´ ´·········································*/
+char        ysort__intern_check     (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT **a_beg, tSORT **a_end, int a_slots, char r_path [LEN_TITLE]);
+char        ysort__intern_unzip     (char c_cutoff, tSORT *a_beg, tSORT **r_mid1, tSORT **r_mid2, tSORT *a_end, int a_slots, int *r_cnt1, int *r_cnt2);
+char        ysort__intern_zip       (tSORT *a_beg, tSORT *a_mid1, tSORT *a_mid2, tSORT *a_end);
+char        ysort__intern_troller   (char c_cutoff, char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT **b_beg, tSORT **b_end, int a_slots);
+char        ysort__intern_troll     (void);
 /*········´ ´··············gnomes·´ ´·········································*/
 char        ysort__intern_cgnome    (void);
 char        ysort__intern_tgnome    (void);
 char        ysort__intern_dgnome    (void);
 char        ysort__intern_sgnome    (void);
-char        ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls);
+char        ysort__intern_ugnome    (tSORT **b_beg, tSORT **b_end);
+char        ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls, llong *r_dur);
 /*········´ ´············unittest·´ ´·········································*/
 char*       ysort_entry             (int a_index, tSORT *a_entry);
+llong       ysort__intern_dur       (char a_type);
+llong       ysort__intern_beg       (void);
+llong       ysort__intern_end       (void);
 /*········´ ´················DONE·´ ´·········································*/
 
 
