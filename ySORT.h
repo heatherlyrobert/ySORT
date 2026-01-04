@@ -114,6 +114,7 @@ char        ySORT_by_name           (uchar a_abbr, char a_name [LEN_TITLE], void
 char        ySORT_by_cursor         (uchar a_abbr, char a_dir             , void **r_data, int *r_tries);
 char        ySORT_by_index          (uchar a_abbr, int  a_index           , void **r_data, int *r_tries);
 char        ySORT_by_tree           (uchar a_abbr, char a_key  [LEN_TITLE], void **r_data, int *r_tries);
+char*       ySORT_validate          (uchar a_abbr, char a_dir);
 /*········´ ´·············testing·´· ´·········································*/
 char*       ySORT_btree_list        (uchar a_abbr);
 /*········´ ´················DONE·´ ´·········································*/

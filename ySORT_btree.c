@@ -187,7 +187,9 @@ ysort_btree_data        (char a_abbr, char r_name [LEN_LABEL], char *r_ready, tS
    }
    DEBUG_YSORT   yLOG_char    ("B_READY"   , B_READY);
    DEBUG_YSORT   yLOG_point   ("B_HEAD"    , B_HEAD);
+   DEBUG_YSORT   yLOG_point   ("&(B_HEAD)" , &(B_HEAD));
    DEBUG_YSORT   yLOG_point   ("B_TAIL"    , B_TAIL);
+   DEBUG_YSORT   yLOG_point   ("&(B_TAIL)" , &(B_TAIL));
    DEBUG_YSORT   yLOG_value   ("B_COUNT"   , B_COUNT);
    /*---(save-back)----------------------*/
    if (r_name  != NULL)  ystrlcpy (r_name, B_NAME, LEN_LABEL);
@@ -640,6 +642,18 @@ ysort_by_cursor         (uchar a_abbr, char a_dir, tSORT** r_entry, void **r_dat
 }
 
 char ySORT_by_cursor  (uchar a_abbr, char a_dir, void **r_data, int *r_tries) { return ysort_by_cursor (a_abbr, a_dir, NULL, r_data, r_tries); }
+
+char*
+ySORT_validate          (uchar a_abbr, char a_dir)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rc          =    0;
+   tSORT      *x_entry     = NULL;
+   rc = ysort_by_cursor (a_abbr, a_dir, &x_entry, NULL, NULL);
+   if (rc < 0)           return "(n/a)";
+   if (x_entry == NULL)  return "(null)";
+   return x_entry->sort;
+}
 
 char
 ysort_by_index          (uchar a_abbr, int a_index, tSORT **r_entry, void **r_data, int *r_tries)

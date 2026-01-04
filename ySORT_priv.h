@@ -79,8 +79,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.-- production"
 #define     P_VERMINOR  "1.1- add docs and comparison sorts"
-#define     P_VERNUM    "1.1k"
-#define     P_VERTXT    "added major dataset (400+ lines) and unit tested merge/troll !!!"
+#define     P_VERNUM    "1.1l"
+#define     P_VERTXT    "improved my quicksort, and build up 600 names in unit testing"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -503,14 +503,14 @@ char*       ysort_string__unit      (char *a_question, int a_num);
 /*········´ ´·············support·´ ´·········································*/
 char*       ysort_intern_show       (void);
 char        ysort_intern_init       (void);
-char        ysort_intern_prep       (tSORT *a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls);
-char        ysort_intern_done       (int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls);
+char        ysort_intern_prep       (char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls);
+char        ysort_intern_done       (char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls);
 char        ysort_intern_swap       (tSORT *a_one, tSORT *a_two);
 /*········´ ´··············public·´ ´·········································*/
 char        ysort__intern_bubble    (void);
 char        ysort__intern_select    (void);
 /*········´ ´···············quick·´ ´·········································*/
-char        ysort__intern_quicksub  (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT *a_beg, tSORT *a_end);
+char        ysort__intern_quicker   (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT *a_beg, tSORT *a_end, int a_slots);
 char        ysort__intern_quick     (void);
 /*········´ ´···············merge·´ ´·········································*/
 char        ysort__intern_check     (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT **a_beg, tSORT **a_end, int a_slots, char r_path [LEN_TITLE]);

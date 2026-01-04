@@ -59,29 +59,42 @@
  *
  */
 
+/*>                                                                                                                                                                                                                                                                                                                <* 0
+ *> note on my sorting vs gnu sort utility...
+ *>
+ *>     mine  årich, nayeliæ
+ *>           årichards, ishannæ
+ *>
+ *>     sort  årichards, ishannæ
+ *>           årich, nayeliæ
+ *>                                                                                                                                                                                                                                                                                                                <*/
 /*
- *                    è/F                                     è/G                                  è/H                                 è/I                                    è/J                                    è/K                                       ô/b                                         ô/c                                         ô/d                    
- *            moderately out-of-order                tail add to sorted list               fully sorted list                     reverse sorted list                   totally random list                   random with dups                      fifty proper names                           hundred proper names                       three-hundred proper names         
- *            -----------------------------------    -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------------   -----------------------------------------   -----------------------------------------
- *            loop comp swap tele call usec  rpct    loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct    loop  comp  swap  tele  call  usec  rpct    loop  comp  swap  tele  call  usec  rpct    loop  comp  swap  tele  call  usec  rpct
+ *                    è/F                                     è/G                                  è/H                                 è/I                                    è/J                                    è/K                                       ô/b                                         ô/c                                         ô/d                                       ô/e
+ *            moderately out-of-order                tail add to sorted list               fully sorted list                     reverse sorted list                   totally random list                   random with dups                      fifty proper names                           hundred proper names                       three-hundred proper names                  five-hundred proper names               
+ *            -----------------------------------    -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------------   -----------------------------------------   -----------------------------------------   -------------------------------------------------
+ *            loop comp swap tele call usec  rpct    loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct    loop  comp  swap  tele  call  usec  rpct    loop  comp  swap  tele  call  usec  rpct    loop  comp  swap  tele  call  usec  rpct     loop   comp   swap  tele  call  usec  rpct  mag
  *
- *    cgnome   123  120   49    ´    ´    7  0.56      57   57   16    ´    ´    3  0.33     25   25    0    ´    ´    4  1.00    675  650  325    ´    ´   21  2.71    389  385  182    ´    ´   13  1.83    369  366  172    ´    ´   12  1.67    1233  1230   592     ´     ´    41  2.60    5367  5364  2634     ´     ´   154  3.46   43463 43458 21582     ´     ´  1236  3.67
+ *    cgnome   123  120   49    ´    ´    7  0.56      57   57   16    ´    ´    3  0.33     25   25    0    ´    ´    4  1.00    675  650  325    ´    ´   21  2.71    389  385  182    ´    ´   13  1.83    369  366  172    ´    ´   12  1.67    1233  1230   592     ´     ´    41  2.60    5367  5364  2634     ´     ´   154  3.46   43463 43458 21582     ´     ´  1236  3.67   132235 131226  65368     ´     ´  3878  3.73   4x
  *
- *    tgnome    74  (71)  49   25    ´   12  1.11      41  (41)  16   25    ´    5  1.00     25   25    0   24    ´    5  1.50    350  325  325   25    ´   16  2.00    207  203  182   25    ´   11  1.50    197  194  172   25    ´   11  1.50     641   638   592    49     ´    32  2.00    2733  2730  2634    99     ´   109  2.43   21881 21876 21582   299     ´   943  2.80
+ *    tgnome    74  (71)  49   25    ´   12  1.11      41  (41)  16   25    ´    5  1.00     25   25    0   24    ´    5  1.50    350  325  325   25    ´   16  2.00    207  203  182   25    ´   11  1.50    197  194  172   25    ´   11  1.50     641   638   592    49     ´    32  2.00    2733  2730  2634    99     ´   109  2.43   21881 21876 21582   299     ´   943  2.80    65867  65858  65368   499     ´  2873  2.76   3x
  *
- *    dgnome    74   71  (24)  25    ´   11 (´´´´)     41   41   (1)  25    ´    5 (´´´´)    25   25    0   24    ´    4 (´´´´)   350  325   25   25    ´    9 (´´´´)   207  203   20   25    ´    8 (´´´´)   197  194   19   25    ´    8 (´´´´)    641   638    46    49     ´    17 (´´´´)   2733  2730    96    99     ´    46  ´´´´   21881 21876   296   299     ´   338  ´´´´
+ *    dgnome    74   71  (24)  25    ´   11 (´´´´)     41   41   (1)  25    ´    5 (´´´´)    25   25    0   24    ´    4 (´´´´)   350  325   25   25    ´    9 (´´´´)   207  203   20   25    ´    8 (´´´´)   197  194   19   25    ´    8 (´´´´)    641   638    46    49     ´    17 (´´´´)   2733  2730    96    99     ´    46  ´´´´   21881 21876   296   299     ´   338  ´´´´    65867  65858    496   499     ´  1042  ´´´´    ´
  *
- *    ugnome     "    "    "    "    ´   12     ´       "    "    "    "    ´    5     ´      "    "    "    "    ´    4     ´      "    "    "    "    ´   10     ´      "    "    "    "    ´    8     ´      "    "    "    "    ´    8     ´       "     "     "     "     ´    17     ´       "     "     "     "     ´    55     ´       "     "     "     "     ´   359     ´
+ *    ugnome     "    "    "    "    ´   12     ´       "    "    "    "    ´    5     ´      "    "    "    "    ´    4     ´      "    "    "    "    ´   10     ´      "    "    "    "    ´    8     ´      "    "    "    "    ´    8     ´       "     "     "     "     ´    17     ´       "     "     "     "     ´    55     ´       "     "     "     "     ´   359     ´        "      "      "     "     ´   997  0.99    ´
  *
  *    sgnome   ---  ---  ---  ---  ---  ---   ---      17   17    1    ´    ´    6   ---    ---  ---  ---  ---  ---  ---   ---    ---  ---  ---  ---  ---  ---   ---    ---  ---  ---  ---  ---  ---   ---    ---  ---  ---  ---  ---  ---   ---     ---   ---   ---   ---   ---   ---   ---     ---   ---   ---   ---   ---   ---   ---     ---   ---   ---   ---   ---   ---   ---
  *
- *    bubble   676  650   24    ´    ´   21  2.11     676  650   16    ´    ´   13  3.67    676  650    0    ´    ´   13  5.50    676  650  325    ´    ´   23  3.00    676  650  182    ´    ´   22  3.33    676  650  172    ´    ´   20  3.00    2500  2450   592     ´     ´    67  4.33   10000  9900  2634     ´     ´   265  5.98   90000 89700 21582     ´     ´  2417  7.19
+ *    bubble   676  650   24    ´    ´   21  2.11     676  650   16    ´    ´   13  3.67    676  650    0    ´    ´   13  5.50    676  650  325    ´    ´   23  3.00    676  650  182    ´    ´   22  3.33    676  650  172    ´    ´   20  3.00    2500  2450   592     ´     ´    67  4.33   10000  9900  2634     ´     ´   265  5.98   90000 89700 21582     ´     ´  2417  7.19   250000 249500  65368     ´     ´  7815  7.51   8x
  *
- *    select   325  325   24    ´    ´   12  1.11     325  325    1    ´    ´    7  1.67    325  325    0    ´    ´    7  2.50    325  325   25    ´    ´    9  1.00    325  325   20    ´    ´   10  1.33    325  325   19    ´    ´    9  1.67    1225  1225    46     ´     ´    25  1.53    4950  4950    96     ´     ´    74  1.64   44850 44850   296     ´     ´   620  1.84
+ *    select   325  325   24    ´    ´   12  1.11     325  325    1    ´    ´    7  1.67    325  325    0    ´    ´    7  2.50    325  325   25    ´    ´    9  1.00    325  325   20    ´    ´   10  1.33    325  325   19    ´    ´    9  1.67    1225  1225    46     ´     ´    25  1.53    4950  4950    96     ´     ´    74  1.64   44850 44850   296     ´     ´   620  1.84   124750 124750    496     ´     ´  1886  1.81   2x
  *
- *    quick    146  146  141    ´   31   23  2.33     181  181  189    ´   49   21  6.33    325  325  350    ´   51   22 10.00    325  325   25    ´   51   14  1.71    110  110   68    ´   37   12  1.67    114  114   77    ´   37   13  1.83     365   365   147     ´    67    22  1.33     590   590   315     ´   139    35 (0.82)   2690  2690  1575     ´   401   136 (0.40)
+ *    quick    106  106   65    ´   34   23  2.33      82   82   40    ´   34   13  3.67    325  325  350    ´   51   14  6.00    325  325   25    ´   51   12  1.43    108  108   72    ´   34   12  1.67    115  115   76    ´   34   13  1.83     219   219   140     ´    62    20  1.20     715   715   345     ´   134    50  1.10    2507  2507  1345     ´   402   148  0.44     4495   4495   2554     ´   674   268  0.44   .4
  *
- *    troll     85   81   30   24    6   17  1.67      51   49    2   24    6   13  3.67     38   37    0   24    6    7  2.50    193  169   37   24    6   11  1.29    121  116   30   24    6   12  1.67    118  114   29   24    6   10  1.33     302   288    86    46    14    23  1.40     590   590   315     ´   139    35  0.91    3499  3429  1367   298    62   136 (0.40)
+ *    troll_20  85   81   30   24    6   17  1.67      51   49    2   24    6   13  3.67     38   37    0   24    6    7  2.50    193  169   37   24    6   11  1.29    121  116   30   24    6   12  1.67    118  114   29   24    6   10  1.33     302   288    86    46    14    23  1.40     590   590   315     ´   139    35  0.91    3499  3429  1367   298    62   136 (0.40)
+ *
+ *    troll_10  91   83   33   22   14   16  1.56      51   49    2   24    6   13  3.67     38   37    0   24    6    7  2.50    193  169   37   24    6   11  1.29    121  116   30   24    6   12  1.67    118  114   29   24    6   10  1.33     302   288    86    46    14    23  1.40     590   590   315     ´   139    35  0.91    3499  3429  1367   298    62   136 (0.40)
+ *
+ *    troll_30  74   71   24   25    2   14  1.33      41   41    1   25    2    7  1.67     25   25    0   25    2    6  2.00    350  325   25   25    2   11  1.29    207  203   20   25    2   10  1.33    197  194   19   25    2    9  1.00     427   420    67    48     6    17  1.00     890   877   183    96    14    36 (0.77)   3499  3429  1367   298    62   138  0.41
  *
  *    OVERHEAD                            2                                      2                                     2                                     2                                     2                                     2                                           2                                           2                                           2
  *
@@ -166,7 +179,7 @@ ysort_intern_init       (void)
 }
 
 char
-ysort_intern_prep       (tSORT *a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls)
+ysort_intern_prep       (char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -203,7 +216,7 @@ ysort_intern_prep       (tSORT *a_abbr, int *r_loops, int *r_comps, int *r_swaps
 }
 
 char
-ysort_intern_done       (int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls)
+ysort_intern_done       (char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls)
 {
    /*---(header)-------------------------*/
    DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
@@ -221,6 +234,8 @@ ysort_intern_done       (int *r_loops, int *r_comps, int *r_swaps, int *r_teles,
    s_SWAPS += s_swaps;
    s_TELES += s_teles;
    s_CALLS += s_calls;
+   /*---(check head/tain)----------------*/
+   ysort_btree_data   (a_abbr, NULL, NULL, NULL, NULL, NULL);
    /*---(save-back)----------------------*/
    if (r_loops != NULL)  *r_loops = s_loops;
    if (r_comps != NULL)  *r_comps = s_comps;
@@ -267,6 +282,10 @@ ysort_intern_swap       (tSORT *a_one, tSORT *a_two)
       DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
+   /*---(before)-------------------------*/
+   DEBUG_YSORT   yLOG_complex ("a_one (b)" , "prev=%-20.20s self=%-20.20s next=%-20.20s", (a_one->prev == NULL) ? "(null)" : a_one->prev->sort, (a_one == NULL) ? "(null)" : a_one->sort, (a_one->next == NULL) ? "(null)" : a_one->next->sort);
+   DEBUG_YSORT   yLOG_complex ("a_two (b)" , "prev=%-20.20s self=%-20.20s next=%-20.20s", (a_two->prev == NULL) ? "(null)" : a_two->prev->sort, (a_two == NULL) ? "(null)" : a_two->sort, (a_two->next == NULL) ? "(null)" : a_two->next->sort);
+   DEBUG_YSORT   yLOG_complex ("ends"      , "head=%-20.20s tail=%-20.20s", (*s_head == NULL) ? "(null)" : (*s_head)->sort, (*s_tail == NULL) ? "(null)" : (*s_tail)->sort);
    /*---(pull two out of list)-----------*/
    DEBUG_YSORT   yLOG_note    ("unlink");
    if (a_two->next != NULL)   a_two->next->prev = a_two->prev;
@@ -282,6 +301,10 @@ ysort_intern_swap       (tSORT *a_one, tSORT *a_two)
    a_two->prev = a_one->prev;
    a_two->next = a_one;
    a_one->prev = a_two;
+   /*---(after)--------------------------*/
+   DEBUG_YSORT   yLOG_complex ("a_one (a)" , "prev=%-20.20s self=%-20.20s next=%-20.20s", (a_one->prev == NULL) ? "(null)" : a_one->prev->sort, (a_one == NULL) ? "(null)" : a_one->sort, (a_one->next == NULL) ? "(null)" : a_one->next->sort);
+   DEBUG_YSORT   yLOG_complex ("a_two (a)" , "prev=%-20.20s self=%-20.20s next=%-20.20s", (a_two->prev == NULL) ? "(null)" : a_two->prev->sort, (a_two == NULL) ? "(null)" : a_two->sort, (a_two->next == NULL) ? "(null)" : a_two->next->sort);
+   DEBUG_YSORT   yLOG_complex ("ends"      , "head=%-20.20s tail=%-20.20s", (*s_head == NULL) ? "(null)" : (*s_head)->sort, (*s_tail == NULL) ? "(null)" : (*s_tail)->sort);
    /*---(save-back)----------------------*/
    ++s_swaps;
    /*---(complete)-----------------------*/
@@ -436,11 +459,21 @@ ysort__intern_check     (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_m
       return rce;
    }
    DEBUG_YSORT   yLOG_info    ("*a_end"    , (*a_end)->sort);
+   /*---(duplicate)----------------------*/
+   if (*a_beg == *a_end) {
+      DEBUG_YSORT   yLOG_note    ("*a_beg and *a_end are the same point, nothing to do");
+      DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+      return 0;
+   }
    /*---(slots)--------------------------*/
    DEBUG_YSORT   yLOG_value   ("a_slots"   , a_slots);
    --rce;  if (a_slots < 0) {
       DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
+   }
+   --rce;  if (a_slots <= 1) {
+      DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+      return 0;
    }
    /*---(update path)--------------------*/
    DEBUG_YSORT   yLOG_point   ("a_path"    , a_path);
@@ -458,74 +491,85 @@ ysort__intern_check     (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_m
 }
 
 char
-ysort__intern_quicksub  (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT *a_beg, tSORT *a_end)
+ysort__intern_quicker   (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT *a_beg, tSORT *a_end, int a_slots)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        rc          =    0;
-   tSORT      *p           = NULL;          /* pivot entry                    */
-   tSORT      *c           = NULL;          /* current entry                  */
-   tSORT      *n           = NULL;          /* next entry                     */
+   char        x_half      =    0;
+   int         i           =    0;
+   tSORT      *x_piv       = NULL;
+   tSORT      *x_max       = NULL;
+   tSORT      *x_cur       = NULL;          /* current entry                  */
+   tSORT      *x_nxt       = NULL;          /* next entry                     */
    int         x_match     =    0;
    char        x_flag      =  '-';
    tSORT      *x_beg       = NULL;
    tSORT      *x_end       = NULL;
    char        x_path      [LEN_TITLE] = "";
-   tSORT      *x_max       = NULL;
+   int         x_cnt1      =    0;
+   int         x_cnt2      =    0;
    /*---(header)-------------------------*/
    DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(statistic)----------------------*/
    ++s_calls;
    /*---(defense)------------------------*/
-   rc = ysort__intern_check   (a_dir, a_path, a_lvl, a_max, &a_beg, &a_end, 1, x_path);
+   rc = ysort__intern_check   (a_dir, a_path, a_lvl, a_max, &a_beg, &a_end, a_slots, x_path);
    DEBUG_YSORT   yLOG_value   ("div_chk"   , rc);
    if (rc <= 0) {
       DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
       return rc;
    }
+   /*---(set pivot)----------------------*/
+   x_max  = a_end;
+   x_half = a_slots / 2;
+   x_piv  = a_beg;
+   for (i = 1; i < x_half; ++i)   x_piv = x_piv->next;
+   ysort_intern_swap (a_beg, x_piv);
    /*---(start at head)------------------*/
-   p = a_end;
-   c = a_beg;
-   x_max = p->prev;
-   DEBUG_YSORT   yLOG_complex ("ends"      , "beg=%-20.20s end=%-20.20s max=%-20.20s", (x_beg == NULL) ? "(null)" : x_beg->sort, (x_end == NULL) ? "(null)" : x_end->sort, (x_max == NULL) ? "(null)" : x_max->sort);
+   DEBUG_YSORT   yLOG_complex ("ends"      , "beg=%-20.20s piv=%-20.20s end=%-20.20s max=%-20.20s", (x_beg == NULL) ? "(null)" : x_beg->sort, (x_piv == NULL) ? "(null)" : x_piv->sort, (x_end == NULL) ? "(null)" : x_end->sort, (x_max == NULL) ? "(null)" : x_max->sort);
    /*---(prepare)------------------------*/
-   ysort_intern_swap (c, p);
-   c = p->next;
+   x_cur = x_piv->next;
    /*---(walk the elements)--------------*/
-   while (c != NULL) {
+   while (x_cur != NULL) {
       /*---(beginning)-------------------*/
       DEBUG_YSORT   yLOG_note    (ySORT_btree_list ('u'));
       ++s_loops;
-      n = c->next;
+      x_nxt = x_cur->next;
       /*---(compare)---------------------*/
       ++s_comps;
-      x_match = strcmp (c->sort, p->sort);
+      x_match = strcmp (x_cur->sort, x_piv->sort);
       x_flag  = (x_match <= 0) ? '<' : '>';
-      DEBUG_YSORT   yLOG_complex ("compare"   , "(%4d) %-20.20s v %-20.20s   %c %4d   %4d %4d %4d", s_loops, c->sort, p->sort, x_flag, x_match, s_comps, s_swaps, s_teles);
+      DEBUG_YSORT   yLOG_complex ("compare"   , "(%4d) %-20.20s v %-20.20s   %c %4d   %4d %4d %4d", s_loops, x_cur->sort, x_piv->sort, x_flag, x_match, s_comps, s_swaps, s_teles);
       /*---(swap)------------------------*/
       if (x_flag == '<') {
          DEBUG_YSORT   yLOG_note    ("swap");
-         ysort_intern_swap (p, c);
+         ysort_intern_swap (x_piv, x_cur);
+         ++x_cnt1;
          if (x_beg == NULL) {
-            x_beg = c;
+            x_beg = x_cur;
          }
       } else {
-         x_end = c;
+         x_end = x_cur;
       }
       DEBUG_YSORT   yLOG_complex ("ends"      , "beg=%-20.20s end=%-20.20s max=%-20.20s", (x_beg == NULL) ? "(null)" : x_beg->sort, (x_end == NULL) ? "(null)" : x_end->sort, (x_max == NULL) ? "(null)" : x_max->sort);
       /*---(next)---------------------*/
-      if (c == x_max)  break;
-      c = n;
+      if (x_cur == x_max)  break;
+      x_cur = x_nxt;
       /*---(done)---------------------*/
    }
-   DEBUG_YSORT   yLOG_info    ("x_beg"     , (x_beg == NULL) ? "(null)" : x_beg->sort);
-   DEBUG_YSORT   yLOG_info    ("p->prev"   , (p->prev == NULL) ? "(null)" : p->prev->sort);
-   DEBUG_YSORT   yLOG_info    ("p"         , (p     == NULL) ? "(null)" : p->sort);
-   DEBUG_YSORT   yLOG_info    ("p->next"   , (p->next == NULL) ? "(null)" : p->next->sort);
-   DEBUG_YSORT   yLOG_info    ("x_end"     , (x_end == NULL) ? "(null)" : x_end->sort);
+   /*---(prepare for recursion)----------*/
+   DEBUG_YSORT   yLOG_note    (ySORT_btree_list ('u'));
+   x_cnt2 = a_slots - x_cnt1 - 1;
+   DEBUG_YSORT   yLOG_complex ("counts"    , "tot=%5d   cnt1=%5d   cnt2=%5d", a_slots, x_cnt1, x_cnt2);
+   DEBUG_YSORT   yLOG_info    ("x_beg"     , (x_beg       == NULL) ? "(null)" : x_beg->sort);
+   DEBUG_YSORT   yLOG_info    ("x_piv->p..", (x_piv->prev == NULL) ? "(null)" : x_piv->prev->sort);
+   DEBUG_YSORT   yLOG_info    ("x_piv"     , (x_piv       == NULL) ? "(null)" : x_piv->sort);
+   DEBUG_YSORT   yLOG_info    ("x_piv->n..", (x_piv->next == NULL) ? "(null)" : x_piv->next->sort);
+   DEBUG_YSORT   yLOG_info    ("x_end"     , (x_end       == NULL) ? "(null)" : x_end->sort);
    /*---(tail recurse)-------------------*/
-   ysort__intern_quicksub ('L', x_path, a_lvl + 1, a_max, x_beg, p->prev);
-   ysort__intern_quicksub ('R', x_path, a_lvl + 1, a_max, p->next, x_end);
+   if (x_cnt1 > 1)  ysort__intern_quicker  ('L', x_path, a_lvl + 1, a_max, x_beg, x_piv->prev, x_cnt1);
+   if (x_cnt2 > 1)  ysort__intern_quicker  ('R', x_path, a_lvl + 1, a_max, x_piv->next, x_end, x_cnt2);
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return 1;
@@ -540,7 +584,7 @@ ysort__intern_quick     (void)
    DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(call initial)-------------------*/
    strcpy (s_path, "");
-   rc = ysort__intern_quicksub ('*', s_path, 0, 50, *s_head, *s_tail);
+   rc = ysort__intern_quicker  ('*', s_path, 0, 50, *s_head, *s_tail, s_count);
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return rc;
@@ -1170,7 +1214,7 @@ ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, i
    }
    DEBUG_YSORT   yLOG_value   ("rc_final"  , rc_final);
    /*---(statistics)---------------------*/
-   rc = ysort_intern_done (r_loops, r_comps, r_swaps, r_teles, r_calls);
+   rc = ysort_intern_done (a_abbr, r_loops, r_comps, r_swaps, r_teles, r_calls);
    DEBUG_YSORT   yLOG_value   ("done"      , rc);
    --rce;  if (rc <  0) {
       DEBUG_YSORT   yLOG_exitr   (__FUNCTION__, rc);
