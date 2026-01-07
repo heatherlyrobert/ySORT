@@ -78,9 +78,9 @@
 #define     P_CREATED   "2020-04"
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.-- production"
-#define     P_VERMINOR  "1.1- add docs and comparison sorts"
-#define     P_VERNUM    "1.1l"
-#define     P_VERTXT    "improved my quicksort, and build up 600 names in unit testing"
+#define     P_VERMINOR  "1.2- leveled-up ;)"                     
+#define     P_VERNUM    "1.2a"
+#define     P_VERTXT    "troll is working like a demon ;)"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -420,7 +420,7 @@ extern char   unit_answer [LEN_RECD];
 /*········´ ´···············trees·´ ´·········································*/
 char        ysort_btree_by_abbr     (uchar a_abbr);
 char        ysort_btree_wipe        (char n);
-char        ysort_btree_data        (char a_abbr, char r_name [LEN_LABEL], char *r_ready, tSORT ***r_head, tSORT ***r_tail, int *r_count);
+char        ysort_btree_data        (char a_abbr, char *r_id, char r_name [LEN_LABEL], char *r_ready, tSORT ***r_head, tSORT ***r_tail, int *r_count);
 /*········´ ´·············treeify·´ ´·········································*/
 tSORT*      ysort_btree_nextlevel   (int n, int a_lvl, int a_pos, int a_dist, char a_dir, tSORT *a_node);
 char        ysort_btree_build       (uchar a_abbr);
@@ -430,6 +430,7 @@ tSORT*      ysort_btree_searchdown  (tSORT *a_node, char *a_dir, char *a_key);
 char        ysort_by_cursor         (uchar a_abbr, char a_dir, tSORT** r_entry, void **r_data, int *r_tries);
 char        ysort_by_index          (uchar a_abbr, int a_index, tSORT **r_entry, void **r_data, int *r_tries);
 char        ysort_by_name           (uchar a_abbr, char a_name [LEN_TITLE], tSORT **r_entry, void **r_data, int *r_tries);
+char*       ysort_btree_list        (char n, tSORT *a_beg, tSORT *a_end, int a_slots);
 /*········´ ´············unittest·´ ´·········································*/
 char*       ysort_btree__unit       (uchar a_btree, char *a_question, int i);
 /*········´ ´················DONE·´ ´·········································*/
@@ -515,7 +516,7 @@ char        ysort__intern_quick     (void);
 /*········´ ´···············merge·´ ´·········································*/
 char        ysort__intern_check     (char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT **a_beg, tSORT **a_end, int a_slots, char r_path [LEN_TITLE]);
 char        ysort__intern_unzip     (char c_cutoff, tSORT *a_beg, tSORT **r_mid1, tSORT **r_mid2, tSORT *a_end, int a_slots, int *r_cnt1, int *r_cnt2);
-char        ysort__intern_zip       (tSORT *a_beg, tSORT *a_mid1, tSORT *a_mid2, tSORT *a_end);
+char        ysort__intern_zip       (tSORT **b_beg, tSORT *a_mid1, tSORT *a_mid2, tSORT **b_end, int a_slots);
 char        ysort__intern_troller   (char c_cutoff, char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT **b_beg, tSORT **b_end, int a_slots);
 char        ysort__intern_troll     (void);
 /*········´ ´··············gnomes·´ ´·········································*/
@@ -523,7 +524,7 @@ char        ysort__intern_cgnome    (void);
 char        ysort__intern_tgnome    (void);
 char        ysort__intern_dgnome    (void);
 char        ysort__intern_sgnome    (void);
-char        ysort__intern_ugnome    (tSORT **b_beg, tSORT **b_end);
+char        ysort__intern_ugnome    (tSORT **b_beg, tSORT **b_end, int a_slots);
 char        ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls, llong *r_dur);
 /*········´ ´············unittest·´ ´·········································*/
 char*       ysort_entry             (int a_index, tSORT *a_entry);

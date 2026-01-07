@@ -164,7 +164,7 @@ ySORT_btree             (uchar a_abbr, cchar *a_sort)
 }
 
 char
-ysort_btree_data        (char a_abbr, char r_name [LEN_LABEL], char *r_ready, tSORT ***r_head, tSORT ***r_tail, int *r_count)
+ysort_btree_data        (char a_abbr, char *r_id, char r_name [LEN_LABEL], char *r_ready, tSORT ***r_head, tSORT ***r_tail, int *r_count)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -173,6 +173,7 @@ ysort_btree_data        (char a_abbr, char r_name [LEN_LABEL], char *r_ready, tS
    DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(default)------------------------*/
    if (r_name  != NULL)  strcpy (r_name, "");
+   if (r_id    != NULL)  *r_id    =   0;
    if (r_ready != NULL)  *r_ready = '-';
    if (r_head  != NULL)  *r_head  = NULL;
    if (r_tail  != NULL)  *r_tail  = NULL;
@@ -193,6 +194,7 @@ ysort_btree_data        (char a_abbr, char r_name [LEN_LABEL], char *r_ready, tS
    DEBUG_YSORT   yLOG_value   ("B_COUNT"   , B_COUNT);
    /*---(save-back)----------------------*/
    if (r_name  != NULL)  ystrlcpy (r_name, B_NAME, LEN_LABEL);
+   if (r_id    != NULL)  *r_id    =   n;
    if (r_ready != NULL)  *r_ready = B_READY;
    if (r_head  != NULL)  *r_head  = &(B_HEAD);
    if (r_tail  != NULL)  *r_tail  = &(B_TAIL);
@@ -1009,6 +1011,37 @@ ySORT_prepare           (uchar a_abbr)
 static void  o___UNITTEST________o () { return; }
 
 char*
+ysort_btree_list        (char n, tSORT *a_beg, tSORT *a_end, int a_slots)
+{
+   int         i           =    0;
+   int         c           =    0;
+   tSORT      *o           = NULL;          /* origin point                   */
+   char        x_num       [LEN_SHORT] = "";
+   static char x_print     [LEN_RECD]  = "";
+   if (n < 0)  return "(no such list)";
+   if (a_slots <= 0)  return "(empty)";
+   if (a_slots > 50)  return "(too·big)";
+   o   = a_beg;
+   sprintf (x_num, "%02d", a_slots);
+   strlcpy (x_print, x_num, LEN_RECD);
+   for (i = 0; i < a_slots; ++i) {
+      if (o == NULL )  break;
+      strlcat (x_print, "  "   , LEN_RECD);
+      strlcat (x_print, o->sort, LEN_RECD);
+      o   = o->next;
+      ++c;
+      if (o == a_end->next)  break;
+   }
+   if (c > 0) {
+      strlcat (x_print, "  "   , LEN_RECD);
+      sprintf (x_num, "[%02d]", c);
+      strlcat (x_print, x_num, LEN_RECD);
+      strlcat (x_print, "  Ï"  , LEN_RECD);
+   }
+   return x_print;
+}
+
+char*
 ySORT_btree_list        (uchar a_abbr)
 {
    char        rce         =  -10;
@@ -1017,7 +1050,7 @@ ySORT_btree_list        (uchar a_abbr)
    char        x_num       [LEN_SHORT] = "";
    static char x_print     [LEN_RECD]  = "";
    tSORT      *o           = NULL;          /* origin point                   */
-   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   /*> DEBUG_YSORT   yLOG_enter   (__FUNCTION__);                                     <*/
    n = ysort_btree_by_abbr   (a_abbr);
    --rce;  if (n < 0)  return "(no such list)";
    c = B_COUNT;
@@ -1027,7 +1060,7 @@ ySORT_btree_list        (uchar a_abbr)
    o   = B_HEAD;
    c = 0;
    while (o != NULL) {
-      DEBUG_YSORT  yLOG_complex ("entry"     , "%2d %2d %s", c, o->n, o->sort);
+      /*> DEBUG_YSORT  yLOG_complex ("entry"     , "%2d %2d %s", c, o->n, o->sort);   <*/
       strlcat (x_print, "  "   , LEN_RECD);
       strlcat (x_print, o->sort, LEN_RECD);
       o   = o->next;
@@ -1039,7 +1072,7 @@ ySORT_btree_list        (uchar a_abbr)
       strlcat (x_print, x_num, LEN_RECD);
       strlcat (x_print, "  Ï"  , LEN_RECD);
    }
-   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+   /*> DEBUG_YSORT   yLOG_exit    (__FUNCTION__);                                     <*/
    return x_print;
 }
 
