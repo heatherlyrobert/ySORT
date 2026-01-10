@@ -70,27 +70,27 @@
  *>                                                                                                                                                                                                                                                                                                                <*/
 /*
  *                    è/F                                     è/G                                  è/H                                 è/I                                    è/J                                    è/K                                       ô/b                                         ô/c                                         ô/d                                       ô/e
- *            moderately out-of-order                tail add to sorted list               fully sorted list                     reverse sorted list                   totally random list                   random with dups                      fifty proper names                           hundred proper names                       three-hundred proper names                  five-hundred proper names               
- *            -----------------------------------    -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------------   -----------------------------------------   -----------------------------------------   -------------------------------------------------
- *            loop comp swap tele call usec  rpct    loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct    loop  comp  swap  tele  call  usec  rpct    loop  comp  swap  tele  call  usec  rpct    loop  comp  swap  tele  call  usec  rpct     loop   comp   swap  tele  call  usec  rpct  mag
+ *            moderately out-of-order                tail add to sorted list               fully sorted list                     reverse sorted list                   totally random list                   random with dups                      fifty proper names                           hundred proper names                       three-hundred proper names                  five-hundred proper names                            thousand
+ *            -----------------------------------    -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------   -----------------------------------------   -----------------------------------------   -----------------------------------------   -------------------------------------------------    -----------------
+ *            loop comp swap tele call usec  rpct    loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct   loop comp swap tele call usec  rpct    loop  comp  swap  tele  call  usec  rpct    loop  comp  swap  tele  call  usec  rpct    loop  comp  swap  tele  call  usec  rpct     loop   comp   swap  tele  call  usec  rpct  mag    ··usec  rpct  mag
  *
- *    cgnome   123  120   49    ´    ´    7  0.56      57   57   16    ´    ´    3  0.33     25   25    0    ´    ´    4  1.00    675  650  325    ´    ´   21  2.71    389  385  182    ´    ´   13  1.83    369  366  172    ´    ´   12  1.67    1233  1230   592     ´     ´    41  2.60    5367  5364  2634     ´     ´   154  3.46   43463 43458 21582     ´     ´  1236  3.67   132235 131226  65368     ´     ´  3878  3.73   4x
+ *    cgnome   123  120   49    ´    ´    7  0.56      57   57   16    ´    ´    3  0.33     25   25    0    ´    ´    4  1.00    675  650  325    ´    ´   21  2.71    389  385  182    ´    ´   13  1.83    369  366  172    ´    ´   12  1.67    1233  1230   592     ´     ´    41  2.60    5367  5364  2634     ´     ´   154  3.46   43463 43458 21582     ´     ´  1236  3.67   132235 131226  65368     ´     ´  3878  3.73   4x     14724  3.86   4x
  *
- *    tgnome    74  (71)  49   25    ´   12  1.11      41  (41)  16   25    ´    5  1.00     25   25    0   24    ´    5  1.50    350  325  325   25    ´   16  2.00    207  203  182   25    ´   11  1.50    197  194  172   25    ´   11  1.50     641   638   592    49     ´    32  2.00    2733  2730  2634    99     ´   109  2.43   21881 21876 21582   299     ´   943  2.80    65867  65858  65368   499     ´  2873  2.76   3x
+ *    tgnome    74  (71)  49   25    ´   12  1.11      41  (41)  16   25    ´    5  1.00     25   25    0   24    ´    5  1.50    350  325  325   25    ´   16  2.00    207  203  182   25    ´   11  1.50    197  194  172   25    ´   11  1.50     641   638   592    49     ´    32  2.00    2733  2730  2634    99     ´   109  2.43   21881 21876 21582   299     ´   943  2.80    65867  65858  65368   499     ´  2873  2.76   3x     10540  2.77   3x
  *
- *    dgnome    74   71  (24)  25    ´   11 (´´´´)     41   41   (1)  25    ´    5 (´´´´)    25   25    0   24    ´    4 (´´´´)   350  325   25   25    ´    9 (´´´´)   207  203   20   25    ´    8 (´´´´)   197  194   19   25    ´    8 (´´´´)    641   638    46    49     ´    17 (´´´´)   2733  2730    96    99     ´    46  ´´´´   21881 21876   296   299     ´   338  ´´´´    65867  65858    496   499     ´  1042  ´´´´    ´
+ *    dgnome    74   71  (24)  25    ´   11 (´´´´)     41   41   (1)  25    ´    5 (´´´´)    25   25    0   24    ´    4 (´´´´)   350  325   25   25    ´    9 (´´´´)   207  203   20   25    ´    8 (´´´´)   197  194   19   25    ´    8 (´´´´)    641   638    46    49     ´    17 (´´´´)   2733  2730    96    99     ´    46  ´´´´   21881 21876   296   299     ´   338  ´´´´    65867  65858    496   499     ´  1042  ´´´´    ´      3812  ´´´´    ´
  *
- *    ugnome     "    "    "    "    ´   12     ´       "    "    "    "    ´    5     ´      "    "    "    "    ´    4     ´      "    "    "    "    ´   10     ´      "    "    "    "    ´    8     ´      "    "    "    "    ´    8     ´       "     "     "     "     ´    17     ´       "     "     "     "     ´    55     ´       "     "     "     "     ´   359     ´        "      "      "     "     ´   997  0.99    ´
+ *    ugnome     "    "    "    "    ´   12     ´       "    "    "    "    ´    5     ´      "    "    "    "    ´    4     ´      "    "    "    "    ´   10     ´      "    "    "    "    ´    8     ´      "    "    "    "    ´    8     ´       "     "     "     "     ´    17     ´       "     "     "     "     ´    55     ´       "     "     "     "     ´   359     ´        "      "      "     "     ´   997  0.99    ´      3795
  *
  *    sgnome   ---  ---  ---  ---  ---  ---   ---      17   17    1    ´    ´    3 (0.33)   ---  ---  ---  ---  ---  ---   ---    ---  ---  ---  ---  ---  ---   ---    ---  ---  ---  ---  ---  ---   ---    ---  ---  ---  ---  ---  ---   ---     ---   ---   ---   ---   ---   ---   ---     ---   ---   ---   ---   ---   ---   ---     ---   ---   ---   ---   ---   ---   ---
  *
- *    bubble   676  650   24    ´    ´   21  2.11     676  650   16    ´    ´   13  3.67    676  650    0    ´    ´   13  5.50    676  650  325    ´    ´   23  3.00    676  650  182    ´    ´   22  3.33    676  650  172    ´    ´   20  3.00    2500  2450   592     ´     ´    67  4.33   10000  9900  2634     ´     ´   265  5.98   90000 89700 21582     ´     ´  2417  7.19   250000 249500  65368     ´     ´  7815  7.51   8x
+ *    bubble   676  650   24    ´    ´   21  2.11     676  650   16    ´    ´   13  3.67    676  650    0    ´    ´   13  5.50    676  650  325    ´    ´   23  3.00    676  650  182    ´    ´   22  3.33    676  650  172    ´    ´   20  3.00    2500  2450   592     ´     ´    67  4.33   10000  9900  2634     ´     ´   265  5.98   90000 89700 21582     ´     ´  2417  7.19   250000 249500  65368     ´     ´  7815  7.51   8x     31139  8.17   8x
  *
- *    select   325  325   24    ´    ´   12  1.11     325  325    1    ´    ´    7  1.67    325  325    0    ´    ´    7  2.50    325  325   25    ´    ´    9  1.00    325  325   20    ´    ´   10  1.33    325  325   19    ´    ´    9  1.67    1225  1225    46     ´     ´    25  1.53    4950  4950    96     ´     ´    74  1.64   44850 44850   296     ´     ´   620  1.84   124750 124750    496     ´     ´  1886  1.81   2x
+ *    select   325  325   24    ´    ´   12  1.11     325  325    1    ´    ´    7  1.67    325  325    0    ´    ´    7  2.50    325  325   25    ´    ´    9  1.00    325  325   20    ´    ´   10  1.33    325  325   19    ´    ´    9  1.67    1225  1225    46     ´     ´    25  1.53    4950  4950    96     ´     ´    74  1.64   44850 44850   296     ´     ´   620  1.84   124750 124750    496     ´     ´  1886  1.81   2x      7637  2.00   2x
  *
- *    quick    106  106   65    ´   34   23  2.33      82   82   40    ´   34   13  3.67    325  325  350    ´   51   14  6.00    325  325   25    ´   51   12  1.43    108  108   72    ´   34   12  1.67    115  115   76    ´   34   13  1.83     219   219   140     ´    62    20  1.20     715   715   345     ´   134    50  1.10    2507  2507  1345     ´   402   148  0.44     4495   4495   2554     ´   674   268  0.44   .4
+ *    quick    106  106   65    ´   34   23  2.33      82   82   40    ´   34   13  3.67    325  325  350    ´   51   14  6.00    325  325   25    ´   51   12  1.43    108  108   72    ´   34   12  1.67    115  115   76    ´   34   13  1.83     219   219   140     ´    62    20  1.20     715   715   345     ´   134    50  1.10    2507  2507  1345     ´   402   148  0.44     4495   4495   2554     ´   674   268  0.44   .4       562  0.15   .1
  *
- *    troll_20  86   81   30   24    6   11  1.00      51   49    2   24    6    8  2.00     38   37    0   24    6    7  2.50    194  169   37   24    6   12  1.43    121  116   30   24    6   11  1.50    118  114   29   24    6   11  1.50     302   288    86    46    14    19  1.07     695   665   220    92    30    39  0.84    2873  3429  1367   298    62   117 (0.34)                                     209  0.20   .2
+ *    troll_20  86   81   30   24    6   11  1.00      51   49    2   24    6    8  2.00     38   37    0   24    6    7  2.50    194  169   37   24    6   12  1.43    121  116   30   24    6   11  1.50    118  114   29   24    6   11  1.50     302   288    86    46    14    19  1.07     695   665   220    92    30    39  0.84    2873  3429  1367   298    62   117 (0.34)                                     209  0.20   .2       424 (0.11)  .1
  *
  *    troll_10  91   83   33   22   14   16  1.56      51   49    2   24    6   13  3.67     38   37    0   24    6    7  2.50    193  169   37   24    6   11  1.29    121  116   30   24    6   12  1.67    118  114   29   24    6   10  1.33     302   288    86    46    14    23  1.40     590   590   315     ´   139    35  0.91    3499  3429  1367   298    62   136  0.40 
  *
@@ -132,7 +132,7 @@ static  int      s_comps    = 0;
 static  int      s_swaps    = 0;
 static  int      s_teles    = 0;
 static  int      s_calls    = 0;
-static  llong    s_dur      = 0;
+static  long     s_udur     = 0;
 
 static  int      s_SORTS    = 0;
 static  int      s_LOOPS    = 0;
@@ -1183,7 +1183,7 @@ ysort__intern_sgnome    (void)
 }
 
 char
-ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls, llong *r_dur)
+ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls, int *r_dur)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -1194,7 +1194,7 @@ ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, i
    /*---(header)-------------------------*/
    DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
    /*---(start clock)--------------------*/
-   ysort__intern_beg ();
+   ysort__intern_ubeg ();
    /*---(preparation)--------------------*/
    rc = ysort_intern_prep (a_abbr, r_loops, r_comps, r_swaps, r_teles, r_calls);
    DEBUG_YSORT   yLOG_value   ("prep"      , rc);
@@ -1251,8 +1251,8 @@ ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, i
       return rc;
    }
    /*---(end clock)----------------------*/
-   s_dur = ysort__intern_end ();
-   if (r_dur  != NULL)  *r_dur = s_dur;
+   s_udur = ysort__intern_uend ();
+   if (r_dur  != NULL)  *r_dur = s_udur;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
    return rc_final;
@@ -1314,34 +1314,63 @@ ysort_entry             (int a_index, tSORT *a_entry)
    return unit_answer;
 }
 
-llong        /*-> duration in microeconds ------------------------------------*/
-ysort__intern_dur       (char a_type)
+long  
+ysort__intern_dur       (char a_type, char a_unit)
 {
    /*---(locals)-------------------------*/
    char        rce         = -10;
-   llong       a           =   0;
    tTSPEC      t;
-   static llong s_beg      =   0;
-   llong        x_end      =   0;
-   llong        x_dur      =   0;
-   /*---(header)-------------------------*/
-   DEBUG_YENV  yLOG_enter   (__FUNCTION__);
+   static long s_epoch     =   0;
+   static long s_nsec      =   0;
+   long        x_epoch     =   0;
+   long        x_nsec      =   0;
+   long        x_dur       =   0;
    /*---(current time)-------------------*/
-   clock_gettime (CLOCK_MONOTONIC, &t);
-   /*---(convert to millisec)------------*/
-   a += (llong) t.tv_sec  * 1000000;
-   a += (llong) t.tv_nsec / 1000;
-   /*---(handle stage)-------------------*/
-   switch (a_type) {
-   case 'b'  :  s_beg = a;                          break;
-   case 'e'  :  x_end = a;  x_dur = x_end - s_beg;  break;
+   /*> clock_gettime (CLOCK_MONOTONIC, &t);                                           <*/
+   clock_gettime (CLOCK_PROCESS_CPUTIME_ID, &t);
+   /*---(begin)--------------------------*/
+   if (a_type == 'b') {
+      s_epoch = (long) t.tv_sec;
+      s_nsec  = (long) t.tv_nsec;
+      return 0;
+   }
+   /*---(end)----------------------------*/
+   x_epoch = (long) t.tv_sec   - s_epoch;
+   x_nsec  = (long) t.tv_nsec  - s_nsec;
+   switch (a_unit) {
+   case 's'  :  /* full  */
+      x_dur  = x_epoch;
+      break;
+   case 'm'  :  /* milli */
+      x_dur  = x_epoch  * 1000;
+      x_dur += x_nsec   / 1000000;
+      break;
+   case 'u'  :  /* micro */
+      x_dur  = x_epoch  * 1000000;
+      x_dur += x_nsec   / 1000;
+      break;
+   case 'n'  :  /* nano  */
+      x_dur  = x_epoch  * 1000000000;
+      x_dur += x_nsec;
+      break;
+   default   :
+      x_dur =  -666;
+      break;
    }
    /*---(complete)-----------------------*/
-   DEBUG_YENV  yLOG_exit    (__FUNCTION__);
    return x_dur;
 }
 
-llong ysort__intern_beg  (void) { return ysort__intern_dur ('b'); }
-llong ysort__intern_end  (void) { return ysort__intern_dur ('e'); }
+long ysort__intern_beg   (void) { return ysort__intern_dur ('b', 's'); }
+long ysort__intern_end   (void) { return ysort__intern_dur ('e', 's'); }
+
+long ysort__intern_mbeg  (void) { return ysort__intern_dur ('b', 'm'); }
+long ysort__intern_mend  (void) { return ysort__intern_dur ('e', 'm'); }
+
+long ysort__intern_ubeg  (void) { return ysort__intern_dur ('b', 'u'); }
+long ysort__intern_uend  (void) { return ysort__intern_dur ('e', 'u'); }
+
+long ysort__intern_nbeg  (void) { return ysort__intern_dur ('b', 'n'); }
+long ysort__intern_nend  (void) { return ysort__intern_dur ('e', 'n'); }
 
 

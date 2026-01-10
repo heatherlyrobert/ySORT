@@ -18,9 +18,9 @@ INST_DIR   =
 # extra include directories required
 INC_MINE   = 
 # utilities generated, separate from main program
-NAME_UTIL  = dataset
+NAME_UTIL  = sort_bm
 # libraries only for the utilities
-LIB_UTIL   = 
+LIB_UTIL   = -lySTR_debug -lySORT_debug
 
 
 

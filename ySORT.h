@@ -38,6 +38,7 @@
 
 typedef  const    char cchar;
 typedef  unsigned char uchar;
+typedef  long long     llong;
 
 typedef     struct      cSORT      tSORT;
 
@@ -54,6 +55,7 @@ typedef     struct      cSORT      tSORT;
 #define    YSORT_TGNOME     'T'
 #define    YSORT_SGNOME     'S'
 #define    YSORT_UGNOME     'U'
+#define    YSORT_BHOOK      'B'
 
 #define    YSORT_BUBBLE     'b'
 #define    YSORT_SELECT     'l'
@@ -95,7 +97,8 @@ char        ySORT_walk              (uchar a_type, void *a_root, void *p_callbac
 /*········´ ´···············trees·´ ´·········································*/
 char        ySORT_btree             (uchar a_abbr, cchar *a_sort);
 /*········´ ´·············hooking·´ ´·········································*/
-char        ySORT_hook              (uchar a_btree, void *a_data, char a_sort [LEN_TITLE], tSORT **r_link);
+char        ySORT_hook              (uchar a_abbr, void *a_data, char a_sort [LEN_TITLE], tSORT **r_link);
+char        ySORT_bhook             (uchar a_abbr, void *a_data, char a_sort [LEN_TITLE], tSORT **r_link, int *r_dur);
 char        ySORT_unhook            (tSORT **r_link);
 char        ySORT_purge             (uchar a_abbr);
 char        ySORT_purge_all         (void);

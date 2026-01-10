@@ -79,8 +79,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.-- production"
 #define     P_VERMINOR  "1.2- leveled-up ;)"                     
-#define     P_VERNUM    "1.2a"
-#define     P_VERTXT    "troll is working like a demon ;)"
+#define     P_VERNUM    "1.2b"
+#define     P_VERTXT    "added sort_bm benchmarking tool, looking good"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -426,7 +426,8 @@ tSORT*      ysort_btree_nextlevel   (int n, int a_lvl, int a_pos, int a_dist, ch
 char        ysort_btree_build       (uchar a_abbr);
 /*········´ ´··············search·´ ´·········································*/
 char        ysort_btree_display     (int a_lvl, tSORT *a_node);
-tSORT*      ysort_btree_searchdown  (tSORT *a_node, char *a_dir, char *a_key);
+tSORT*      ysort_btree_searchdown  (tSORT *a_node, char *a_dir, char *a_key, char *b_depth, char b_path [LEN_TITLE], char *r_offset, tSORT **r_closest);
+char        ysort_by_tree           (uchar a_abbr, char a_key [LEN_TITLE], tSORT **r_entry, void **r_data, int *r_tries, char *r_depth, char r_path [LEN_TITLE], char *r_offset, tSORT **r_closest);
 char        ysort_by_cursor         (uchar a_abbr, char a_dir, tSORT** r_entry, void **r_data, int *r_tries);
 char        ysort_by_index          (uchar a_abbr, int a_index, tSORT **r_entry, void **r_data, int *r_tries);
 char        ysort_by_name           (uchar a_abbr, char a_name [LEN_TITLE], tSORT **r_entry, void **r_data, int *r_tries);
@@ -525,12 +526,19 @@ char        ysort__intern_tgnome    (void);
 char        ysort__intern_dgnome    (void);
 char        ysort__intern_sgnome    (void);
 char        ysort__intern_ugnome    (tSORT **b_beg, tSORT **b_end, int a_slots);
-char        ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls, llong *r_dur);
+char        ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls, int *r_dur);
 /*········´ ´············unittest·´ ´·········································*/
 char*       ysort_entry             (int a_index, tSORT *a_entry);
-llong       ysort__intern_dur       (char a_type);
-llong       ysort__intern_beg       (void);
-llong       ysort__intern_end       (void);
+/*········´ ´··············timing·´ ´·········································*/
+long        ysort__intern_dur       (char a_type, char a_unit);
+long        ysort__intern_beg       (void);
+long        ysort__intern_end       (void);
+long        ysort__intern_mbeg      (void);
+long        ysort__intern_mend      (void);
+long        ysort__intern_ubeg      (void);
+long        ysort__intern_uend      (void);
+long        ysort__intern_nbeg      (void);
+long        ysort__intern_nend      (void);
 /*········´ ´················DONE·´ ´·········································*/
 
 
