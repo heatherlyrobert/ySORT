@@ -1271,7 +1271,7 @@ run_print               (char a_prefix [LEN_LABEL], int a_loops, int a_comps, in
 }
 
 char*
-run_single              (char a_run, char a_sort, int a_quantity, int *r_count, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls, int *r_udur)
+run_single              (char a_run, char a_sort, int a_quantity, int *r_count, int *r_loops, int *r_comps, int *r_swaps, int *r_teles, int *r_calls, int *r_udur, int *r_usorted, int *r_usingle)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -1279,87 +1279,101 @@ run_single              (char a_run, char a_sort, int a_quantity, int *r_count, 
    int         x_loops, x_comps, x_swaps, x_teles, x_calls, x_udur;
    static char x_print     [LEN_FULL]  = "";
    char        t           [LEN_TERSE] = "";
+   int         c           =   0;
    /*---(default)------------------------*/
    strcpy (x_print, "");
    /*---(defense)------------------------*/
-   if (r_count != NULL)  *r_count = 0;
-   if (r_loops != NULL)  *r_loops = 0;
-   if (r_comps != NULL)  *r_comps = 0;
-   if (r_swaps != NULL)  *r_swaps = 0;
-   if (r_teles != NULL)  *r_teles = 0;
-   if (r_calls != NULL)  *r_calls = 0;
-   if (r_udur  != NULL)  *r_udur  = 0;
-   /*---(primary sort)-------------------*/
+   if (r_count   != NULL)  *r_count   = 0;
+   if (r_loops   != NULL)  *r_loops   = 0;
+   if (r_comps   != NULL)  *r_comps   = 0;
+   if (r_swaps   != NULL)  *r_swaps   = 0;
+   if (r_teles   != NULL)  *r_teles   = 0;
+   if (r_calls   != NULL)  *r_calls   = 0;
+   if (r_udur    != NULL)  *r_udur    = 0;
+   if (r_usorted != NULL)  *r_usorted = 0;
+   if (r_usingle != NULL)  *r_usingle = 0;
+   /*---(prepare)------------------------*/
    rc = ySORT_btree ('b', "benchmark");
    --rce;  if (rc < 0)  return "(btree·failed)";
    rc = load_data (a_quantity);
    --rce;  if (rc < 0)  return "(load·failed)";
+   c = ySORT_count ('b');
+   /*---(primary sort)-------------------*/
    rc = ysort_intern (a_sort, 'b', &x_loops  , &x_comps  , &x_swaps  , &x_teles  , &x_calls  , &x_udur);
    --rce;  if (rc < 0)  return "(sort·failed)";
+   /*---(resort sorted)------------------*/
+   rc = ysort_intern (a_sort, 'b', NULL      , NULL      , NULL      , NULL      , NULL      , r_usorted);
+   --rce;  if (rc < 0)  return "(resort·failed)";
+   /*---(single add sorted)--------------*/
+   ySORT_hook  ('b', "middlish, norm"               , "middlish, norm"               , NULL);
+   rc = ysort_intern (a_sort, 'b', NULL      , NULL      , NULL      , NULL      , NULL      , r_usingle);
+   --rce;  if (rc < 0)  return "(single·failed)";
    /*---(show results)-------------------*/
-   sprintf (t, "#%d", a_run);
+   sprintf (t, "#%02d", a_run);
    ystrlcpy (x_print, run_print (t, x_loops, x_swaps, x_comps, x_teles, x_calls, x_udur), LEN_FULL);
    /*---(save-back)----------------------*/
-   if (r_count != NULL)  *r_count = ySORT_count ('b');
-   if (r_loops != NULL)  *r_loops = x_loops;
-   if (r_comps != NULL)  *r_comps = x_comps;
-   if (r_swaps != NULL)  *r_swaps = x_swaps;
-   if (r_teles != NULL)  *r_teles = x_teles;
-   if (r_calls != NULL)  *r_calls = x_calls;
-   if (r_udur  != NULL)  *r_udur  = x_udur;
+   if (r_count   != NULL)  *r_count   = c;
+   if (r_loops   != NULL)  *r_loops   = x_loops;
+   if (r_comps   != NULL)  *r_comps   = x_comps;
+   if (r_swaps   != NULL)  *r_swaps   = x_swaps;
+   if (r_teles   != NULL)  *r_teles   = x_teles;
+   if (r_calls   != NULL)  *r_calls   = x_calls;
+   if (r_udur    != NULL)  *r_udur    = x_udur;
    /*---(complete)-----------------------*/
    return x_print;
 }
 
 char*
-run_average             (char a_sort, int a_quantity, int a_iterations, int a_bench, int *r_bench)
+run_average             (char a_sort, int a_quantity, int a_iterations, int a_bench, int a_resort, int a_single, int *r_bench, int *r_resort, int *r_single)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        rc          =    0;
    int         i           =    0;
-   int         x_count , x_loops , x_comps , x_swaps , x_teles , x_calls , x_udur;
-   int         x_tcount, x_tloops, x_tcomps, x_tswaps, x_tteles, x_tcalls, x_tudur;
-   int         x_save      =    0;
-   int         x_single    =    0;
+   int         x_count , x_loops , x_comps , x_swaps , x_teles , x_calls , x_udur , x_usorted , x_usingle;
+   int         x_tcount, x_tloops, x_tcomps, x_tswaps, x_tteles, x_tcalls, x_tudur, x_tusorted, x_tusingle;
    char        t           [LEN_TERSE] = "";
    static char x_samples   [LEN_RECD]  = "";
    static char x_line      [LEN_RECD]  = "";
    int         x_min       = 9999999;
    int         x_max       =    0;
    int         x_range     =    0;
+   float       a           =  0.0;
    /*---(default)------------------------*/
    strcpy (x_samples, "");
    strcpy (x_line   , "");
    /*---(run multiple)-------------------*/
-   x_tcount = x_tloops = x_tcomps = x_tswaps = x_tteles = x_tcalls = x_tudur = 0;
+   x_tcount = x_tloops = x_tcomps = x_tswaps = x_tteles = x_tcalls = x_tudur = x_tusorted = x_tusingle = 0;
    --rce;  for (i = 0; i < a_iterations; ++i) {
-      ystrlcat (x_samples, run_single (i + 1, a_sort, a_quantity, &x_count, &x_loops, &x_comps, &x_swaps, &x_teles, &x_calls, &x_udur), LEN_RECD);
+      ystrlcat (x_samples, run_single (i + 1, a_sort, a_quantity, &x_count, &x_loops, &x_comps, &x_swaps, &x_teles, &x_calls, &x_udur, &x_usorted, &x_usingle), LEN_RECD);
       ystrlcat (x_samples, "  Ï  ", LEN_RECD);
       if (rc < 0)  return "(sort go boom)";
-      x_tcount  = x_count;
-      x_tloops += x_loops;
-      x_tcomps += x_comps;
-      x_tswaps += x_swaps;
-      x_tteles += x_teles;
-      x_tcalls += x_calls;
-      x_tudur  += x_udur;
+      x_tcount    = x_count;
+      x_tloops   += x_loops;
+      x_tcomps   += x_comps;
+      x_tswaps   += x_swaps;
+      x_tteles   += x_teles;
+      x_tcalls   += x_calls;
+      x_tudur    += x_udur;
+      x_tusorted += x_usorted;
+      x_tusingle += x_usingle;
       if (x_udur < x_min)  x_min = x_udur;
       if (x_udur > x_max)  x_max = x_udur;
    }
-   x_tloops /= a_iterations;
-   x_tcomps /= a_iterations;
-   x_tswaps /= a_iterations;
-   x_tteles /= a_iterations;
-   x_tcalls /= a_iterations;
-   x_tudur  /= a_iterations;
-   x_save    = x_tudur;
-   /*---(handle prefix)------------------*/
+   x_tloops   /= a_iterations;
+   x_tcomps   /= a_iterations;
+   x_tswaps   /= a_iterations;
+   x_tteles   /= a_iterations;
+   x_tcalls   /= a_iterations;
+   x_tudur    /= a_iterations;
+   x_tusorted /= a_iterations;
+   x_tusingle /= a_iterations;
+   /*---(ha  ndle prefix)------------------*/
    ystrlcpy (x_line, " ", LEN_RECD);
    ystrlcat (x_line, ystrl4quick ((double) a_iterations, '>', ',', 0, '-', '.', '´', '-',  2), LEN_RECD);
    ystrlcat (x_line, " ", LEN_RECD);
    ystrlcat (x_line, ystrl4quick ((double) x_tcount    , '>', ',', 0, '-', '.', '´', '-',  5), LEN_RECD);
-   ystrlcat (x_line, run_print ("", x_loops, x_comps, x_swaps, x_teles, x_calls, x_udur), LEN_RECD);
+   ystrlcat (x_line, run_print ("", x_tloops, x_tcomps, x_tswaps, x_tteles, x_tcalls, x_tudur), LEN_RECD);
    /*---(range)--------------------------*/
    ystrlcat (x_line, ystrl4quick ((double) x_min     , '>', ',', 0, '-', '.', '´', '-',  7), LEN_RECD);
    ystrlcat (x_line, " ", LEN_RECD);
@@ -1368,30 +1382,34 @@ run_average             (char a_sort, int a_quantity, int a_iterations, int a_be
    x_range = x_max - x_min;
    ystrlcat (x_line, ystrl4quick ((double) x_range   , '>', ',', 0, '-', '.', '´', '-',  5), LEN_RECD);
    ystrlcat (x_line, " ", LEN_RECD);
-   sprintf  (t, "%5.2f ", ((float) x_range / (float) x_tudur) * 100);
+   a = ((float) x_range / (float) x_tudur) * 100;
+   if (a >= 100.0)  strcpy (t, "**.**");
+   else             sprintf  (t, "%5.2f ", a);
    ystrlcat (x_line, t, LEN_RECD);
    /*---(handle ratios)------------------*/
    sprintf  (t, "%7.3f ", (float) x_tudur / (float) x_tcount);
    ystrlcat (x_line, t, LEN_RECD);
-   if (a_bench != 0) sprintf  (t, "%7.3f ", (float) x_tudur / (float) a_bench);
-   else              strcpy   (t, "      ´ ");
+   if (a_bench  != 0) sprintf  (t, "%7.3f ", (float) x_tudur / (float) a_bench);
+   else               strcpy   (t, "      ´ ");
    ystrlcat (x_line, t, LEN_RECD);
    /*---(resort sorted)------------------*/
-   rc = ysort_intern (a_sort, 'b', NULL, &x_loops  , &x_comps  , &x_swaps  , &x_teles  , &x_calls  , &x_udur);
    ystrlcat (x_line, " ", LEN_RECD);
-   ystrlcat (x_line, ystrl4quick ((double) x_udur     , '>', ',', 0, '-', '.', '´', '-',  7), LEN_RECD);
+   ystrlcat (x_line, ystrl4quick ((double) x_tusorted , '>', ',', 0, '-', '.', '´', '-',  7), LEN_RECD);
    ystrlcat (x_line, " ", LEN_RECD);
-   sprintf  (t, "%5.3f ", (float) x_udur / (float) x_save);
+   sprintf  (t, "%5.3f ", (float) x_tusorted / (float) x_tudur);
+   ystrlcat (x_line, t, LEN_RECD);
+   if (a_resort != 0) sprintf  (t, "%5.1f ", (float) x_tusorted / (float) a_resort);
+   else               strcpy   (t, "    ´ ");
    ystrlcat (x_line, t, LEN_RECD);
    /*---(single add after sort)----------*/
-   ySORT_hook  ('b', "middlish, norm"               , "middlish, norm"               , NULL);
-   rc = ysort_intern (a_sort, 'b', &x_loops  , &x_comps  , &x_swaps  , &x_teles  , &x_calls  , &x_udur);
    ystrlcat (x_line, " ", LEN_RECD);
-   ystrlcat (x_line, ystrl4quick ((double) x_udur     , '>', ',', 0, '-', '.', '´', '-',  7), LEN_RECD);
+   ystrlcat (x_line, ystrl4quick ((double) x_tusingle , '>', ',', 0, '-', '.', '´', '-',  7), LEN_RECD);
    ystrlcat (x_line, " ", LEN_RECD);
-   sprintf  (t, "%5.3f ", (float) x_udur / (float) x_save);
+   sprintf  (t, "%5.3f ", (float) x_tusingle / (float) x_tudur);
    ystrlcat (x_line, t, LEN_RECD);
-   x_single = x_udur;
+   if (a_single != 0) sprintf  (t, "%5.1f ", (float) x_tusingle / (float) a_single);
+   else               strcpy   (t, "    ´ ");
+   ystrlcat (x_line, t, LEN_RECD);
    /*---(btree)--------------------------*/
    ysort__intern_ubeg ();
    ysort_btree_build ('b');
@@ -1399,15 +1417,17 @@ run_average             (char a_sort, int a_quantity, int a_iterations, int a_be
    ystrlcat (x_line, " ", LEN_RECD);
    ystrlcat (x_line, ystrl4quick ((double) x_udur     , '>', ',', 0, '-', '.', '´', '-',  5), LEN_RECD);
    ystrlcat (x_line, " ", LEN_RECD);
-   sprintf  (t, "%5.3f ", (float) x_udur / (float) x_save);
+   sprintf  (t, "%5.3f ", (float) x_udur / (float) x_tudur);
    ystrlcat (x_line, t, LEN_RECD);
-   sprintf  (t, "%5.3f ", (float) x_udur / (float) x_single);
+   sprintf  (t, "%5.3f ", (float) x_udur / (float) x_tusingle);
    ystrlcat (x_line, t, LEN_RECD);
    /*---(add samples)--------------------*/
    ystrlcat (x_line, "  Ï  ", LEN_RECD);
    ystrlcat (x_line, x_samples, LEN_RECD);
    /*---(save-back)----------------------*/
-   if (r_bench != NULL)  *r_bench = x_tudur;
+   if (r_bench  != NULL)  *r_bench  = x_tudur;
+   if (r_resort != NULL)  *r_resort = x_tusorted;
+   if (r_single != NULL)  *r_single = x_tusingle;
    /*---(complete)-----------------------*/
    return x_line;
 }

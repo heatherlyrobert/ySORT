@@ -79,8 +79,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.-- production"
 #define     P_VERMINOR  "1.2- leveled-up ;)"                     
-#define     P_VERNUM    "1.2b"
-#define     P_VERTXT    "added sort_bm benchmarking tool, looking good"
+#define     P_VERNUM    "1.2c"
+#define     P_VERTXT    "benchmarking is very nice ;)"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -103,14 +103,14 @@
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
 #define  P_BOTHER      \
    "modern sorting appears to be focused, maybe rightfully, on massive, complex¦"  \
-   "datasets using hyper-efficient algorhythms in order to enable various forms¦"  \
+   "datasets using hyper-efficient algoriythms in order to enable various forms¦"  \
    "of data mining and analysis.  this is a critical, but small set of end-uses."
 
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
 #define  P_COVERS      \
    "actual sorting is a very broad category of end-uses, from tiny to massive¦"    \
    "data-sets, sorted by anything from text fields to complex/compound keys,¦"     \
-   "and delivered in stable or unstable orders as strings, list, or structures."
+   "and delivered in stable or unstable orders as strings, lists, or structures."
 
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
 #define  P_SUBDISC     \
@@ -128,7 +128,32 @@
 #define  P_USECASE     \
    "i sort many things, in multiple concurrent orders, but not random new data¦"   \
    "like wind-speeds ;).  my working data, like dependency graphs, or curated¦"    \
-   "datasets are small-to-moderate size and frequently re-sorted when changed."
+   "datasets are small-to-moderate size and frequently re-sorted when changed.¦"   \
+   "¦"                                                                             \
+   "gyges (spreadsheet)¦"                                                          \
+   "-- datset is up to thousands of dynamic cells, identied by address-label¦"     \
+   "-- cells are frequently added, copied, updated, and deleted¦"                  \
+   "-- sorting must occur after every change (resorting neadly sorted is key)¦"    \
+   "¦"                                                                             \
+   "yCALC (calculation engine)¦"                                                   \
+   "-- dataset is thousands of calculation dependencies/links between items¦"      \
+   "-- dependencies are updated and utilized very frequently¦"                     \
+   "-- sorting must occur after every change (resorting neadly sorted is key)¦"    \
+   "¦"                                                                             \
+   "helios (flesystem catalogue)¦"                                                 \
+   "-- dataset is hundrends of thousands of filesystem objects¦"                   \
+   "-- additions are made, saved, and loaded in-masss¦"                            \
+   "-- sorting can use more traditional sorts like merge/troll¦"                   \
+   "¦"                                                                             \
+   "polymnia (code analysis)¦"                                                     \
+   "-- dataset is 10000's of functions, 1000's of files, and 100's of projects¦"   \
+   "-- objects are inter-dependent, so must be in constant sorted order¦"          \
+   "-- sorting must occur after every change (resorting neadly sorted is key)¦"    \
+   "¦"                                                                             \
+   "gregg (shorthand writing)¦"                                                    \
+   "-- dataset is dicionary of 10000's of words/word signs¦"                       \
+   "-- additions are made, saved, and loaded in-masss¦"                            \
+   "-- sorting can use more traditional sorts like merge/troll¦"                   \
 
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
 #define  P_CURRENT     \
@@ -139,7 +164,7 @@
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
 #define  P_VALUE       \
    "matching the proper sorting algorithms to the use-case dramitically¦"          \
-   "increases the speed and efficiency of the program especially of the¦"          \
+   "increases the speed and efficiency of the program, especially if the¦"         \
    "data set is dynamic and not pre-prepared."
 
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
@@ -181,7 +206,7 @@
 
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
 #define  P_REJECT      \
-   "-- memory allocation, programs must malloc structures on their own¦"           \
+   "-- memory allocation for data, programs must malloc structures on their own¦"  \
    ""                                                                              \
    ""                                                                         
 
@@ -190,6 +215,7 @@
    "-- moves are fastest as its just pointers, but any reduction is valuable¦"     \
    "-- comparisons of string keys are relatively fast and simple¦"                 \
    "-- swaps are the slowest part of a sort, so minimize occurance¦"               \
+   "-- function calls for recursion are somewhere in-between¦"                     \
    "-- structures will contain a ¶key¶ field in string format¦"                    \
    ""
 
@@ -247,9 +273,44 @@
   "last, when he finally arrived in hell, his punishment was to roll a boulder¦"   \
   "up a steep hill every day which then magically escaped him and rolled¦"         \
   "back to the bottom before he reached the top for an enternity of useless¦"      \
-  "effor and unending frustration."
+  "effort and unending frustration."
 
 
+/*
+ *  i compared a bubble, select, quick, and merge sort to a classic gnome and 
+ *  delayed-swap, teleporting gnome sort (dgnome).
+ *
+ *  the merge sort is actually a hybrid-merge in that it uses a dgnome once
+ *  the addressed numbder of items is <= 20 items.  i call it the troll.
+ *
+ *
+ *             10-----Ï---+one   50-----Ï---+one   100----Ï---+one   300----Ï---+one   500----Ï---+one   1000---Ï---+one
+ *
+ *  cgnome          32       7       630      30     2,763      51    23,000     158    68,000     238   256,000     513
+ *  
+ *  dgnome          15   ÖÖÖ 5       141  ÖÖÖ 14       498  ÖÖÖ 24     4,558   ÖÖ 67    10,350  ÖÖ 107    38,000  ÖÖ 217
+ *
+ *  bubble          33      13       688     188     2,974     700    25,000   6,318    76,000  18,000   290,000  72,000
+ *
+ *  select      ÖÖÖ 14       7   ÖÖÖ 128      91       414     322     3,132   2,836     8,487   7,874    33,000  32,000
+ *
+ *  quick           28      26       203     161       485     373     1,794   2,072     3,363   2,628     7,576   5,448
+ *
+ *  merge/troll     20       9       171      59   ÖÖÖ 413     130  ÖÖ 1,497     378  ÖÖ 2,649     686  ÖÖ 5.847   1,441
+ *
+ *
+ *  on unsorted lists, the select sort if faster that my dgnome by 10-20%.
+ *  but, on single item adds, dnome blows everything out of the water.
+ *
+ *  below 100 items, select/dgnome are faster, but over that, quick and
+ *  merge are the answer.  but, the hybrid-merge outperforms quick on
+ *  single item adds.
+ *
+ *  my answer, for always updated lists, use dgnome everytime.  but for
+ *  large data sorts, use troll at any size.
+ *
+ *
+ */
 
 
 
@@ -520,6 +581,8 @@ char        ysort__intern_unzip     (char c_cutoff, tSORT *a_beg, tSORT **r_mid1
 char        ysort__intern_zip       (tSORT **b_beg, tSORT *a_mid1, tSORT *a_mid2, tSORT **b_end, int a_slots);
 char        ysort__intern_troller   (char c_cutoff, char a_dir, char a_path [LEN_TITLE], int a_lvl, int a_max, tSORT **b_beg, tSORT **b_end, int a_slots);
 char        ysort__intern_troll     (void);
+char        ysort__intern_troll_10  (void);
+char        ysort__intern_troll_30  (void);
 /*········´ ´··············gnomes·´ ´·········································*/
 char        ysort__intern_cgnome    (void);
 char        ysort__intern_tgnome    (void);

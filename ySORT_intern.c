@@ -818,6 +818,36 @@ ysort__intern_troll     (void)
    return rc;
 }
 
+char
+ysort__intern_troll_10  (void)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rc          =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   /*---(call initial)-------------------*/
+   strcpy (s_path, "");
+   rc = ysort__intern_troller  (10, '*', s_path, 0, 50, s_head, s_tail, s_count);
+   /*---(complete)-----------------------*/
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+   return rc;
+}
+
+char
+ysort__intern_troll_30  (void)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rc          =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YSORT   yLOG_enter   (__FUNCTION__);
+   /*---(call initial)-------------------*/
+   strcpy (s_path, "");
+   rc = ysort__intern_troller  (30, '*', s_path, 0, 50, s_head, s_tail, s_count);
+   /*---(complete)-----------------------*/
+   DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
+   return rc;
+}
+
 
 /*
  *  classic gnome > any, always, anywhere gnome
@@ -1233,6 +1263,12 @@ ysort_intern            (char a_type, char a_abbr, int *r_loops, int *r_comps, i
       break;
    case YSORT_TROLL     :
       rc_final = ysort__intern_troll    ();
+      break;
+   case YSORT_TROLL10   :
+      rc_final = ysort__intern_troll_10 ();
+      break;
+   case YSORT_TROLL30   :
+      rc_final = ysort__intern_troll_30 ();
       break;
    case '-'             :
       /* just to check overhead */
