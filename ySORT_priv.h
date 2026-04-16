@@ -79,8 +79,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.-- production"
 #define     P_VERMINOR  "1.2- leveled-up ;)"                     
-#define     P_VERNUM    "1.2c"
-#define     P_VERTXT    "benchmarking is very nice ;)"
+#define     P_VERNUM    "1.2d"
+#define     P_VERTXT    "updates searching to return 1 (positive) vs 0 (ambiguous)"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

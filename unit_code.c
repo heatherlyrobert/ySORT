@@ -12,7 +12,7 @@ ysort__unit_quiet       (void)
 char       /*----: set up program urgents/debugging --------------------------*/
 ysort__unit_loud        (void)
 {
-   yLOGS_begin ("ySORT", 's', 'N');
+   yLOGS_begin ("ySORT_unit", 's', 'N');
    yURG_by_name  ("kitchen"      , 'y');
    ysort_mock_init ();
    ysort__reinit   ();

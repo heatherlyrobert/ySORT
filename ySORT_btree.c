@@ -294,7 +294,7 @@ ySORT_hook              (uchar a_abbr, void *a_data, char a_sort [LEN_TITLE], tS
       B_TAIL       = x_new;
    }
    /*---(update count)-------------------*/
-   ++B_COUNT;
+   ++(B_COUNT);
    DEBUG_YSORT   yLOG_sint    (B_COUNT);
    DEBUG_YSORT   yLOG_snote   ("successful");
    /*---(update last)--------------------*/
@@ -303,7 +303,7 @@ ySORT_hook              (uchar a_abbr, void *a_data, char a_sort [LEN_TITLE], tS
    if (r_link != NULL)  *r_link = x_new;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
-   return 0;
+   return 1;
 }
 
 char
@@ -398,8 +398,9 @@ ySORT_unhook            (tSORT **r_link)
    if (x_old->prev != NULL)   x_old->prev->next = x_old->next;
    else                       B_HEAD            = x_old->next;
    /*---(update count)-------------------*/
-   --B_COUNT;
+   --(B_COUNT);
    DEBUG_YSORT   yLOG_sint    (B_COUNT);
+   DEBUG_YSORT   yLOG_snote   ("successful");
    /*---(free main)----------------------*/
    DEBUG_YSORT   yLOG_snote   ("free and null");
    x_old->data    = NULL;
@@ -415,7 +416,7 @@ ySORT_unhook            (tSORT **r_link)
    B_READY = '-';
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
-   return 0;
+   return 1;
 }
 
 char
@@ -453,7 +454,7 @@ ySORT_purge             (uchar a_abbr)
    B_TAIL  = NULL;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
-   return 0;
+   return 1;
 }
 
 char
@@ -465,7 +466,7 @@ ySORT_purge_all         (void)
       ysort_btree_wipe (i);
    }
    s_ntree = 0;
-   return 0;
+   return 1;
 }
 
 
@@ -490,7 +491,7 @@ ySORT_list              (uchar a_abbr)
       o   = o->next;
       ++c;
    }
-   return 0;
+   return 1;
 }
 
 
@@ -524,7 +525,7 @@ ySORT_push              (uchar a_abbr)
    DEBUG_YSORT   yLOG_spoint  (B_SAVED);
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
-   return 0;
+   return 1;
 }
 
 char
@@ -551,7 +552,7 @@ ySORT_pop               (uchar a_abbr)
    DEBUG_YSORT   yLOG_spoint  (B_SAVED);
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_sexit   (__FUNCTION__);
-   return 0;
+   return 1;
 }
 
 int
@@ -636,7 +637,7 @@ ysort_by_name           (uchar a_abbr, char a_name [LEN_TITLE], tSORT **r_entry,
    if (r_data  != NULL)   *r_data  = o->data;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
-   return 0;
+   return 1;
 }
 
 char ySORT_by_name    (uchar a_abbr, char a_name [LEN_TITLE], void **r_data, int *r_tries) { return ysort_by_name   (a_abbr, a_name, NULL, r_data, r_tries); }
@@ -700,7 +701,7 @@ ysort_by_cursor         (uchar a_abbr, char a_dir, tSORT** r_entry, void **r_dat
    if (r_data  != NULL)   *r_data  = o->data;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
-   return 0;
+   return 1;
 }
 
 char ySORT_by_cursor  (uchar a_abbr, char a_dir, void **r_data, int *r_tries) { return ysort_by_cursor (a_abbr, a_dir, NULL, r_data, r_tries); }
@@ -782,7 +783,7 @@ ysort_by_index          (uchar a_abbr, int a_index, tSORT **r_entry, void **r_da
    if (r_data  != NULL)   *r_data  = o->data;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
-   return 0;
+   return 1;
 }
 
 char ySORT_by_index   (uchar a_abbr, int a_index, void **r_data, int *r_tries) { return ysort_by_index (a_abbr, a_index, NULL, r_data, r_tries); }
@@ -947,7 +948,7 @@ ySORT_treeform          (uchar a_abbr)
    n = ysort_btree_by_abbr   (a_abbr);
    --rce;  if (n < 0)  return rce;
    ysort_btree_display (0, B_ROOT);
-   return 0;
+   return 1;
 }
 
 tSORT*
@@ -1049,7 +1050,7 @@ ysort_by_tree           (uchar a_abbr, char a_key [LEN_TITLE], tSORT **r_entry, 
    if (r_data    != NULL)  *r_data    = o->data;
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
-   return 0;
+   return 1;
 }
 
 char
@@ -1089,7 +1090,7 @@ ySORT_prepare           (uchar a_abbr)
    }
    /*---(complete)-----------------------*/
    DEBUG_YSORT   yLOG_exit    (__FUNCTION__);
-   return 0;
+   return 1;
 }
 
 
